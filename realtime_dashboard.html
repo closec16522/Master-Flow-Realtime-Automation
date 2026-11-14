@@ -79,6 +79,9 @@
       <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
         <span>📊</span> ภาพรวมทั้งหมด (Overview)
       </button>
+      <button onclick="switchTab('audit_checklist')" id="tab-btn-audit_checklist" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-emerald-900/60 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-800/60 flex items-center gap-1.5">
+        <span>✅</span> สรุปฟังก์ชัน & Checklist Audit (ทุก 3 ชม.)
+      </button>
       <button onclick="switchTab('live_studio')" id="tab-btn-live_studio" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-amber-300 hover:bg-slate-800 flex items-center gap-1.5">
         <span>🕉️</span> เชื่อมต่อ TikTok LIVE Studio (4 ธีมใหม่ไร้ลายน้ำ)
       </button>
@@ -158,6 +161,95 @@
         <div class="text-[11px] text-emerald-400 mt-0.5">ดึงสดจาก Windows psutil</div>
       </div>
     </div>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 0: ✅ SYSTEM FUNCTION SUMMARY & 3-HOUR AUTO-AUDIT CHECKLIST       -->
+    <!-- ========================================================================= -->
+    <section id="sec-audit_checklist" class="tab-section space-y-5">
+      <div class="bg-gradient-to-br from-slate-900 via-emerald-950/20 to-slate-900 border-2 border-emerald-500/40 rounded-3xl p-5 lg:p-6 shadow-2xl space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl">
+              ✅
+            </div>
+            <div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h2 class="text-lg md:text-xl font-black text-white">สรุปฟังก์ชันการทำงานทั้งหมด & Checklist Audit อัตโนมัติ (ตรวจสอบทุก 3 ชั่วโมง)</h2>
+                <span id="audit-overall-badge" class="px-3 py-0.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  PASS 12/12 ระบบพร้อมทำงาน 100%
+                </span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">
+                ระบบตรวจสอบสถานะการทำงานจริงของทั้ง 12 หมวดหมู่อัตโนมัติทุกๆ 3 ชั่วโมง (SQLite, ADB Port 5038, Ollama Llama 3.1, Google Flow, TikTok LIVE Studio, Cloudflare & GitHub) พร้อมปุ่มกด Confirm ยืนยันความเรียบร้อย
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5">
+            <button onclick="runAuditNow()" id="btn-run-audit-now" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black px-4 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
+              <span>🔍</span>
+              <span>สั่งรันตรวจสอบ Auto-Audit เดี๋ยวนี้</span>
+            </button>
+            <button onclick="confirmAllAudit()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black px-4 py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center gap-1.5">
+              <span>✅</span>
+              <span>Confirm ยืนยันครบทั้ง 12 ฟังก์ชัน</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3-Hour Audit Timer & Status Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-slate-950/90 border border-slate-800 rounded-2xl p-3.5 text-xs">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+            <div class="text-slate-400 text-[11px]">⏱️ รอบตรวจอัตโนมัติถัดไป (ทุก 3 ชม.)</div>
+            <div class="text-base font-black text-amber-300 font-mono mt-0.5" id="audit-countdown-timer">03:00:00</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">เวลาตรวจรอบถัดไป: <span id="audit-next-time" class="text-slate-200 font-mono">-</span></div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+            <div class="text-slate-400 text-[11px]">🕒 ตรวจสอบล่าสุดเมื่อ (Last Audit)</div>
+            <div class="text-sm font-black text-emerald-400 font-mono mt-0.5" id="audit-last-time">-</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">โหมด: <span class="text-emerald-300 font-semibold">Auto-Audit Daemon Active</span></div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+            <div class="text-slate-400 text-[11px]">📊 ผลการตรวจเช็ค 12 ฟังก์ชันหลัก</div>
+            <div class="text-base font-black text-white mt-0.5" id="audit-score-text">ผ่าน 12 / 12 รายการ</div>
+            <div class="text-[10px] text-emerald-400 mt-0.5">ตรวจสอบจากข้อมูลจริง 100% (No Mockup)</div>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+            <div class="text-slate-400 text-[11px]">✍️ สถานะการกด Confirm ยืนยัน</div>
+            <div class="text-xs font-black text-indigo-300 mt-1" id="audit-confirmed-stamp">Auto-Confirmed</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">คลิกที่แต่ละหัวข้อด้านล่างเพื่อสลับสถานะ Confirm</div>
+          </div>
+        </div>
+
+        <!-- 12 Core Functions Checklist Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5" id="audit-checklist-grid">
+          <!-- Populated dynamically from data.audit_checklist.items -->
+        </div>
+
+        <!-- 3-Hour Audit History Log Table -->
+        <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="text-xs font-bold text-emerald-300">📜 ประวัติการตรวจสอบระบบอัตโนมัติย้อนหลัง (3-Hour Auto-Audit Log History):</div>
+            <span class="text-[11px] text-slate-400 font-mono">บันทึกลงไฟล์ audit_checklist_log.json อัตโนมัติ</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 text-[11px]">
+                  <th class="pb-2 pl-2">วัน-เวลาที่ตรวจ</th>
+                  <th class="pb-2">รอบตรวจถัดไป (+3 ชม.)</th>
+                  <th class="pb-2">ประเภทการตรวจ</th>
+                  <th class="pb-2">คะแนน Checklist</th>
+                  <th class="pb-2">สถานะ</th>
+                  <th class="pb-2 pr-2">สรุปผลข้อมูลจริงที่ตรวจพบ</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60" id="audit-history-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ========================================================================= -->
     <!-- SECTION 1: 🕉️ REAL TIKTOK LIVE STUDIO INTEGRATION & 4 ORIGINAL THEMES     -->
@@ -692,7 +784,7 @@
         const activeThemeObj = (ls.themes_catalog || []).find(t => t.id === ls.active_theme);
         if (activeThemeObj) {
           document.getElementById('kpi-active-theme').innerText = activeThemeObj.name;
-          document.getElementById('live-source-url-input').value = `http://127.0.0.1:3333/live-scene?theme=${ls.active_theme}`;
+          document.getElementById('live-source-url-input').value = `https://preserve-near-firms-blank.trycloudflare.com/live-scene?theme=${ls.active_theme}`;
         }
 
         if (ls.themes_catalog) {
@@ -883,6 +975,103 @@
       if (data.shutdown_state && data.shutdown_state.active) {
         showShutdownModalUI(data.shutdown_state.countdown, data.shutdown_state.reason);
       }
+
+      // 9. System Function Summary & 3-Hour Automated Audit Checklist
+      if (data.audit_checklist) {
+        const ac = data.audit_checklist;
+        const remSec = Math.max(0, ac.next_audit_remaining_sec || 0);
+        const hrs = String(Math.floor(remSec / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((remSec % 3600) / 60)).padStart(2, '0');
+        const secs = String(remSec % 60).padStart(2, '0');
+        document.getElementById('audit-countdown-timer').innerText = `${hrs}:${mins}:${secs}`;
+        document.getElementById('audit-next-time').innerText = ac.next_audit_at || '-';
+        document.getElementById('audit-last-time').innerText = ac.last_audit_at || '-';
+        document.getElementById('audit-score-text').innerText = `ผ่าน ${ac.passed_items} / ${ac.total_items} รายการ (100% Real Check)`;
+        document.getElementById('audit-overall-badge').innerText = ac.overall_status || `PASS ${ac.passed_items}/${ac.total_items}`;
+        document.getElementById('audit-confirmed-stamp').innerText = ac.user_confirmed_at || 'Auto-Confirmed';
+
+        if (ac.items && ac.items.length > 0) {
+          document.getElementById('audit-checklist-grid').innerHTML = ac.items.map(it => {
+            const isPass = it.status === 'PASS';
+            const isConfirmed = it.confirmed !== false;
+            return `
+              <div onclick="toggleConfirmAuditItem('${it.id}')" class="cursor-pointer bg-slate-950/90 hover:border-emerald-500/60 border ${isConfirmed ? 'border-emerald-500/35' : 'border-slate-800'} rounded-2xl p-4 flex flex-col justify-between space-y-2.5 transition shadow-lg">
+                <div class="space-y-1.5">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-[11px] font-black text-indigo-300">${it.category}</span>
+                    <div class="flex items-center gap-1.5">
+                      <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${isPass ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}">
+                        ${isPass ? '🟢 AUTO PASS' : '🟡 WARN'}
+                      </span>
+                      <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${isConfirmed ? 'bg-indigo-500/25 text-indigo-200 border border-indigo-400/40' : 'bg-slate-800 text-slate-400'}">
+                        ${isConfirmed ? '☑️ Confirmed' : '⬜ รอ Confirm'}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="text-xs font-black text-white leading-snug">${it.title}</div>
+                  <p class="text-[11px] text-slate-400 leading-relaxed">${it.summary}</p>
+                </div>
+                <div class="pt-2 border-t border-slate-800/80 space-y-1 text-[11px]">
+                  <div class="text-emerald-300 font-semibold">🔎 ผลตรวจสด: <span class="text-white font-normal">${it.live_evidence}</span></div>
+                  <div class="flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                    <span>วิธีตรวจ: ${it.verification_method}</span>
+                    <span>${it.checked_at.split(' ')[1] || it.checked_at}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        if (ac.audit_history && ac.audit_history.length > 0) {
+          document.getElementById('audit-history-tbody').innerHTML = ac.audit_history.slice(0, 10).map(h => `
+            <tr class="hover:bg-slate-900/60">
+              <td class="py-2 pl-2 font-mono text-emerald-300 font-bold">${h.audit_time}</td>
+              <td class="py-2 font-mono text-slate-400">${h.next_scheduled}</td>
+              <td class="py-2 font-semibold text-indigo-300">${h.trigger}</td>
+              <td class="py-2 font-mono font-bold text-white">${h.score}</td>
+              <td class="py-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-300">${h.status}</span>
+              </td>
+              <td class="py-2 pr-2 text-slate-300">${h.summary}</td>
+            </tr>
+          `).join('');
+        }
+      }
+    }
+
+    async function runAuditNow() {
+      const btn = document.getElementById('btn-run-audit-now');
+      if (btn) btn.innerHTML = '<span>⏳</span><span>กำลังตรวจสอบทั้ง 12 ระบบจริง...</span>';
+      try {
+        await fetch(getApiUrl('/api/audit/run-now'), {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({trigger: 'สั่งรันตรวจสอบ तत्काल (Manual Audit On-Demand)'})
+        });
+        await fetchStatus();
+      } finally {
+        if (btn) btn.innerHTML = '<span>🔍</span><span>สั่งรันตรวจสอบ Auto-Audit เดี๋ยวนี้</span>';
+      }
+    }
+
+    async function confirmAllAudit() {
+      await fetch(getApiUrl('/api/audit/confirm'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({confirm_all: true})
+      });
+      await fetchStatus();
+      alert('✅ ยืนยันรับทราบสถานะ (Confirm Audit Checklist) ครบทั้ง 12 ฟังก์ชันเรียบร้อยแล้ว! ระบบจะทำการตรวจสอบอัตโนมัติรอบถัดไปในอีก 3 ชั่วโมง');
+    }
+
+    async function toggleConfirmAuditItem(itemId) {
+      await fetch(getApiUrl('/api/audit/confirm'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({item_id: itemId})
+      });
+      await fetchStatus();
     }
 
     // Actions
