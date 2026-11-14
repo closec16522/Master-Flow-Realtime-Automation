@@ -47,7 +47,7 @@
   <div id="broadcast-stage" class="relative w-full h-full max-w-[56.25vh] max-h-screen aspect-[9/16] overflow-hidden flex flex-col justify-between p-3.5 border border-amber-500/40 shadow-2xl" style="background: radial-gradient(circle at 50% 35%, #2a1805 0%, #090b16 75%, #030408 100%);">
 
     <!-- Full-Bleed Sacred Artwork Backdrop -->
-    <img id="scene-bg-img" src="/assets/theme_naga.jpg" class="absolute inset-0 w-full h-full object-cover opacity-55 transition-all duration-700" alt="Sacred Backdrop">
+    <img id="scene-bg-img" src="assets/theme_naga.jpg" class="absolute inset-0 w-full h-full object-cover opacity-55 transition-all duration-700" alt="Sacred Backdrop">
     <div class="absolute inset-0 bg-gradient-to-b from-black/75 via-black/20 to-black/90 pointer-events-none"></div>
 
     <!-- Animated Particle & Firework Canvas -->
@@ -99,7 +99,7 @@
           <div class="chakra-ring absolute left-1/2 top-1/2 w-36 h-36 rounded-full border-2 border-dashed border-amber-400/60 pointer-events-none"></div>
           <!-- Center Portrait Frame -->
           <div class="w-full h-full rounded-3xl border-2 border-amber-300 overflow-hidden shadow-2xl deity-aura relative bg-slate-900">
-            <img id="scene-center-img" src="/assets/theme_naga.jpg" class="w-full h-full object-cover" alt="Deity Center">
+            <img id="scene-center-img" src="assets/theme_naga.jpg" class="w-full h-full object-cover" alt="Deity Center">
           </div>
         </div>
 
@@ -203,25 +203,25 @@
       naga: {
         title: "🐉 วังบาดาลพญานาคราช · มณีนาคา",
         sub: "พิมพ์ 'ขอพร + คำอธิษฐาน' รับพรพญานาคราช & เลขมงคลมณีนาคา!",
-        img: "/assets/theme_naga.jpg",
+        img: "assets/theme_naga.jpg",
         accent: "#10b981"
       },
       ganesha: {
         title: "🐘 มหาเทวาลัยพระพิฆเนศ · ประทานทรัพย์",
         sub: "พิมพ์ 'โอม ศรี คเณศายะ นะมะฮา' ตามด้วยคำอธิษฐานขอพร!",
-        img: "/assets/theme_ganesha.jpg",
+        img: "assets/theme_ganesha.jpg",
         accent: "#f59e0b"
       },
       caishen: {
         title: "🪙 ตำหนักไฉ่ซิงเอี๊ย · ต้นไม้ทองคำพันปี",
         sub: "พิมพ์ 'รับทรัพย์ + ชื่อเล่น' ขอพรการเงิน ค้าขายร่ำรวย เงินไหลมา!",
-        img: "/assets/theme_caishen.jpg",
+        img: "assets/theme_caishen.jpg",
         accent: "#eab308"
       },
       tarot: {
-        title: "🔮 สำนักไพ่ทาโรต์ & मैวมงคล AI พยากรณ์สด",
+        title: "🔮 สำนักไพ่ทาโรต์ & แมวมงคล AI พยากรณ์สด",
         sub: "พิมพ์ 'ดูดวง + เรื่องที่อยากถาม' ให้ Local AI เปิดไพ่ทำนายสด!",
-        img: "/assets/theme_neko_tarot.jpg",
+        img: "assets/theme_neko_tarot.jpg",
         accent: "#a855f7"
       }
     };
@@ -331,11 +331,25 @@
       }
     }
 
+    async function fetchLiveStatus() {
+      const endpoints = [
+        '/api/status',
+        'https://preserve-near-firms-blank.trycloudflare.com/api/status',
+        'http://127.0.0.1:3333/api/status'
+      ];
+      for (const ep of endpoints) {
+        try {
+          const r = await fetch(ep, { cache: 'no-store' });
+          if (r.ok) return await r.json();
+        } catch (e) {}
+      }
+      return null;
+    }
+
     async function pollLiveState() {
       try {
-        const res = await fetch('/api/status', { cache: 'no-store' });
-        if (!res.ok) return;
-        const data = await res.json();
+        const data = await fetchLiveStatus();
+        if (!data) return;
         const ls = data.live_studio;
         if (!ls) return;
 

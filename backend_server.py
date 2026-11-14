@@ -961,19 +961,20 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
         elif self.path == "/api/live/open-window":
             theme = req_data.get("theme", state["live_studio"]["active_theme"])
-            live_url = f"http://127.0.0.1:3333/live-scene?theme={theme}"
-            # Copy URL to Windows clipboard and launch standalone 9:16 window for TikTok LIVE Studio Window Capture
+            local_url = f"http://127.0.0.1:3333/live-scene?theme={theme}"
+            https_url = f"{state.get('tunnel_url', 'https://preserve-near-firms-blank.trycloudflare.com')}/live-scene?theme={theme}"
+            # Copy HTTPS URL to Windows clipboard (TikTok LIVE Studio requires https:// domain, not 127.0.0.1) and launch standalone 9:16 window
             try:
-                subprocess.run(["powershell", "-NoProfile", "-Command", f"Set-Clipboard -Value '{live_url}'"], timeout=4)
+                subprocess.run(["powershell", "-NoProfile", "-Command", f"Set-Clipboard -Value '{https_url}'"], timeout=4)
                 edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
                 chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
                 browser_exe = edge_path if os.path.exists(edge_path) else chrome_path
                 if os.path.exists(browser_exe):
-                    subprocess.Popen([browser_exe, f"--app={live_url}", "--window-size=540,960", "--new-window"])
-                log_event("TikTok-Studio", f"🖥️ เปิดหน้าต่างไลฟ์สด 9:16 ({live_url}) และคัดลอกลิงก์ลง Clipboard สำหรับวางใน TikTok LIVE Studio แล้ว!", "success")
+                    subprocess.Popen([browser_exe, f"--app={local_url}", "--window-size=540,960", "--new-window"])
+                log_event("TikTok-Studio", f"🖥️ เปิดหน้าต่างไลฟ์สด 9:16 และคัดลอกลิงก์ HTTPS ({https_url}) ลง Clipboard สำหรับวางใน TikTok LIVE Studio แล้ว!", "success")
             except Exception as e:
-                log_event("TikTok-Studio", f"คัดลอกลิงก์ {live_url} แล้ว ({e})", "info")
-            self.send_json({"status": "success", "url": live_url})
+                log_event("TikTok-Studio", f"คัดลอกลิงก์ {https_url} แล้ว ({e})", "info")
+            self.send_json({"status": "success", "url": https_url, "local_url": local_url})
 
         elif self.path == "/api/revenue/record":
             platform = req_data.get("platform", "shopee")

@@ -220,17 +220,19 @@
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-1.5">
-                  <div class="font-black text-amber-300">วิธีที่ 1: เพิ่มผ่านลิงก์ (Add Source -> Link) แนะนำสูงสุด!</div>
+                  <div class="font-black text-amber-300">วิธีที่ 1: เพิ่มผ่านลิงก์ HTTPS (Add Source -> Link) แนะนำสูงสุด!</div>
                   <ol class="list-decimal list-inside text-slate-300 space-y-1 text-[11px]">
-                    <li>ในโปรแกรม <strong>TikTok LIVE Studio</strong> กดปุ่ม <strong>Add source (เพิ่มแหล่งที่มา)</strong> ด้านซ้ายมือ</li>
-                    <li>เลือก <strong>Link (ลิงก์เว็บ)</strong> หรือ <strong>Browser</strong></li>
-                    <li>วาง URL ด้านล่างนี้ แล้วตั้งความละเอียด <strong>1080 x 1920</strong>:</li>
+                    <li>ในโปรแกรม <strong>TikTok LIVE Studio</strong> กดปุ่ม <strong>Add source</strong> -> <strong>Link</strong></li>
+                    <li>วาง <strong>HTTPS URL</strong> ด้านล่างนี้ (TikTok LIVE Studio บังคับใช้ลิงก์โดเมน <code>https://</code> ห้ามใช้ IP <code>127.0.0.1</code>) แล้วตั้งค่า <strong>W 1080 x H 1920</strong>:</li>
                   </ol>
                   <div class="flex items-center gap-1.5 pt-1">
-                    <input type="text" id="live-source-url-input" readonly value="http://127.0.0.1:3333/live-scene?theme=naga" class="flex-1 bg-slate-950 border border-amber-500/40 rounded-lg px-2.5 py-1.5 text-[11px] text-amber-300 font-mono">
+                    <input type="text" id="live-source-url-input" readonly value="https://preserve-near-firms-blank.trycloudflare.com/live-scene?theme=naga" class="flex-1 bg-slate-950 border border-amber-500/40 rounded-lg px-2.5 py-1.5 text-[11px] text-amber-300 font-mono">
                     <button onclick="copyLiveSourceUrl()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0">
-                      📋 คัดลอก
+                      📋 คัดลอก HTTPS
                     </button>
+                  </div>
+                  <div class="text-[10px] text-slate-400 pt-0.5">
+                    ลิงก์สำรองถาวร (GitHub HTTPS): <code class="text-emerald-300 select-all">https://closec16522.github.io/Master-Flow-Realtime-Automation/live_scene.html?theme=naga</code>
                   </div>
                 </div>
 
@@ -892,7 +894,7 @@
       });
       const iframe = document.getElementById('live-scene-iframe');
       iframe.src = getApiUrl(`/live-scene?theme=${themeId}`);
-      document.getElementById('live-source-url-input').value = `http://127.0.0.1:3333/live-scene?theme=${themeId}`;
+      document.getElementById('live-source-url-input').value = `https://preserve-near-firms-blank.trycloudflare.com/live-scene?theme=${themeId}`;
       fetchStatus();
     }
 
