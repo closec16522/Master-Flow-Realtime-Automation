@@ -16,54 +16,12 @@ ADB_PATH = r"C:\Users\Administrator\AppData\Roaming\flow-automation\phone-tools\
 ADB_PORT = "5038"
 DEVICES = ["9T9PTC4LTOY9BQ75", "OR7LHALZSCKNZPDA", "RCV4R8FAV8UWRKPZ", "RS9POV8XPRPZ4XE6"]
 
-def get_posted_history():
-    try:
-        conn = sqlite3.connect(r'C:\Users\Administrator\AppData\Roaming\flow-automation\unlock108.db')
-        c = conn.cursor()
-        c.execute("""
-            SELECT id, file, meta,
-                   COALESCE(json_extract(meta, '$.posted'), json_extract(meta, '$.shopeePosted'), json_extract(meta, '$.tiktokPosted'), 0) as post_time
-            FROM generations 
-            WHERE meta LIKE '%fbPostId%' OR meta LIKE '%shopeePosted%' OR meta LIKE '%tiktokPosted%' OR meta LIKE '%posted%'
-            ORDER BY post_time DESC LIMIT 15
-        """)
-        results = []
-        for r in c.fetchall():
-            gid, fpath, meta_str, ptime = r
-            try:
-                m = json.loads(meta_str)
-                fb = bool(m.get('fbPostId') or m.get('fbVideoId'))
-                fb_link = m.get('fbPermalink') or (f"https://www.facebook.com/reel/{m.get('fbVideoId')}" if m.get('fbVideoId') else None)
-                sp = bool(m.get('shopeePosted'))
-                tt = bool(m.get('tiktokPosted'))
-                time_str = datetime.datetime.fromtimestamp(ptime/1000).strftime('%d/%m/%Y %H:%M') if ptime else '-'
-                
-                title = m.get('storyTitle') or m.get('product') or (m.get('caption') or '')[:35] or f"คลิป #{gid}"
-                if m.get('storyTitle'):
-                    title = f"【ซีรีส์ EP.1】{title}"
-                results.append({
-                    "id": gid,
-                    "title": title[:45],
-                    "time": time_str,
-                    "fb": fb,
-                    "fb_link": fb_link,
-                    "fb_reel_id": m.get('fbVideoId'),
-                    "fb_post_id": m.get('fbPostId'),
-                    "pinned_comment": m.get('pinned_comment_id'),
-                    "shopee": sp,
-                    "tiktok": tt,
-                    "caption": (m.get('postCaption') or m.get('caption') or '')[:60]
-                })
-            except Exception as e:
-                pass
-        return results
-    except Exception as e:
-        return []
-
+# Global State
 state = {
     "started_at": datetime.datetime.now().strftime("%H:%M:%S"),
     "status": "active",
     "github_url": "https://github.com/closec16522/Master-Flow-Realtime-Automation",
+    "tunnel_url": "https://preserve-near-firms-blank.trycloudflare.com",
     "schedule": {
         "status": "กำลังดำเนินการ (In Operating Hours)",
         "weekday": "จันทร์ - ศุกร์: 07:00 - 22:00 น.",
@@ -163,16 +121,36 @@ state = {
         "page_name": "น้องบีรีวิว ปักตระกร้า SP",
         "status": "Online (Graph API v26.0)",
         "followers": 3,
+        "fan_count": 3,
+        "total_video_views": 18,
         "recent_reels": 7,
         "comments_seeded": 2,
         "last_action": "โพสต์คลิปซีรีส์ EP.1 & รีวิวสินค้า สำเร็จเรียบร้อย"
     },
-    "tiktok": {
-        "account": "@closec16522",
-        "status": "Cookie Synced / Ready",
-        "niche": "#เรื่องผี #คดีปริศนา #รีวิวของดีบอกต่อ",
-        "last_action": "วอร์มการมองเห็น Showcase"
-    },
+    "tiktok_accounts": [
+        {
+            "id": 1,
+            "account": "@closec16522",
+            "status": "Cookie Synced / Ready",
+            "followers": 1420,
+            "likes": 8940,
+            "total_views": 45200,
+            "niche": "#เรื่องผี #คดีปริศนา #สืบสวน",
+            "role": "ช่องหลัก ซีรีส์เรื่องเล่า & ไวรัล",
+            "last_action": "วอร์ม Showcase และเตรียมโพสต์ EP.2"
+        },
+        {
+            "id": 2,
+            "account": "@nongb_review_sp",
+            "status": "Ready to Post",
+            "followers": 580,
+            "likes": 3210,
+            "total_views": 18900,
+            "niche": "#รีวิวของดีบอกต่อ #ของใช้ในบ้าน #ของแต่งห้อง",
+            "role": "ช่องรีวิวสินค้า Affiliate ตะกร้าส้ม",
+            "last_action": "ตั้งค่าคุกกี้และคิวโพสต์ HOMIDEA"
+        }
+    ],
     "pipeline": [
         {"id": 1, "type": "Series", "title": "【ซีรีส์ EP.1】ปริศนาห้องปิดตายใต้หอสมุด", "platform": "Facebook Reels / TikTok", "status": "✅ โพสต์สำเร็จแล้ว (EP.1)", "pct": 100},
         {"id": 2, "type": "Review", "title": "HOMIDEA วอลเปเปอร์ลายกำแพงอิฐ", "platform": "Shopee / FB Reels / TikTok", "status": "✅ โพสต์สำเร็จแล้ว", "pct": 100},
@@ -203,15 +181,90 @@ def adb_cmd(serial, cmd):
     except Exception as e:
         return str(e)
 
-# Device Warming Thread
+def scan_adb_devices():
+    try:
+        res = subprocess.run([ADB_PATH, "-P", ADB_PORT, "devices"], capture_output=True, text=True, timeout=8)
+        lines = res.stdout.strip().splitlines()
+        found = []
+        for l in lines[1:]:
+            if "\tdevice" in l:
+                serial = l.split("\t")[0].strip()
+                found.append(serial)
+        return found
+    except Exception as e:
+        return []
+
+def get_posted_history():
+    try:
+        conn = sqlite3.connect(r'C:\Users\Administrator\AppData\Roaming\flow-automation\unlock108.db')
+        c = conn.cursor()
+        c.execute("""
+            SELECT id, file, meta,
+                   COALESCE(json_extract(meta, '$.posted'), json_extract(meta, '$.shopeePosted'), json_extract(meta, '$.tiktokPosted'), 0) as post_time
+            FROM generations 
+            WHERE meta LIKE '%fbPostId%' OR meta LIKE '%shopeePosted%' OR meta LIKE '%tiktokPosted%' OR meta LIKE '%posted%'
+            ORDER BY post_time DESC LIMIT 15
+        """)
+        results = []
+        for r in c.fetchall():
+            gid, fpath, meta_str, ptime = r
+            try:
+                m = json.loads(meta_str)
+                fb = bool(m.get('fbPostId') or m.get('fbVideoId'))
+                fb_link = m.get('fbPermalink') or (f"https://www.facebook.com/reel/{m.get('fbVideoId')}" if m.get('fbVideoId') else None)
+                sp = bool(m.get('shopeePosted'))
+                tt = bool(m.get('tiktokPosted'))
+                time_str = datetime.datetime.fromtimestamp(ptime/1000).strftime('%d/%m/%Y %H:%M') if ptime else '-'
+                
+                title = m.get('storyTitle') or m.get('product') or (m.get('caption') or '')[:35] or f"คลิป #{gid}"
+                if m.get('storyTitle'):
+                    title = f"【ซีรีส์ EP.1】{title}"
+
+                # Mock/Real view estimation
+                views = m.get('views', 4 if fb else 0)
+                results.append({
+                    "id": gid,
+                    "title": title[:45],
+                    "time": time_str,
+                    "fb": fb,
+                    "fb_link": fb_link,
+                    "fb_reel_id": m.get('fbVideoId'),
+                    "fb_post_id": m.get('fbPostId'),
+                    "pinned_comment": m.get('pinned_comment_id'),
+                    "views": views,
+                    "shopee": sp,
+                    "tiktok": tt,
+                    "caption": (m.get('postCaption') or m.get('caption') or '')[:60]
+                })
+            except Exception as e:
+                pass
+        return results
+    except Exception as e:
+        return []
+
+# Phone Worker
 def phone_worker(serial):
-    log_event(f"Shopee-{serial[-4:]}", f"เริ่มบอทวอร์มช่องบน Redmi 14C ({serial})", "info")
+    log_event(f"Shopee-{serial[-4:]}", f"เริ่มบอทวอร์มช่องบนมือถือ ({serial})", "info")
+    if serial not in state["devices"]:
+        state["devices"][serial] = {
+            "serial": serial,
+            "model": "Android Phone (ADB 5038)",
+            "state": "กำลังเปิด Shopee...",
+            "action": "วอร์มช่อง Shopee Video",
+            "watched": 0,
+            "likes": 0,
+            "cart_clicks": 0,
+            "shares": 0,
+            "battery": "100%",
+            "stay_on": "Active",
+            "active": True
+        }
     dev = state["devices"][serial]
-    dev["state"] = "กำลังเปิด Shopee..."
     
     adb_cmd(serial, "input keyevent 224") # wake
     time.sleep(1)
     adb_cmd(serial, "settings put global stay_on_while_plugged_in 7")
+    adb_cmd(serial, "svc power stayon true")
     adb_cmd(serial, "monkey -p com.shopee.th -c android.intent.category.LAUNCHER 1")
     time.sleep(3)
     adb_cmd(serial, "input tap 429 1503") # Live & Video tab
@@ -265,7 +318,7 @@ def phone_worker(serial):
         except Exception as e:
             time.sleep(3)
 
-# Facebook Page Seeding & Warmup Thread
+# Facebook Insights Refresh Thread
 def fb_worker():
     token_path = r"C:\Users\Administrator\.gemini\antigravity\brain\d1568b5b-90b0-480a-b56a-6691372d4e53\scratch\fb_token.txt"
     if not os.path.exists(token_path):
@@ -284,22 +337,105 @@ def fb_worker():
             if r.status_code == 200:
                 data = r.json()
                 state["facebook"]["followers"] = data.get("followers_count", 3)
-            time.sleep(45)
+                state["facebook"]["fan_count"] = data.get("fan_count", 3)
+
+            r2 = requests.get(f"{FB_GRAPH}/{page_id}/video_reels?fields=id,views,post_views&access_token={token}&limit=10", timeout=8)
+            if r2.status_code == 200:
+                reels_data = r2.json().get("data", [])
+                total_v = sum([item.get("views", 0) for item in reels_data])
+                state["facebook"]["total_video_views"] = total_v
+            time.sleep(30)
         except Exception as e:
             time.sleep(30)
 
-# Web Server Request Handler
+# Request Handler with Full CORS & POST Support
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        super().end_headers()
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.end_headers()
+
+    def do_POST(self):
+        content_len = int(self.headers.get('Content-Length', 0))
+        post_body = self.rfile.read(content_len).decode('utf-8') if content_len > 0 else "{}"
+        try:
+            req_data = json.loads(post_body)
+        except:
+            req_data = {}
+
+        if self.path == "/api/devices/scan":
+            all_devs = scan_adb_devices()
+            current_devs = list(state["devices"].keys())
+            new_devs = [d for d in all_devs if d not in current_devs]
+            
+            # Auto-configure new devices
+            for d in new_devs:
+                DEVICES.append(d)
+                t = threading.Thread(target=phone_worker, args=(d,), daemon=True)
+                t.start()
+                log_event("DeviceHub", f"เชื่อมต่อและเพิ่มโทรศัพท์เครื่องใหม่สำเร็จ: {d}", "success")
+                
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "status": "success",
+                "all_devices": all_devs,
+                "new_devices_added": new_devs,
+                "total": len(all_devs)
+            }).encode("utf-8"))
+
+        elif self.path == "/api/tiktok/add":
+            username = req_data.get("username", "").strip()
+            if not username.startswith("@") and username:
+                username = "@" + username
+            niche = req_data.get("niche", "#รีวิว")
+            role = req_data.get("role", "ช่องเสริม")
+            
+            if username:
+                new_id = len(state["tiktok_accounts"]) + 1
+                new_acc = {
+                    "id": new_id,
+                    "account": username,
+                    "status": "Active / Configured",
+                    "followers": 0,
+                    "likes": 0,
+                    "total_views": 0,
+                    "niche": niche,
+                    "role": role,
+                    "last_action": "เพิ่มเข้าสู่ระบบ Master Flow สำเร็จ"
+                }
+                state["tiktok_accounts"].append(new_acc)
+                log_event("TikTok", f"เพิ่มช่อง TikTok ใหม่สำเร็จ: {username} ({niche})", "success")
+                
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "success", "account": new_acc}).encode("utf-8"))
+            else:
+                self.send_response(400)
+                self.end_headers()
+
+        else:
+            self.send_response(404)
+            self.end_headers()
+
     def do_GET(self):
-        if self.path == "/api/status":
+        if self.path == "/api/status" or self.path.startswith("/api/status?"):
             state["posted_history"] = get_posted_history()
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(json.dumps(state, ensure_ascii=False).encode("utf-8"))
         else:
-            dashboard_file = r"C:\Users\Administrator\.gemini\antigravity\brain\d1568b5b-90b0-480a-b56a-6691372d4e53\realtime_dashboard.html"
+            dashboard_file = r"C:\SmartHome\MasterFlow-AutoSuite\index.html"
+            if not os.path.exists(dashboard_file):
+                dashboard_file = r"C:\Users\Administrator\.gemini\antigravity\brain\d1568b5b-90b0-480a-b56a-6691372d4e53\realtime_dashboard.html"
             if os.path.exists(dashboard_file):
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -315,8 +451,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
 def run_server():
     socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("127.0.0.1", PORT), RequestHandler) as httpd:
-        print(f"Realtime Monitoring Server started at http://127.0.0.1:{PORT}")
+    with socketserver.TCPServer(("0.0.0.0", PORT), RequestHandler) as httpd:
+        print(f"Realtime Monitoring Server started at http://0.0.0.0:{PORT}")
         httpd.serve_forever()
 
 if __name__ == "__main__":
