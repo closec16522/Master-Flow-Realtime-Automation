@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Flow Live Broadcast 9:16 - TikTok LIVE Studio Source</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    * { box-sizing: border-box; user-select: none; }
+    html, body {
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      background: #060814;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    @keyframes spin-slow {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    @keyframes pulse-aura {
+      0%, 100% { transform: scale(1); opacity: 0.75; filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.7)); }
+      50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 40px rgba(245, 158, 11, 0.95)); }
+    }
+    @keyframes float-lantern {
+      0% { transform: translateX(-10%) translateY(4px); }
+      50% { transform: translateX(10%) translateY(-6px); }
+      100% { transform: translateX(-10%) translateY(4px); }
+    }
+    @keyframes pop-in {
+      0% { transform: scale(0.7); opacity: 0; }
+      70% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .chakra-ring { animation: spin-slow 28s linear infinite; }
+    .deity-aura { animation: pulse-aura 4s ease-in-out infinite; }
+    .lantern-float { animation: float-lantern 5s ease-in-out infinite; }
+    .gift-pop { animation: pop-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .text-stroke-dark {
+      text-shadow: 0 2px 6px rgba(0,0,0,0.95), 0 0 12px rgba(0,0,0,0.9);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center bg-black">
+
+  <!-- 9:16 Broadcast Canvas Container -->
+  <div id="broadcast-stage" class="relative w-full h-full max-w-[56.25vh] max-h-screen aspect-[9/16] overflow-hidden flex flex-col justify-between p-3.5 border border-amber-500/40 shadow-2xl" style="background: radial-gradient(circle at 50% 35%, #2a1805 0%, #090b16 75%, #030408 100%);">
+
+    <!-- Full-Bleed Sacred Artwork Backdrop -->
+    <img id="scene-bg-img" src="/assets/theme_naga.jpg" class="absolute inset-0 w-full h-full object-cover opacity-55 transition-all duration-700" alt="Sacred Backdrop">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/75 via-black/20 to-black/90 pointer-events-none"></div>
+
+    <!-- Animated Particle & Firework Canvas -->
+    <canvas id="fx-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+    <!-- =============================================================== -->
+    <!-- 1. TOP HEADER: Temple Banner & Clear Mobile-Readable Guide      -->
+    <!-- =============================================================== -->
+    <div class="relative z-20 space-y-1.5">
+      <div class="bg-slate-950/90 border-2 border-amber-400/80 rounded-2xl px-3.5 py-2 shadow-2xl text-center">
+        <div class="flex items-center justify-between text-[11px] font-bold text-amber-300 mb-0.5">
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-600/30 border border-rose-500 text-rose-200">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            <span id="live-conn-label">LIVE INTERACTIVE</span>
+          </span>
+          <span id="scene-channel-name" class="font-mono text-amber-200">@closec16522</span>
+          <span id="scene-viewers-pill" class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/40">👁️ 0 คนดู</span>
+        </div>
+
+        <h1 id="scene-main-title" class="text-lg md:text-xl font-black text-amber-300 tracking-wide text-stroke-dark">
+          🐉 วังบาดาลพญานาคราช · มณีนาคา
+        </h1>
+
+        <div id="scene-sub-instruction" class="mt-1 bg-gradient-to-r from-amber-900/80 via-yellow-800/80 to-amber-900/80 border border-amber-400/50 rounded-xl px-2.5 py-1 text-xs md:text-sm font-black text-white text-stroke-dark">
+          พิมพ์ "ขอพร + คำอธิษฐาน" รับคำอวยพร AI & เลขมงคลขึ้นจอสด!
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- 2. MIDDLE SANCTUARY: Left Leaderboard | Center Deity | Offerings-->
+    <!-- =============================================================== -->
+    <div class="relative z-20 grid grid-cols-12 gap-2 items-center my-auto py-1">
+
+      <!-- Left Panel: ทำเนียบผู้ร่วมบุญ (Real Session Top Givers) -->
+      <div class="col-span-4 bg-slate-950/85 backdrop-blur-md border border-amber-400/50 rounded-2xl p-2.5 shadow-xl">
+        <div class="text-xs font-black text-amber-300 border-b border-amber-500/30 pb-1 mb-1.5 flex items-center justify-between">
+          <span>🏆 ผู้ร่วมบุญสูงสุด</span>
+        </div>
+        <div id="scene-leaderboard" class="space-y-1 text-[11px] font-bold text-white">
+          <div class="text-slate-400 text-[10px] py-2 text-center">รอผู้ร่วมบุญคนแรก...</div>
+        </div>
+      </div>
+
+      <!-- Center Shrine: Sacred Deity + Rotating Chakra Halo + Lucky Number Badge -->
+      <div class="col-span-4 flex flex-col items-center justify-center relative">
+        <div class="relative w-28 h-36 md:w-32 md:h-40 flex items-center justify-center">
+          <!-- Rotating Golden Zodiac Ring -->
+          <div class="chakra-ring absolute left-1/2 top-1/2 w-36 h-36 rounded-full border-2 border-dashed border-amber-400/60 pointer-events-none"></div>
+          <!-- Center Portrait Frame -->
+          <div class="w-full h-full rounded-3xl border-2 border-amber-300 overflow-hidden shadow-2xl deity-aura relative bg-slate-900">
+            <img id="scene-center-img" src="/assets/theme_naga.jpg" class="w-full h-full object-cover" alt="Deity Center">
+          </div>
+        </div>
+
+        <!-- Dynamic Lucky Number / AI Oracle Pill -->
+        <div class="mt-2 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 font-black text-xs px-3 py-1 rounded-full shadow-lg border border-white/60">
+          🔮 เลขมงคล: <span id="scene-lucky-num" class="font-mono text-sm">895</span>
+        </div>
+      </div>
+
+      <!-- Right Panel: เครื่องสักการะมงคล (Gift Triggers) -->
+      <div class="col-span-4 bg-slate-950/85 backdrop-blur-md border border-amber-400/50 rounded-2xl p-2.5 shadow-xl">
+        <div class="text-xs font-black text-amber-300 border-b border-amber-500/30 pb-1 mb-1.5">
+          🎁 เครื่องสักการะ
+        </div>
+        <div id="scene-gifts-menu" class="space-y-1 text-[11px] font-bold text-white">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- 3. GIFT CELEBRATION BANNER (Pops up when gift arrives)          -->
+    <!-- =============================================================== -->
+    <div id="gift-toast-banner" class="relative z-30 hidden gift-pop">
+      <div class="bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 border-2 border-white rounded-2xl p-2.5 text-center shadow-2xl">
+        <div class="text-xs font-black text-slate-950 uppercase tracking-wider">✨ โมทนาบุญเครื่องสักการะมงคล ✨</div>
+        <div id="gift-toast-text" class="text-sm md:text-base font-black text-slate-950 mt-0.5">
+          คุณผู้ศรัทธา ถวาย มณีนาคราช (+99 เหรียญ)
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================================== -->
+    <!-- 4. LOWER SPOTLIGHT: คิวคำอธิษฐาน & คำอวยพร Local AI (Large Text)-->
+    <!-- =============================================================== -->
+    <div class="relative z-20 space-y-2">
+      <div class="bg-slate-950/92 border-2 border-amber-400 rounded-2xl p-3 shadow-2xl">
+        <div class="flex items-center justify-between text-xs font-black text-amber-300 mb-1">
+          <span class="flex items-center gap-1.5">🙏 คิวคำอธิษฐาน & คำพยากรณ์ AI สด</span>
+          <span id="scene-queue-badge" class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-200 border border-amber-400/40">พร้อมรับคำขอพร</span>
+        </div>
+
+        <div class="bg-gradient-to-r from-amber-950/90 via-slate-900/95 to-amber-950/90 border border-amber-500/40 rounded-xl p-2.5">
+          <div class="text-sm md:text-base font-black text-amber-300 text-stroke-dark" id="scene-prayer-user">
+            🌟 พิมพ์คำอธิษฐานในช่องแชทได้เลย
+          </div>
+          <div class="text-xs md:text-sm font-bold text-white mt-0.5 leading-snug text-stroke-dark" id="scene-prayer-wish">
+            ทุกคอมเมนต์ที่พิมพ์เข้ามาจะปรากฏบนจอพร้อมเสียงอ่านคำอวยพรและเลขมงคลอัตโนมัติ
+          </div>
+          <div class="text-[11px] font-bold text-emerald-300 mt-1 border-t border-amber-500/20 pt-1" id="scene-ai-blessing">
+            ✨ คำอวยพร AI: ขอให้บารมีองค์เทพคุ้มครอง การเงินคล่องตัว โชคลาภหลั่งไหลมาไม่ขาดสาย
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- 5. BOTTOM: สายน้ำทิพย์โคมบัวอธิษฐาน + พลังอธิษฐาน 4 ทิศ       -->
+      <!-- ============================================================= -->
+      <div class="grid grid-cols-12 gap-2 items-stretch">
+        <!-- Sacred Lotus Stream (Unique Original Design - No Red Carpet Clone!) -->
+        <div class="col-span-7 bg-gradient-to-t from-emerald-950/95 via-teal-950/85 to-slate-950/90 border border-amber-400/50 rounded-2xl p-2.5 flex flex-col justify-between relative overflow-hidden">
+          <div class="text-[10px] font-black text-amber-300 flex items-center justify-between">
+            <span>🪷 สายน้ำทิพย์โคมบัวผู้ศรัทธา</span>
+            <span class="text-emerald-300" id="scene-worshipper-count">สดจากแชท</span>
+          </div>
+          <div id="scene-lotus-stream" class="flex items-center justify-around py-2 lantern-float">
+            <div class="flex flex-col items-center">
+              <span class="text-2xl drop-shadow">🪷</span>
+              <span class="text-[10px] font-bold bg-black/75 text-amber-200 px-1.5 py-0.5 rounded-full border border-amber-500/40">โคมอธิษฐาน</span>
+            </div>
+          </div>
+          <div class="text-[9px] text-center text-amber-200/80 font-bold">
+            Master Flow Sacred Live Engine · 1080x1920
+          </div>
+        </div>
+
+        <!-- 4-Pillar Wish Meter & Session Totals -->
+        <div class="col-span-5 bg-slate-950/90 border border-amber-400/50 rounded-2xl p-2.5 flex flex-col justify-between text-[11px]">
+          <div class="font-black text-amber-300 text-xs border-b border-amber-500/30 pb-1">
+            🌟 พลังอธิษฐาน 4 ทิศ
+          </div>
+          <div class="grid grid-cols-2 gap-1 text-white font-bold my-1">
+            <div>💼 การงาน: <span id="scene-wb-career" class="text-amber-300">0</span></div>
+            <div>💰 การเงิน: <span id="scene-wb-finance" class="text-amber-300">0</span></div>
+            <div>💖 ความรัก: <span id="scene-wb-love" class="text-amber-300">0</span></div>
+            <div>🌿 สุขภาพ: <span id="scene-wb-health" class="text-amber-300">0</span></div>
+          </div>
+          <div class="border-t border-slate-800 pt-1 space-y-0.5 text-[10px] font-bold">
+            <div class="flex justify-between"><span>❤️ ถูกใจไลฟ์:</span><span id="scene-hearts" class="text-pink-400">0</span></div>
+            <div class="flex justify-between"><span>🪙 เหรียญสะสม:</span><span id="scene-coins" class="text-amber-400">0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Theme Configurations (100% Original Watermark-Free Artwork)
+    const THEMES = {
+      naga: {
+        title: "🐉 วังบาดาลพญานาคราช · มณีนาคา",
+        sub: "พิมพ์ 'ขอพร + คำอธิษฐาน' รับพรพญานาคราช & เลขมงคลมณีนาคา!",
+        img: "/assets/theme_naga.jpg",
+        accent: "#10b981"
+      },
+      ganesha: {
+        title: "🐘 มหาเทวาลัยพระพิฆเนศ · ประทานทรัพย์",
+        sub: "พิมพ์ 'โอม ศรี คเณศายะ นะมะฮา' ตามด้วยคำอธิษฐานขอพร!",
+        img: "/assets/theme_ganesha.jpg",
+        accent: "#f59e0b"
+      },
+      caishen: {
+        title: "🪙 ตำหนักไฉ่ซิงเอี๊ย · ต้นไม้ทองคำพันปี",
+        sub: "พิมพ์ 'รับทรัพย์ + ชื่อเล่น' ขอพรการเงิน ค้าขายร่ำรวย เงินไหลมา!",
+        img: "/assets/theme_caishen.jpg",
+        accent: "#eab308"
+      },
+      tarot: {
+        title: "🔮 สำนักไพ่ทาโรต์ & मैวมงคล AI พยากรณ์สด",
+        sub: "พิมพ์ 'ดูดวง + เรื่องที่อยากถาม' ให้ Local AI เปิดไพ่ทำนายสด!",
+        img: "/assets/theme_neko_tarot.jpg",
+        accent: "#a855f7"
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    let currentThemeKey = params.get('theme') || 'naga';
+    let lastPrayerId = null;
+    let lastGiftCount = 0;
+
+    // Particle & Fireworks Canvas Engine
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let fireworks = [];
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth || 540;
+      canvas.height = canvas.offsetHeight || 960;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 38; i++) {
+      particles.push({
+        x: Math.random() * 540,
+        y: Math.random() * 960,
+        r: Math.random() * 3 + 1.2,
+        vy: -(Math.random() * 0.7 + 0.3),
+        vx: (Math.random() - 0.5) * 0.5,
+        alpha: Math.random() * 0.7 + 0.3
+      });
+    }
+
+    function spawnFireworkBurst() {
+      const cx = canvas.width * (0.25 + Math.random() * 0.5);
+      const cy = canvas.height * (0.18 + Math.random() * 0.35);
+      const colors = ['#fbbf24', '#f59e0b', '#34d399', '#f472b6', '#ffffff'];
+      for (let i = 0; i < 45; i++) {
+        const angle = (Math.PI * 2 * i) / 45;
+        const speed = Math.random() * 4.5 + 1.5;
+        fireworks.push({
+          x: cx, y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+    }
+
+    function animateCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Floating Golden Orbs
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(251, 191, 36, ${p.alpha})`;
+        ctx.fill();
+      });
+      // Fireworks
+      for (let i = fireworks.length - 1; i >= 0; i--) {
+        const f = fireworks[i];
+        f.x += f.vx;
+        f.y += f.vy;
+        f.vy += 0.06;
+        f.alpha -= 0.018;
+        if (f.alpha <= 0) {
+          fireworks.splice(i, 1);
+          continue;
+        }
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, 2.6, 0, Math.PI * 2);
+        ctx.fillStyle = f.color;
+        ctx.globalAlpha = f.alpha;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      requestAnimationFrame(animateCanvas);
+    }
+    animateCanvas();
+
+    // Thai Voice TTS Reader (Web Speech API)
+    function speakThaiBlessing(text) {
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'th-TH';
+        utter.rate = 1.02;
+        utter.pitch = 1.05;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    function applyThemeVisuals(themeKey) {
+      const t = THEMES[themeKey] || THEMES.naga;
+      document.getElementById('scene-main-title').innerText = t.title;
+      document.getElementById('scene-sub-instruction').innerText = t.sub;
+      const bgImg = document.getElementById('scene-bg-img');
+      const centerImg = document.getElementById('scene-center-img');
+      if (!bgImg.src.endsWith(t.img)) {
+        bgImg.src = t.img;
+        centerImg.src = t.img;
+      }
+    }
+
+    async function pollLiveState() {
+      try {
+        const res = await fetch('/api/status', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        const ls = data.live_studio;
+        if (!ls) return;
+
+        // Theme sync
+        if (!params.get('theme') && ls.active_theme) {
+          currentThemeKey = ls.active_theme;
+        }
+        applyThemeVisuals(currentThemeKey);
+
+        // Connection & Viewer status
+        document.getElementById('scene-channel-name').innerText = ls.connected_channel || '@closec16522';
+        document.getElementById('scene-viewers-pill').innerText = `👁️ ${ls.real_viewers || 0} คนดู`;
+        document.getElementById('live-conn-label').innerText = ls.tiktok_connected ? 'TIKTOK LIVE CONNECTED' : 'STUDIO READY';
+
+        // Lucky Number
+        if (ls.current_lucky_number) {
+          document.getElementById('scene-lucky-num').innerText = ls.current_lucky_number;
+        }
+
+        // Leaderboard
+        const lbEl = document.getElementById('scene-leaderboard');
+        if (ls.leaderboard && ls.leaderboard.length > 0) {
+          lbEl.innerHTML = ls.leaderboard.slice(0, 5).map((u, idx) => `
+            <div class="flex justify-between items-center bg-black/50 px-2 py-0.5 rounded-lg border border-amber-500/20">
+              <span class="truncate">${idx + 1}. ${u.name}</span>
+              <span class="text-amber-300 font-mono ml-1">${u.points}</span>
+            </div>
+          `).join('');
+        } else {
+          lbEl.innerHTML = `<div class="text-slate-400 text-[10px] py-2 text-center">ยังไม่มีรายการของขวัญในรอบนี้</div>`;
+        }
+
+        // Gifts Menu
+        if (ls.gifts_menu) {
+          document.getElementById('scene-gifts-menu').innerHTML = ls.gifts_menu.map(g => `
+            <div class="flex justify-between items-center bg-black/50 px-2 py-0.5 rounded-lg border border-amber-500/20">
+              <span>${g.icon} ${g.name}</span>
+              <span class="text-amber-300 font-mono">${g.coins}</span>
+            </div>
+          `).join('');
+        }
+
+        // Prayer & AI Blessing Queue
+        if (ls.prayer_queue && ls.prayer_queue.length > 0) {
+          const topP = ls.prayer_queue[0];
+          const pid = topP.user + ':' + topP.wish;
+          document.getElementById('scene-queue-badge').innerText = `คิวอธิษฐาน (${ls.prayer_queue.length})`;
+          document.getElementById('scene-prayer-user').innerText = `🙏 คุณ ${topP.user}`;
+          document.getElementById('scene-prayer-wish').innerText = `"${topP.wish}"`;
+          document.getElementById('scene-ai-blessing').innerText = `✨ คำพยากรณ์ AI: ${topP.ai_blessing || 'ขอให้สมปรารถนา โชคลาภเปิดทาง สำเร็จดังใจหมาย'}`;
+
+          if (pid !== lastPrayerId) {
+            lastPrayerId = pid;
+            spawnFireworkBurst();
+            speakThaiBlessing(`โมทนาสาธุ คุณ ${topP.user} อธิษฐานว่า ${topP.wish} ${topP.ai_blessing || ''} เลขมงคลคือ ${ls.current_lucky_number || '895'}`);
+          }
+
+          // Render floating lotus lanterns for recent prayers
+          document.getElementById('scene-lotus-stream').innerHTML = ls.prayer_queue.slice(0, 4).map(p => `
+            <div class="flex flex-col items-center mx-1">
+              <span class="text-2xl drop-shadow">🪷</span>
+              <span class="text-[10px] font-bold bg-black/80 text-amber-200 px-2 py-0.5 rounded-full border border-amber-400/50 truncate max-w-[75px]">${p.user}</span>
+            </div>
+          `).join('');
+        }
+
+        // Gift Toast Effect
+        if (ls.total_gift_events && ls.total_gift_events > lastGiftCount) {
+          lastGiftCount = ls.total_gift_events;
+          spawnFireworkBurst();
+          spawnFireworkBurst();
+          if (ls.last_gift_text) {
+            const toast = document.getElementById('gift-toast-banner');
+            document.getElementById('gift-toast-text').innerText = ls.last_gift_text;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 5000);
+          }
+        }
+
+        // Wish Board Totals
+        if (ls.wish_board) {
+          const wb = ls.wish_board;
+          document.getElementById('scene-wb-career').innerText = wb.career || 0;
+          document.getElementById('scene-wb-finance').innerText = wb.finance || 0;
+          document.getElementById('scene-wb-love').innerText = wb.love || 0;
+          document.getElementById('scene-wb-health').innerText = wb.health || 0;
+          document.getElementById('scene-hearts').innerText = (wb.hearts || 0).toLocaleString();
+          document.getElementById('scene-coins').innerText = (wb.coins || 0).toLocaleString();
+        }
+      } catch (e) {}
+    }
+
+    applyThemeVisuals(currentThemeKey);
+    pollLiveState();
+    setInterval(pollLiveState, 1200);
+  </script>
+</body>
+</html>
