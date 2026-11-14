@@ -392,21 +392,57 @@
     </section>
 
     <!-- ========================================================================= -->
-    <!-- SECTION 2: 🏢 3D DIGITAL TWIN AI CREATOR OFFICE (REAL PROCESS STATES)     -->
+    <!-- SECTION 2: 🏢 3D DIGITAL TWIN AI CREATOR OFFICE (LIVE CARTOON SIMULATION)  -->
     <!-- ========================================================================= -->
     <section id="sec-office3d" class="tab-section space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 lg:p-6 shadow-xl">
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-5">
+      <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl p-5 lg:p-6 shadow-2xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3.5">
-            <div class="w-11 h-11 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-2xl">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-2xl">
               🏢
             </div>
             <div>
-              <h2 class="text-lg font-black text-white">ออฟฟิศ AI 3D Digital Twin (ผูกกับสถานะโปรเซสจริงบนเครื่องคอมพิวเตอร์)</h2>
-              <p class="text-xs text-slate-400">แสดงสถานะการทำงานจริงของ <code class="text-indigo-300">Master Flow.exe</code>, <code class="text-pink-300">TikTok LIVE Studio</code>, <code class="text-purple-300">ollama.exe</code>, และ <code class="text-emerald-300">adb_real.exe</code></p>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <h2 class="text-lg md:text-xl font-black text-white">ออฟฟิศ AI 3D Digital Twin (ระบบจำลองออฟฟิศตัวการ์ตูนเดินทำงานจริง 60 FPS)</h2>
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  LIVE 3D SIMULATION · 8 AI AGENTS ACTIVE
+                </span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5">
+                จำลองพนักงานการ์ตูน AI ทั้ง 6 แผนก + ห้องประชุมใหญ่ นั่งพิมพ์งานหน้าจอคอมและเดินส่งงานข้ามแผนกตามสถานะโปรเซสจริง (<code class="text-indigo-300">Master Flow.exe</code>, <code class="text-pink-300">TikTok LIVE Studio</code>, <code class="text-purple-300">ollama.exe</code>, <code class="text-emerald-300">adb_real.exe</code>)
+              </p>
             </div>
           </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setOfficeSimMode('work')" id="btn-sim-work" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg">
+              💻 ประจำหน้าคอมทำงานจริง
+            </button>
+            <button onclick="setOfficeSimMode('meeting')" id="btn-sim-meeting" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg">
+              📢 เรียกประชุมรวมทุกแผนก
+            </button>
+            <button onclick="setOfficeSimMode('patrol')" id="btn-sim-patrol" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg">
+              🚶 เดินส่งงาน & ตรวจฟาร์มมือถือ
+            </button>
+            <button onclick="toggleOfficeSimTurbo()" id="btn-sim-turbo" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-300 text-xs font-bold px-3 py-2 rounded-xl transition">
+              ⚡ สปีดปกติ (1x)
+            </button>
+          </div>
         </div>
+
+        <!-- Interactive 60FPS 2.5D/3D Office Simulation Viewport -->
+        <div class="relative rounded-2xl overflow-hidden border-2 border-indigo-500/40 bg-slate-950 shadow-2xl">
+          <canvas id="office-sim-canvas" width="1280" height="580" class="w-full h-auto block cursor-pointer" title="คลิกที่ตัวการ์ตูนหรือแผนกเพื่อสั่งเดิน/ตรวจสอบสถานะ"></canvas>
+          <div class="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl px-3.5 py-2 text-[11px] text-slate-300 pointer-events-none">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+              <span id="office-sim-status-bar" class="font-bold text-emerald-300">พนักงานการ์ตูน AI ทั้ง 8 ตัวกำลังปฏิบัติงานหน้าคอมพิวเตอร์และเดินประสานงานระหว่าง 6 แผนก</span>
+            </div>
+            <div class="text-slate-400 font-mono">💡 คลิกที่พื้นที่ใดก็ได้ในออฟฟิศเพื่อสั่งให้หัวหน้า AI เดินไปตรวจจุดนั้นทันที</div>
+          </div>
+        </div>
+
+        <!-- Real-Time Department Telemetry Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="office-departments-grid"></div>
       </div>
     </section>
@@ -493,6 +529,43 @@
             <button onclick="openAddTikTokModal()" class="bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl">
               ➕ เพิ่มช่อง TikTok ลงฐานข้อมูล unlock108.db
             </button>
+          </div>
+        </div>
+
+        <!-- Cross-Platform Warmup Control Center (All Platforms: TikTok + FB Reels + Shopee Video + PC Cookies) -->
+        <div class="bg-gradient-to-br from-slate-950 via-orange-950/15 to-slate-950 border-2 border-orange-500/40 rounded-2xl p-4 space-y-3.5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-base">🔥</span>
+                <h3 class="text-sm md:text-base font-black text-white">ระบบวอร์มช่องและกระตุ้นอัลกอริทึมครบทุกแพลตฟอร์มอัตโนมัติ (All-Platform Auto Warmup Engine)</h3>
+                <span id="warmup-mode-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-orange-500/20 text-orange-300 border border-orange-500/40">
+                  AUTO-ROTATE ALL PLATFORMS
+                </span>
+              </div>
+              <p class="text-xs text-slate-300 mt-0.5" id="warmup-mode-desc">
+                หมุนเวียนวอร์มครบทั้ง TikTok, Facebook Reels, Shopee Video บนมือถือ Redmi 14C ทั้ง 4 เครื่อง (ADB 5038) และรักษาอายุคุกกี้บน PC อัตโนมัติ
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5">
+              <button onclick="setWarmupPlatformMode('auto_rotate')" class="bg-orange-600 hover:bg-orange-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl transition">
+                🔄 หมุนเวียนครบทุกแพลตฟอร์ม
+              </button>
+              <button onclick="setWarmupPlatformMode('tiktok')" class="bg-pink-600/80 hover:bg-pink-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
+                🎵 เน้น TikTok
+              </button>
+              <button onclick="setWarmupPlatformMode('facebook')" class="bg-blue-600/80 hover:bg-blue-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
+                🔵 เน้น FB Reels
+              </button>
+              <button onclick="setWarmupPlatformMode('shopee')" class="bg-amber-600/80 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
+                🟠 เน้น Shopee Video
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="cross-platform-warmup-grid">
+            <!-- Populated by JS from data.cross_platform_warmup.platforms -->
           </div>
         </div>
 
@@ -888,6 +961,56 @@
         `).join('');
       }
 
+      // 5B. Cross-Platform Warmup Engine (All Platforms: TikTok + FB Reels + Shopee Video + PC Cookies)
+      if (data.cross_platform_warmup) {
+        const cw = data.cross_platform_warmup;
+        const badgeEl = document.getElementById('warmup-mode-badge');
+        const descEl = document.getElementById('warmup-mode-desc');
+        if (badgeEl) badgeEl.innerText = `MODE: ${(cw.active_mode || 'auto_rotate').toUpperCase()} · วอร์มรวม ${cw.total_clips_warmed || 0} คลิป`;
+        if (descEl) descEl.innerText = cw.mode_label || '';
+
+        const gridEl = document.getElementById('cross-platform-warmup-grid');
+        if (gridEl && cw.platforms) {
+          gridEl.innerHTML = cw.platforms.map(p => `
+            <div class="bg-slate-900/95 border border-slate-800 hover:border-orange-500/50 rounded-2xl p-3.5 flex flex-col justify-between space-y-2.5 transition">
+              <div class="space-y-1">
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-xs font-black text-white">${p.name}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Active</span>
+                </div>
+                <div class="text-[11px] text-amber-300 font-mono truncate">${p.account}</div>
+                <div class="text-[10px] text-slate-400">${p.retention_target}</div>
+              </div>
+              <div class="grid grid-cols-3 gap-1.5 bg-slate-950 rounded-xl p-2 text-center border border-slate-800/80">
+                <div>
+                  <div class="text-[9px] text-slate-400">ดูคลิปจบ</div>
+                  <div class="text-xs font-black text-emerald-400">${p.clips_watched}</div>
+                </div>
+                <div>
+                  <div class="text-[9px] text-slate-400">กดหัวใจ</div>
+                  <div class="text-xs font-black text-pink-400">${p.likes_sent}</div>
+                </div>
+                <div>
+                  <div class="text-[9px] text-slate-400">แตะตะกร้า</div>
+                  <div class="text-xs font-black text-amber-400">${p.cart_taps}</div>
+                </div>
+              </div>
+              <div class="pt-1 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                <span class="text-[10px] text-slate-300 truncate">${p.last_action}</span>
+                <button onclick="triggerPlatformWarmupNow('${p.id}')" class="shrink-0 bg-orange-600/25 hover:bg-orange-600 text-orange-300 hover:text-white border border-orange-500/40 text-[10px] font-bold px-2.5 py-1 rounded-lg transition">
+                  ⚡ วอร์มทันที
+                </button>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // Sync live backend telemetry into 3D Cartoon Office Simulation
+      if (window.updateOfficeSimulationTelemetry) {
+        window.updateOfficeSimulationTelemetry(data);
+      }
+
       // 6. Revenue Platforms
       if (data.revenue_analytics && data.revenue_analytics.by_platform) {
         document.getElementById('revenue-platforms-grid').innerHTML = data.revenue_analytics.by_platform.map(p => `
@@ -1181,10 +1304,503 @@
     }
 
     async function warmupAllTikTokChannels() {
-      await fetch(getApiUrl('/api/tiktok/warmup-all'), { method: 'POST' });
-      alert('🔥 ส่งคำสั่ง ADB ปลุกและวอร์มมือถือจริงทั้ง 4 เครื่องเรียบร้อยแล้ว');
+      await fetch(getApiUrl('/api/warmup/trigger-all'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({platform: 'all'})
+      });
+      alert('🔥 ส่งคำสั่ง ADB ปลุกและเร่งวอร์มทุกแพลตฟอร์ม (TikTok · FB Reels · Shopee Video) บนมือถือจริงทั้ง 4 เครื่องเรียบร้อยแล้ว');
       fetchStatus();
     }
+
+    async function setWarmupPlatformMode(mode) {
+      await fetch(getApiUrl('/api/warmup/set-mode'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({mode})
+      });
+      fetchStatus();
+    }
+
+    async function triggerPlatformWarmupNow(platId) {
+      await fetch(getApiUrl('/api/warmup/trigger-all'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({platform: platId})
+      });
+      fetchStatus();
+    }
+
+    // =========================================================================
+    // 🏢 60FPS INTERACTIVE 3D/2.5D CARTOON AI OFFICE SIMULATION ENGINE
+    // =========================================================================
+    let officeSimMode = 'work'; // 'work' | 'meeting' | 'patrol'
+    let officeSimSpeed = 1.0;
+    let officeSimTick = 0;
+    let officeFloatingHearts = [];
+
+    const OFFICE_ROOMS = [
+      { id: 'meeting', x: 25, y: 25, w: 390, h: 235, title: '📋 ห้องประชุมใหญ่ & Audit 12/12', color: '#3b82f6', bg: 'rgba(30, 58, 138, 0.22)' },
+      { id: 'ai_lab', x: 445, y: 25, w: 390, h: 235, title: '🧠 แผนก Local AI (Ollama Llama 3.1)', color: '#a855f7', bg: 'rgba(88, 28, 135, 0.22)' },
+      { id: 'flow_studio', x: 865, y: 25, w: 390, h: 235, title: '🎬 แผนกสร้างคลิป Google Flow (Veo 3.1)', color: '#6366f1', bg: 'rgba(49, 46, 129, 0.22)' },
+      { id: 'series_hub', x: 25, y: 315, w: 390, h: 235, title: '📡 แผนกโพสต์ซีรีส์ & Multi-Platform', color: '#ec4899', bg: 'rgba(131, 24, 67, 0.22)' },
+      { id: 'phone_farm', x: 445, y: 315, w: 390, h: 235, title: '📱 แผนกวอร์มทุกแพลตฟอร์ม (4x Redmi 14C)', color: '#f97316', bg: 'rgba(124, 45, 18, 0.24)' },
+      { id: 'live_stage', x: 865, y: 315, w: 390, h: 235, title: '🕉️ ห้องส่งไลฟ์สด TikTok LIVE Studio 9:16', color: '#eab308', bg: 'rgba(113, 63, 18, 0.24)' }
+    ];
+
+    const CARTOON_AGENTS = [
+      {
+        id: 'ag1', name: 'บอสเอไอ (Chief Audit)', role: 'Meeting & Audit',
+        shirt: '#3b82f6', hair: '#fbbf24', hat: 'crown',
+        deskX: 220, deskY: 145, meetX: 145, meetY: 140,
+        x: 220, y: 145, tx: 220, ty: 145,
+        state: 'working', bubble: 'Audit 12/12 ผ่านครบ 100%!', walkTimer: 120
+      },
+      {
+        id: 'ag2', name: 'ดร.ลามะ (Ollama 3.1)', role: 'Prompt Engineer',
+        shirt: '#a855f7', hair: '#38bdf8', hat: 'headset',
+        deskX: 545, deskY: 135, meetX: 195, meetY: 115,
+        x: 545, y: 135, tx: 545, ty: 135,
+        state: 'working', bubble: 'กำลังอัปเกรด Prompt ซีรีส์ (0 Token)', walkTimer: 210
+      },
+      {
+        id: 'ag3', name: 'น้องวิสเปอร์ (Whisper AI)', role: 'Voice & Subtitle',
+        shirt: '#8b5cf6', hair: '#f472b6', hat: 'headset',
+        deskX: 715, deskY: 135, meetX: 255, meetY: 115,
+        x: 715, y: 135, tx: 715, ty: 135,
+        state: 'working', bubble: 'ถอดซับไทย Local Whisper + ตัด Deadair', walkTimer: 320
+      },
+      {
+        id: 'ag4', name: 'กัปตันวีโอ (Veo 3.1)', role: 'Video Director',
+        shirt: '#6366f1', hair: '#34d399', hat: 'cap',
+        deskX: 975, deskY: 135, meetX: 300, meetY: 140,
+        x: 975, y: 135, tx: 975, ty: 135,
+        state: 'working', bubble: 'เรนเดอร์เสร็จ 339 คลิป · เช็คโควตา Flow', walkTimer: 180
+      },
+      {
+        id: 'ag5', name: 'ช่างภาพนาโน (Nano Art)', role: 'Theme & Visuals',
+        shirt: '#4f46e5', hair: '#facc15', hat: 'none',
+        deskX: 1145, deskY: 135, meetX: 295, meetY: 185,
+        x: 1145, y: 135, tx: 1145, ty: 135,
+        state: 'working', bubble: 'ดูแลฉาก 9:16 ไร้ลายน้ำ 4 ธีม', walkTimer: 260
+      },
+      {
+        id: 'ag6', name: 'แอดมินบี (Multi-Post)', role: 'Reels & Series',
+        shirt: '#ec4899', hair: '#fb923c', hat: 'headset',
+        deskX: 215, deskY: 435, meetX: 245, meetY: 195,
+        x: 215, y: 435, tx: 215, ty: 435,
+        state: 'working', bubble: 'ยิงคลิปซีรีส์ TikTok + FB Reels + Shopee', walkTimer: 150
+      },
+      {
+        id: 'ag7', name: 'ช่างเทคนิค ADB (Warmup)', role: 'All-Platform Warmup',
+        shirt: '#f97316', hair: '#22d3ee', hat: 'cap',
+        deskX: 640, deskY: 465, meetX: 190, meetY: 195,
+        x: 640, y: 465, tx: 640, ty: 465,
+        state: 'working', bubble: 'วอร์ม TikTok + FB + Shopee มือถือ 4 เครื่อง!', walkTimer: 95
+      },
+      {
+        id: 'ag8', name: 'โฮสต์สายมู (Live Studio)', role: 'TikTok LIVE Host',
+        shirt: '#eab308', hair: '#f87171', hat: 'crown',
+        deskX: 1020, deskY: 445, meetX: 145, meetY: 180,
+        x: 1020, y: 445, tx: 1020, ty: 445,
+        state: 'working', bubble: 'เชื่อม TikTok LIVE Studio ฉากพญานาค!', walkTimer: 230
+      }
+    ];
+
+    window.updateOfficeSimulationTelemetry = function(data) {
+      if (!data) return;
+      try {
+        if (data.audit_checklist) {
+          CARTOON_AGENTS[0].bubble = `Audit ${data.audit_checklist.passed_items}/${data.audit_checklist.total_items} PASS (ตรวจทุก 3 ชม.)`;
+        }
+        if (data.local_ai_engine) {
+          CARTOON_AGENTS[1].bubble = `Ollama Llama 3.1 เจน Prompt (${data.local_ai_engine.real_calls_count} ครั้ง · ฟรี)`;
+        }
+        if (data.master_flow_overview) {
+          CARTOON_AGENTS[3].bubble = `Google Flow เสร็จ ${data.master_flow_overview.total_generations_done} คลิป (คิว ${data.master_flow_overview.total_generations_pending})`;
+        }
+        if (data.facebook) {
+          CARTOON_AGENTS[5].bubble = `FB Reels ${data.facebook.total_video_views || 0} วิว + ซีรีส์ TikTok`;
+        }
+        if (data.cross_platform_warmup) {
+          const cw = data.cross_platform_warmup;
+          CARTOON_AGENTS[6].bubble = `วอร์ม 3 แพลตฟอร์ม: ดูจบ ${cw.total_clips_warmed} คลิป ❤️${cw.total_likes_sent}`;
+        }
+        if (data.live_studio) {
+          CARTOON_AGENTS[7].bubble = `Live 9:16 ธีม ${data.live_studio.active_theme.toUpperCase()} · เลขมงคล ${data.live_studio.current_lucky_number}`;
+        }
+      } catch (e) {}
+    };
+
+    function setOfficeSimMode(mode) {
+      officeSimMode = mode;
+      const bar = document.getElementById('office-sim-status-bar');
+      if (mode === 'meeting') {
+        CARTOON_AGENTS.forEach(ag => {
+          ag.tx = ag.meetX;
+          ag.ty = ag.meetY;
+        });
+        if (bar) bar.innerText = '📢 กำลังเรียกประชุมรวมพนักงาน AI ทั้ง 8 ตัวที่ห้องประชุมใหญ่ เพื่อสรุปผล Checklist Audit 12/12!';
+      } else if (mode === 'work') {
+        CARTOON_AGENTS.forEach(ag => {
+          ag.tx = ag.deskX;
+          ag.ty = ag.deskY;
+        });
+        if (bar) bar.innerText = '💻 พนักงานการ์ตูน AI ทั้ง 8 ตัวเดินกลับเข้าประจำโต๊ะคอมพิวเตอร์และปฏิบัติงานจริงครบทั้ง 6 แผนก!';
+      } else if (mode === 'patrol') {
+        const patrolTargets = [
+          {x: 610, y: 288}, {x: 1040, y: 288}, {x: 640, y: 430}, {x: 1050, y: 430},
+          {x: 220, y: 420}, {x: 630, y: 145}, {x: 1050, y: 145}, {x: 220, y: 145}
+        ];
+        CARTOON_AGENTS.forEach((ag, i) => {
+          ag.tx = patrolTargets[i % patrolTargets.length].x;
+          ag.ty = patrolTargets[i % patrolTargets.length].y;
+        });
+        if (bar) bar.innerText = '🚶 พนักงาน AI กำลังเดินส่งมอบไฟล์งานข้ามแผนกและตรวจสอบแท่นมือถือ Redmi 14C ทั้ง 4 เครื่อง!';
+      }
+    }
+
+    function toggleOfficeSimTurbo() {
+      officeSimSpeed = officeSimSpeed === 1.0 ? 2.2 : 1.0;
+      const btn = document.getElementById('btn-sim-turbo');
+      if (btn) btn.innerText = officeSimSpeed > 1 ? '⚡ สปีดเทอร์โบ (2x)' : '⚡ สปีดปกติ (1x)';
+    }
+
+    function initOffice3DSimulator() {
+      const canvas = document.getElementById('office-sim-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      // Click anywhere on canvas to send Chief AI to inspect that spot
+      canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const cx = (e.clientX - rect.left) * scaleX;
+        const cy = (e.clientY - rect.top) * scaleY;
+        CARTOON_AGENTS[0].tx = Math.max(50, Math.min(1230, cx));
+        CARTOON_AGENTS[0].ty = Math.max(60, Math.min(535, cy));
+        CARTOON_AGENTS[0].bubble = 'กำลังเดินไปตรวจสอบจุดที่คุณคลิก! 🔍';
+      });
+
+      function drawRoundedRect(x, y, w, h, r, fill, stroke, lineW = 1.5) {
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+        if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lineW; ctx.stroke(); }
+      }
+
+      function drawComputerWorkstation(x, y, screenColor, label, progress) {
+        // Desk shadow & 3D Isometric Desk top
+        drawRoundedRect(x - 46, y - 36, 92, 42, 8, '#1e293b', '#475569', 2);
+        drawRoundedRect(x - 42, y - 33, 84, 34, 6, '#0f172a', null);
+        // Dual Monitors
+        drawRoundedRect(x - 34, y - 52, 32, 22, 4, '#020617', screenColor, 1.8);
+        drawRoundedRect(x + 2, y - 52, 32, 22, 4, '#020617', screenColor, 1.8);
+        // Animated code lines / progress on monitor screens
+        ctx.fillStyle = screenColor;
+        const barW = 10 + ((officeSimTick + x) % 18);
+        ctx.fillRect(x - 30, y - 47, barW, 3);
+        ctx.fillRect(x - 30, y - 41, 22, 3);
+        ctx.fillRect(x + 6, y - 47, 24 * progress, 4);
+        ctx.fillRect(x + 6, y - 40, 18, 3);
+        // Glowing Keyboard
+        drawRoundedRect(x - 16, y - 22, 32, 9, 2, '#334155', '#64748b', 1);
+        // Label on desk front
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = 'bold 9px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(label, x, y + 16);
+      }
+
+      function drawCartoonWorker(ag) {
+        // Movement update
+        const dx = ag.tx - ag.x;
+        const dy = ag.ty - ag.y;
+        const dist = Math.hypot(dx, dy);
+        const isWalking = dist > 3.5;
+
+        if (isWalking) {
+          const step = 2.1 * officeSimSpeed;
+          // Use central corridor (y=288) if moving between top and bottom rooms
+          if (Math.abs(ag.y - ag.ty) > 130 && Math.abs(ag.x - ag.tx) > 90 && Math.abs(ag.y - 288) > 12) {
+            const cy = 288 - ag.y;
+            ag.y += Math.sign(cy) * Math.min(Math.abs(cy), step);
+          } else {
+            ag.x += (dx / dist) * step;
+            ag.y += (dy / dist) * step;
+          }
+          ag.state = 'กำลังเดินประสานงาน';
+        } else {
+          ag.state = officeSimMode === 'meeting' ? 'กำลังประชุม' : 'กำลังพิมพ์งานหน้าคอม';
+          if (officeSimMode === 'work') {
+            ag.walkTimer -= officeSimSpeed;
+            if (ag.walkTimer <= 0) {
+              // Occasionally stroll to corridor / phone rack / meeting board and back
+              if (Math.hypot(ag.x - ag.deskX, ag.y - ag.deskY) < 10) {
+                const spots = [
+                  {x: 640, y: 288}, {x: 320, y: 150}, {x: 640, y: 410}, {x: 980, y: 288}
+                ];
+                const pick = spots[Math.floor(Math.random() * spots.length)];
+                ag.tx = pick.x + (Math.random() * 40 - 20);
+                ag.ty = pick.y + (Math.random() * 20 - 10);
+                ag.walkTimer = 140 + Math.random() * 120;
+              } else {
+                ag.tx = ag.deskX;
+                ag.ty = ag.deskY;
+                ag.walkTimer = 240 + Math.random() * 220;
+              }
+            }
+          }
+        }
+
+        const swing = isWalking ? Math.sin(officeSimTick * 0.28 * officeSimSpeed) * 6 : 0;
+        const typeBob = !isWalking ? Math.sin(officeSimTick * 0.35 + ag.x) * 1.8 : 0;
+        const cx = ag.x;
+        const cy = ag.y + typeBob;
+
+        // Shadow under character
+        ctx.beginPath();
+        ctx.ellipse(cx, ag.y + 22, 14, 6, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        ctx.fill();
+
+        // Legs (animated walking)
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 4.5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(cx - 5, cy + 8);
+        ctx.lineTo(cx - 5 - swing * 0.5, ag.y + 20 + swing * 0.6);
+        ctx.moveTo(cx + 5, cy + 8);
+        ctx.lineTo(cx + 5 + swing * 0.5, ag.y + 20 - swing * 0.6);
+        ctx.stroke();
+
+        // Shoes
+        ctx.fillStyle = '#f8fafc';
+        ctx.beginPath();
+        ctx.arc(cx - 5 - swing * 0.5, ag.y + 20 + swing * 0.6, 3, 0, Math.PI * 2);
+        ctx.arc(cx + 5 + swing * 0.5, ag.y + 20 - swing * 0.6, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Body / Shirt
+        drawRoundedRect(cx - 11, cy - 8, 22, 18, 6, ag.shirt, '#ffffff', 1.2);
+
+        // Arms (typing on keyboard when at desk, swinging when walking)
+        ctx.strokeStyle = ag.shirt;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        if (isWalking) {
+          ctx.moveTo(cx - 11, cy - 4);
+          ctx.lineTo(cx - 15 + swing, cy + 6);
+          ctx.moveTo(cx + 11, cy - 4);
+          ctx.lineTo(cx + 15 - swing, cy + 6);
+        } else {
+          const handTap = Math.sin(officeSimTick * 0.6 + ag.x) * 3;
+          ctx.moveTo(cx - 11, cy - 4);
+          ctx.lineTo(cx - 8, cy - 14 + handTap);
+          ctx.moveTo(cx + 11, cy - 4);
+          ctx.lineTo(cx + 8, cy - 14 - handTap);
+        }
+        ctx.stroke();
+
+        // Cute Cartoon Head
+        ctx.beginPath();
+        ctx.arc(cx, cy - 18, 11.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#fde68a';
+        ctx.fill();
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // Hair / Cap / Crown / Headset
+        ctx.fillStyle = ag.hair;
+        ctx.beginPath();
+        ctx.arc(cx, cy - 21, 11.5, Math.PI, 0);
+        ctx.fill();
+
+        if (ag.hat === 'headset') {
+          ctx.strokeStyle = '#22d3ee';
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          ctx.arc(cx, cy - 19, 12.5, Math.PI * 0.85, Math.PI * 0.15);
+          ctx.stroke();
+        } else if (ag.hat === 'crown') {
+          ctx.fillStyle = '#fbbf24';
+          ctx.beginPath();
+          ctx.moveTo(cx - 7, cy - 28);
+          ctx.lineTo(cx - 4, cy - 35);
+          ctx.lineTo(cx, cy - 30);
+          ctx.lineTo(cx + 4, cy - 35);
+          ctx.lineTo(cx + 7, cy - 28);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Blinking Eyes & Smile
+        const blink = (officeSimTick + Math.floor(ag.x)) % 110 < 5;
+        ctx.fillStyle = '#0f172a';
+        if (blink) {
+          ctx.fillRect(cx - 5, cy - 18, 3, 1);
+          ctx.fillRect(cx + 2, cy - 18, 3, 1);
+        } else {
+          ctx.beginPath();
+          ctx.arc(cx - 3.8, cy - 18, 1.7, 0, Math.PI * 2);
+          ctx.arc(cx + 3.8, cy - 18, 1.7, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Name Tag Pill
+        ctx.font = 'bold 9.5px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        const nameW = ctx.measureText(ag.name).width + 12;
+        drawRoundedRect(cx - nameW / 2, ag.y + 24, nameW, 14, 5, 'rgba(2, 6, 23, 0.88)', ag.shirt, 1);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(ag.name, cx, ag.y + 34);
+
+        // Live Speech Bubble above head
+        if (ag.bubble) {
+          ctx.font = 'bold 9.5px Prompt, sans-serif';
+          const text = ag.bubble.length > 34 ? ag.bubble.slice(0, 34) + '…' : ag.bubble;
+          const bw = Math.min(210, Math.max(95, ctx.measureText(text).width + 16));
+          const bx = Math.max(12, Math.min(1280 - bw - 12, cx - bw / 2));
+          const by = cy - 54;
+          drawRoundedRect(bx, by, bw, 18, 6, 'rgba(15, 23, 42, 0.94)', '#38bdf8', 1);
+          ctx.fillStyle = '#e0f2fe';
+          ctx.fillText(text, bx + bw / 2, by + 12.5);
+        }
+      }
+
+      function renderSimFrame() {
+        officeSimTick += 1;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 1. Floor Background & Isometric Grid Lines
+        ctx.fillStyle = '#060a17';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = 'rgba(51, 65, 85, 0.25)';
+        ctx.lineWidth = 1;
+        for (let gx = 0; gx < canvas.width; gx += 32) {
+          ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, canvas.height); ctx.stroke();
+        }
+        for (let gy = 0; gy < canvas.height; gy += 32) {
+          ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(canvas.width, gy); ctx.stroke();
+        }
+
+        // Central Corridor Carpet (Walkway between rooms)
+        drawRoundedRect(20, 268, 1240, 40, 8, 'rgba(30, 41, 59, 0.55)', 'rgba(99, 102, 241, 0.3)', 1);
+        ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
+        ctx.font = 'bold 10px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('⬅️ โถงทางเดินกลางออฟฟิศ AI 3D Digital Twin (Central Automation Corridor) ➡️', 640, 292);
+
+        // 2. Draw All 6 Department Rooms
+        OFFICE_ROOMS.forEach(rm => {
+          drawRoundedRect(rm.x, rm.y, rm.w, rm.h, 16, rm.bg, rm.color, 2);
+          // Room Header Banner
+          drawRoundedRect(rm.x + 10, rm.y + 8, rm.w - 20, 24, 8, 'rgba(2, 6, 23, 0.85)', rm.color, 1);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 11.5px Prompt, sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText(rm.title, rm.x + 20, rm.y + 24);
+          // Status Dot
+          ctx.beginPath();
+          ctx.arc(rm.x + rm.w - 22, rm.y + 20, 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#10b981';
+          ctx.fill();
+        });
+
+        // 3. Draw Room-Specific 3D Furniture & Live Hardware
+        // Room 1: Executive Meeting & 3-Hour Audit Room (Holographic Oval Table)
+        ctx.beginPath();
+        ctx.ellipse(220, 155, 82, 42, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(37, 99, 235, 0.35)';
+        ctx.fill();
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.fillStyle = '#93c5fd';
+        ctx.font = 'bold 10px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🔍 AUTO-AUDIT EVERY 3 HRS', 220, 152);
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('PASS 12 / 12 (100%)', 220, 166);
+
+        // Room 2: Local AI Lab (2 Dual-Monitor Desks + Blinking Ollama Server Rack)
+        drawComputerWorkstation(545, 115, '#a855f7', 'PC-1: Ollama Llama 3.1', 0.9);
+        drawComputerWorkstation(715, 115, '#ec4899', 'PC-2: Local Whisper Large', 0.8);
+        // Server Rack
+        drawRoundedRect(615, 185, 50, 62, 6, '#0f172a', '#a855f7', 1.8);
+        for (let s = 0; s < 4; s++) {
+          ctx.fillStyle = ((officeSimTick + s * 9) % 24 < 14) ? '#34d399' : '#a855f7';
+          ctx.fillRect(623, 193 + s * 13, 34, 6);
+        }
+
+        // Room 3: Google Flow Video Studio (2 Render Workstations)
+        const prog = ((officeSimTick % 120) / 120);
+        drawComputerWorkstation(975, 115, '#38bdf8', 'Veo 3.1 Render #1', prog);
+        drawComputerWorkstation(1145, 115, '#fbbf24', 'Nano Banana Art #2', 1 - prog * 0.5);
+
+        // Room 4: Series & Multi-Platform Broadcast Hub
+        drawComputerWorkstation(215, 415, '#f43f5e', 'TikTok + FB Reels + Shopee', 0.85);
+
+        // Room 5: 4x Redmi 14C Cross-Platform Warmup Dock
+        drawRoundedRect(485, 360, 310, 68, 10, '#0f172a', '#f97316', 2);
+        const phoneLabels = ['BQ75 (TikTok)', 'ZPDA (FB Reels)', 'RKPZ (Shopee)', '4XE6 (Rotate)'];
+        for (let p = 0; p < 4; p++) {
+          const px = 505 + p * 72;
+          const py = 368;
+          drawRoundedRect(px, py, 46, 52, 6, '#020617', '#34d399', 1.5);
+          // Scrolling video feed animation inside each phone screen
+          const slideY = (officeSimTick * 0.8 + p * 12) % 34;
+          ctx.fillStyle = p === 0 ? '#ec4899' : p === 1 ? '#3b82f6' : p === 2 ? '#f97316' : '#10b981';
+          ctx.fillRect(px + 5, py + 6 + slideY * 0.4, 36, 18);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 8px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(phoneLabels[p].split(' ')[0], px + 23, py + 47);
+        }
+        // Spawn floating hearts from phones
+        if (officeSimTick % 28 === 0) {
+          officeFloatingHearts.push({ x: 525 + Math.random() * 230, y: 375, alpha: 1.0 });
+        }
+        for (let i = officeFloatingHearts.length - 1; i >= 0; i--) {
+          const h = officeFloatingHearts[i];
+          h.y -= 0.7;
+          h.alpha -= 0.018;
+          if (h.alpha <= 0) { officeFloatingHearts.splice(i, 1); continue; }
+          ctx.globalAlpha = h.alpha;
+          ctx.font = '11px sans-serif';
+          ctx.fillText('❤️', h.x, h.y);
+          ctx.globalAlpha = 1.0;
+        }
+
+        // Room 6: TikTok LIVE Studio 9:16 Sacred Stage
+        drawComputerWorkstation(980, 425, '#eab308', 'TikTok LIVE Studio Host', 0.95);
+        // 9:16 Vertical Stage Screen on Right Side of Room 6
+        drawRoundedRect(1140, 360, 86, 152, 10, '#1c1917', '#fbbf24', 2.5);
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.28)';
+        ctx.beginPath();
+        ctx.arc(1183, 425, 26 + Math.sin(officeSimTick * 0.1) * 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 9.5px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🐉 LIVE 9:16', 1183, 382);
+        ctx.fillText('พญานาคราช', 1183, 428);
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('ON AIR', 1183, 496);
+
+        // 4. Sort Cartoon Workers by Y coordinate for proper 2.5D depth and draw them
+        const sortedAgents = [...CARTOON_AGENTS].sort((a, b) => a.y - b.y);
+        sortedAgents.forEach(ag => drawCartoonWorker(ag));
+
+        requestAnimationFrame(renderSimFrame);
+      }
+
+      renderSimFrame();
+    }
+    setTimeout(initOffice3DSimulator, 150);
 
     async function recordRealRevenue() {
       const platform = document.getElementById('rev-input-platform').value;

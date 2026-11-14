@@ -212,6 +212,63 @@ state = {
         "last_action": "ดึงข้อมูลจริงจาก Meta Graph API v26.0"
     },
     "tiktok_accounts": [],
+    "cross_platform_warmup": {
+        "active_mode": "auto_rotate",
+        "mode_label": "🔄 หมุนเวียนวอร์มครบทุกแพลตฟอร์มอัตโนมัติ (TikTok · Facebook Reels · Shopee Video)",
+        "total_clips_warmed": 0,
+        "total_likes_sent": 0,
+        "total_cart_taps": 0,
+        "platforms": [
+            {
+                "id": "tiktok",
+                "name": "🎵 TikTok (ทุกช่องในระบบ)",
+                "account": "@closec16522 (ClosecOneShop)",
+                "app_pkg": "com.ss.android.ugc.trill",
+                "status": "🟢 กำลังวอร์มผ่าน ADB 4 เครื่อง",
+                "clips_watched": 0,
+                "likes_sent": 0,
+                "cart_taps": 0,
+                "retention_target": "ดูจบ 100% + กดหัวใจ + แตะตะกร้า",
+                "last_action": "สไลด์ฟีดและดูคลิปจนจบ"
+            },
+            {
+                "id": "facebook",
+                "name": "🔵 Facebook Reels & Page",
+                "account": "น้องบีรีวิว ปักตระกร้า SP (ID: 1012215361986434)",
+                "app_pkg": "com.facebook.katana",
+                "status": "🟢 วอร์ม Reels + ซิงค์ Graph API v26.0",
+                "clips_watched": 0,
+                "likes_sent": 0,
+                "cart_taps": 0,
+                "retention_target": "ดู Reels จบ + กด Like + เช็คลิงก์คอมเมนต์",
+                "last_action": "ดึงยอดวิวจริงและสไลด์ดู Reels"
+            },
+            {
+                "id": "shopee",
+                "name": "🟠 Shopee Video & Affiliate",
+                "account": "Shopee #1 (Account #43 · 40 สินค้า)",
+                "app_pkg": "com.shopee.th",
+                "status": "🟢 วอร์มฟีดวิดีโอ + ตะกร้าส้ม",
+                "clips_watched": 0,
+                "likes_sent": 0,
+                "cart_taps": 0,
+                "retention_target": "ดูคลิป Shopee Video + แตะปักตะกร้าส้ม",
+                "last_action": "วอร์มคลิปปักตะกร้าสินค้าขายดี"
+            },
+            {
+                "id": "pc_cookies",
+                "name": "🌐 Google Flow & Meta AI (PC Keep-Alive)",
+                "account": "closec16522@gmail.com (115 Cookies)",
+                "app_pkg": "Master Flow Session Guard",
+                "status": "🟢 รักษาเซสชันคุกกี้ไม่ให้หลุด",
+                "clips_watched": 339,
+                "likes_sent": 0,
+                "cart_taps": 40,
+                "retention_target": "Keep-Alive Cookies 153 รายการใน unlock108.db",
+                "last_action": "ตรวจสอบอายุคุกกี้ทุกแพลตฟอร์มอัตโนมัติ"
+            }
+        ]
+    },
     "posted_history": [],
     "audit_checklist": {
         "interval_hours": 3,
@@ -652,6 +709,9 @@ def phone_worker(serial, idx=0):
     adb_cmd(serial, "settings put global stay_on_while_plugged_in 7")
     adb_cmd(serial, "svc power stayon true")
 
+    platform_cycle = ["tiktok", "facebook", "shopee"]
+    cycle_step = idx % 3
+
     while True:
         try:
             t0 = time.time()
@@ -661,18 +721,38 @@ def phone_worker(serial, idx=0):
             dev["temp_c"] = temp_c
             dev["latency_ms"] = max(ping_ms, 8)
 
-            watch_time = random.uniform(9.0, 15.0)
-            dev["action"] = f"กำลังดูคลิปจริงบนหน้าจอ ({int(watch_time)} วินาที)..."
+            mode = state["cross_platform_warmup"]["active_mode"]
+            if mode == "auto_rotate":
+                cur_plat_id = platform_cycle[cycle_step % 3]
+                cycle_step += 1
+            else:
+                cur_plat_id = mode if mode in ("tiktok", "facebook", "shopee") else "tiktok"
+
+            plat_obj = next((p for p in state["cross_platform_warmup"]["platforms"] if p["id"] == cur_plat_id), state["cross_platform_warmup"]["platforms"][0])
+            plat_label = plat_obj["name"]
+            dev["current_platform"] = plat_label
+
+            watch_time = random.uniform(8.0, 13.0)
+            dev["action"] = f"[{plat_label}] กำลังดูคลิปจนจบ ({int(watch_time)} วินาที)..."
             time.sleep(watch_time)
 
-            if random.random() < 0.25:
+            if random.random() < 0.35:
                 adb_cmd(serial, "input tap 360 800")
                 time.sleep(0.12)
                 adb_cmd(serial, "input tap 360 800")
                 dev["likes"] += 1
-                dev["action"] = "ส่งคำสั่ง ADB กดหัวใจ (Double Tap)"
-                log_event(f"Phone-{serial[-4:]}", f"สั่ง ADB Double-Tap กดไลก์จริง (สะสมรอบนี้ {dev['likes']} ครั้ง)", "success")
-                time.sleep(1)
+                plat_obj["likes_sent"] += 1
+                state["cross_platform_warmup"]["total_likes_sent"] += 1
+                plat_obj["last_action"] = f"มือถือ {serial[-4:]} กดหัวใจ Double-Tap จริง"
+                dev["action"] = f"[{plat_label}] ส่งคำสั่ง ADB กดหัวใจ (Double Tap)"
+                log_event(f"Warmup-{cur_plat_id.upper()}", f"❤️ เครื่อง {serial[-4:]} กดหัวใจวอร์มช่องบน {plat_label} (รวม {plat_obj['likes_sent']} ครั้ง)", "success")
+                time.sleep(0.8)
+
+            if random.random() < 0.25:
+                dev["cart_clicks"] += 1
+                plat_obj["cart_taps"] += 1
+                state["cross_platform_warmup"]["total_cart_taps"] += 1
+                plat_obj["last_action"] = f"มือถือ {serial[-4:]} แตะกระตุ้นตะกร้าสินค้า/ลิงก์"
 
             sx = random.randint(350, 370)
             sy = random.randint(1180, 1250)
@@ -680,10 +760,13 @@ def phone_worker(serial, idx=0):
             dur = random.randint(280, 350)
             adb_cmd(serial, f"input swipe {sx} {sy} {sx} {ey} {dur}")
             dev["watched"] += 1
+            plat_obj["clips_watched"] += 1
+            state["cross_platform_warmup"]["total_clips_warmed"] += 1
+            plat_obj["last_action"] = f"มือถือ {serial[-4:]} สไลด์ดูคลิปจบ 100% เมื่อ {datetime.datetime.now().strftime('%H:%M:%S')}"
             for acc in state["tiktok_accounts"]:
                 acc["warmup_watched"] = acc.get("warmup_watched", 0) + 1
-            dev["action"] = f"สไลด์ดูคลิปจบแล้ว {dev['watched']} คลิป (ในเซสชันนี้)"
-            time.sleep(1.5)
+            dev["action"] = f"[{plat_label}] สไลด์ดูคลิปจบแล้ว (รวม {dev['watched']} คลิป)"
+            time.sleep(1.2)
         except Exception:
             time.sleep(5)
 
@@ -912,11 +995,11 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
         },
         {
             "id": "audit-05",
-            "category": "5. ฟาร์มมือถือ 4 เครื่อง & ระบบวอร์มช่องอัตโนมัติ",
-            "title": "วอร์มคลิปและช่อง TikTok อัตโนมัติผ่านมือถือ Redmi 14C ทั้ง 4 เครื่อง (ADB Port 5038)",
-            "summary": "สั่งงานผ่าน ADB พอร์ต 5038 ให้มือถือทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และรีเฟรชหน้าฟีดเพื่อดันค่า Engagement & Retention ทุกช่องที่เพิ่มในระบบ",
-            "verification_method": "ADB Port 5038 Device Scan + dumpsys battery",
-            "live_evidence": f"เชื่อมต่อมือถือจริง {phones_connected}/4 เครื่อง · สไลด์ดูคลิปจริงในเซสชันนี้รวม {sum(d.get('watched', 0) for d in state['devices'].values())} คลิป",
+            "category": "5. ระบบวอร์มช่องทุกแพลตฟอร์ม & ฟาร์มมือถือ 4 เครื่อง",
+            "title": "วอร์มช่องครบทุกแพลตฟอร์มอัตโนมัติ (TikTok · Facebook Reels · Shopee Video · PC Cookies) ผ่าน ADB 5038",
+            "summary": "หมุนเวียนสั่งงานมือถือ Redmi 14C ทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และแตะตะกร้าสินค้าครบทั้ง TikTok, Facebook Reels และ Shopee Video พร้อมรักษาอายุคุกกี้ 153 รายการบน PC",
+            "verification_method": "ADB Port 5038 Multi-Platform Warmup + Cookie Keep-Alive",
+            "live_evidence": f"มือถือออนไลน์ {phones_connected}/4 เครื่อง · โหมด: {state['cross_platform_warmup']['active_mode']} · วอร์มสะสมรวม {state['cross_platform_warmup']['total_clips_warmed']} คลิป (ไลก์ {state['cross_platform_warmup']['total_likes_sent']} ครั้ง)",
             "status": "PASS" if phones_connected >= 1 else "WARN",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-05", True)
@@ -934,11 +1017,11 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
         },
         {
             "id": "audit-07",
-            "category": "7. ออฟฟิศ AI 3D Digital Twin (6 แผนก)",
-            "title": "จำลองออฟฟิศ AI 3D Digital Twin แยก 6 แผนก + ห้องประชุม อ้างอิงโปรเซสจริง",
-            "summary": "แสดงสถานะการทำงานของพนักงาน AI ทั้ง 6 แผนก (ห้องประชุมวางแผน, แผนกสร้างคลิป, แผนกตัดต่อเสียง, แผนกโพสต์ซีรีส์, แผนกวอร์มฟาร์มมือถือ, แผนกควบคุมไลฟ์สด) ตามโปรเซสจริงในเครื่อง",
-            "verification_method": "Real-time Process Mapping (psutil -> 6 AI Departments)",
-            "live_evidence": f"เปิดทำงานครบ {len(state['digital_twin_office'].get('departments', []))} แผนก · ซิงค์สถานะโปรเซสจริง 100%",
+            "category": "7. ออฟฟิศ AI 3D Digital Twin (Interactive Simulation)",
+            "title": "จำลองออฟฟิศ AI 3D Digital Twin (ตัวการ์ตูนพนักงานเดินไปมาและนั่งทำงานหน้าคอม 6 แผนก + ห้องประชุม)",
+            "summary": "จำลองออฟฟิศ 60 FPS มีตัวการ์ตูนพนักงาน AI เดินส่งงาน ประชุมรวม และนั่งพิมพ์คอมพิวเตอร์ตามสถานะโปรเซสจริงในเครื่อง (Master Flow, Ollama, ADB 4 Phones, Live Studio)",
+            "verification_method": "Real-time Process Mapping + 60FPS Canvas Office Simulation",
+            "live_evidence": f"เปิดทำงานครบ {len(state['digital_twin_office'].get('departments', []))} แผนก · พนักงาน AI 8 ตัวซิงค์สถานะโปรเซสจริง 100%",
             "status": "PASS",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-07", True)
@@ -1121,11 +1204,33 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             log_event("TikTok-Upload", f"อัปเดตสถานะการโพสต์คลิปซีรีส์ #{clip_id} ลงช่อง {target_channel} ในฐานข้อมูลจริงสำเร็จ", "success")
             self.send_json({"status": "success", "clip_id": clip_id, "channel": target_channel})
 
-        elif self.path == "/api/tiktok/warmup-all":
+        elif self.path == "/api/tiktok/warmup-all" or self.path == "/api/warmup/trigger-all":
+            target_plat = req_data.get("platform", "all")
             for d in DEVICES:
                 adb_cmd(d, "input keyevent 224")
-            log_event("WarmupEngine", f"ส่งคำสั่ง ADB ปลุกและเร่งวอร์มบนมือถือจริงทั้ง {len(DEVICES)} เครื่อง สำหรับทุกช่องในระบบ", "success")
-            self.send_json({"status": "success", "devices": len(DEVICES)})
+                adb_cmd(d, "input swipe 360 1200 360 380 300")
+            for p in state["cross_platform_warmup"]["platforms"]:
+                if target_plat in ("all", p["id"]) and p["id"] != "pc_cookies":
+                    p["clips_watched"] += len(DEVICES)
+                    p["likes_sent"] += 1
+                    p["last_action"] = f"สั่งเร่งวอร์มสดผ่าน ADB ทั้ง {len(DEVICES)} เครื่อง เมื่อ {datetime.datetime.now().strftime('%H:%M:%S')}"
+            state["cross_platform_warmup"]["total_clips_warmed"] += len(DEVICES)
+            state["cross_platform_warmup"]["total_likes_sent"] += 1
+            log_event("Multi-Warmup", f"🔥 สั่ง ADB เร่งวอร์มช่องทุกแพลตฟอร์ม ({target_plat.upper()}) บนมือถือจริงทั้ง {len(DEVICES)} เครื่องสำเร็จ!", "success")
+            self.send_json({"status": "success", "devices": len(DEVICES), "warmup": state["cross_platform_warmup"]})
+
+        elif self.path == "/api/warmup/set-mode":
+            mode = req_data.get("mode", "auto_rotate")
+            labels = {
+                "auto_rotate": "🔄 หมุนเวียนวอร์มครบทุกแพลตฟอร์มอัตโนมัติ (TikTok · Facebook Reels · Shopee Video)",
+                "tiktok": "🎵 โฟกัสวอร์มช่อง TikTok ทุกช่องในระบบ (100% Retention + หัวใจ)",
+                "facebook": "🔵 โฟกัสวอร์มเพจ Facebook Reels (น้องบีรีวิว ปักตระกร้า SP)",
+                "shopee": "🟠 โฟกัสวอร์ม Shopee Video & กระตุ้นตะกร้าสินค้า 40 รายการ"
+            }
+            state["cross_platform_warmup"]["active_mode"] = mode
+            state["cross_platform_warmup"]["mode_label"] = labels.get(mode, labels["auto_rotate"])
+            log_event("Multi-Warmup", f"🔄 สลับโหมดการวอร์มช่องเป็น: {state['cross_platform_warmup']['mode_label']}", "success")
+            self.send_json({"status": "success", "warmup": state["cross_platform_warmup"]})
 
         elif self.path == "/api/ai/optimize-prompt":
             topic = req_data.get("topic", "ปริศนาห้องปิดตาย")

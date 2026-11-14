@@ -1,6 +1,6 @@
 {
-  "last_audit_at": "2026-11-14 22:26:59",
-  "next_audit_at": "2026-11-15 01:26:59",
+  "last_audit_at": "2026-11-14 22:41:27",
+  "next_audit_at": "2026-11-15 01:41:27",
   "user_confirmed_at": "Auto-Confirmed",
   "passed_items": 12,
   "total_items": 12,
@@ -13,7 +13,7 @@
       "verification_method": "SQLite Query: accounts, products, generations, settings",
       "live_evidence": "พบ 5 บัญชีจริง · คลิปสร้างเสร็จ 339 คลิป · สินค้า 40 รายการ",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -24,7 +24,7 @@
       "verification_method": "Process Check (Master Flow.exe) + Google Flow Cookies & Queue Check",
       "live_evidence": "Master Flow: 🟢 ทำงานอยู่ · โหมด: ACTIVE · รอคิว 4 คลิป",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -35,7 +35,7 @@
       "verification_method": "HTTP Ping 127.0.0.1:11434 (ollama.exe) + whisperMode='local'",
       "live_evidence": "Ollama Llama 3.1: 🟢 ออนไลน์ · รันปรับ Prompt จริงแล้ว 1 ครั้ง (0 Token Cost)",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -46,18 +46,18 @@
       "verification_method": "File Verification (story-vid-*.mp4) + Meta Graph API v26.0",
       "live_evidence": "คิวซีรีส์พร้อมโพสต์ 10 ตอน · ยอดวิวเพจจริง 40 วิว · ช่อง TikTok ในระบบ 1 ช่อง",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
       "id": "audit-05",
-      "category": "5. ฟาร์มมือถือ 4 เครื่อง & ระบบวอร์มช่องอัตโนมัติ",
-      "title": "วอร์มคลิปและช่อง TikTok อัตโนมัติผ่านมือถือ Redmi 14C ทั้ง 4 เครื่อง (ADB Port 5038)",
-      "summary": "สั่งงานผ่าน ADB พอร์ต 5038 ให้มือถือทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และรีเฟรชหน้าฟีดเพื่อดันค่า Engagement & Retention ทุกช่องที่เพิ่มในระบบ",
-      "verification_method": "ADB Port 5038 Device Scan + dumpsys battery",
-      "live_evidence": "เชื่อมต่อมือถือจริง 4/4 เครื่อง · สไลด์ดูคลิปจริงในเซสชันนี้รวม 4 คลิป",
+      "category": "5. ระบบวอร์มช่องทุกแพลตฟอร์ม & ฟาร์มมือถือ 4 เครื่อง",
+      "title": "วอร์มช่องครบทุกแพลตฟอร์มอัตโนมัติ (TikTok · Facebook Reels · Shopee Video · PC Cookies) ผ่าน ADB 5038",
+      "summary": "หมุนเวียนสั่งงานมือถือ Redmi 14C ทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และแตะตะกร้าสินค้าครบทั้ง TikTok, Facebook Reels และ Shopee Video พร้อมรักษาอายุคุกกี้ 153 รายการบน PC",
+      "verification_method": "ADB Port 5038 Multi-Platform Warmup + Cookie Keep-Alive",
+      "live_evidence": "มือถือออนไลน์ 4/4 เครื่อง · โหมด: auto_rotate · วอร์มสะสมรวม 8 คลิป (ไลก์ 3 ครั้ง)",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -66,20 +66,20 @@
       "title": "เชื่อมต่อ TikTok LIVE Studio (ClosecOneShop) & ฉากไลฟ์ 9:16 ไร้ลายน้ำ 4 ธีมกระแสแรง",
       "summary": "รองรับการนำลิงก์ HTTPS (/live-scene) หรือ Window Capture เข้า TikTok LIVE Studio พร้อม 4 ธีมต้นฉบับ (พญานาค, พระพิฆเนศ, ไฉ่ซิงเอี๊ย, ไพ่ทาโรต์แมวมงคล) มีเสียงอ่านไทย TTS และดึงแชทจริง",
       "verification_method": "Process Check (TikTok LIVE Studio) + Asset Check (4 Original Themes) + HTTPS /live-scene",
-      "live_evidence": "TikTok LIVE Studio: 🟢 เปิดทำงานอยู่ · ธีมไร้ลายน้ำครบ 4/4 ธีม · ธีมปัจจุบัน: naga",
+      "live_evidence": "TikTok LIVE Studio: 🟡 รอเปิดโปรแกรม · ธีมไร้ลายน้ำครบ 4/4 ธีม · ธีมปัจจุบัน: naga",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
       "id": "audit-07",
-      "category": "7. ออฟฟิศ AI 3D Digital Twin (6 แผนก)",
-      "title": "จำลองออฟฟิศ AI 3D Digital Twin แยก 6 แผนก + ห้องประชุม อ้างอิงโปรเซสจริง",
-      "summary": "แสดงสถานะการทำงานของพนักงาน AI ทั้ง 6 แผนก (ห้องประชุมวางแผน, แผนกสร้างคลิป, แผนกตัดต่อเสียง, แผนกโพสต์ซีรีส์, แผนกวอร์มฟาร์มมือถือ, แผนกควบคุมไลฟ์สด) ตามโปรเซสจริงในเครื่อง",
-      "verification_method": "Real-time Process Mapping (psutil -> 6 AI Departments)",
-      "live_evidence": "เปิดทำงานครบ 6 แผนก · ซิงค์สถานะโปรเซสจริง 100%",
+      "category": "7. ออฟฟิศ AI 3D Digital Twin (Interactive Simulation)",
+      "title": "จำลองออฟฟิศ AI 3D Digital Twin (ตัวการ์ตูนพนักงานเดินไปมาและนั่งทำงานหน้าคอม 6 แผนก + ห้องประชุม)",
+      "summary": "จำลองออฟฟิศ 60 FPS มีตัวการ์ตูนพนักงาน AI เดินส่งงาน ประชุมรวม และนั่งพิมพ์คอมพิวเตอร์ตามสถานะโปรเซสจริงในเครื่อง (Master Flow, Ollama, ADB 4 Phones, Live Studio)",
+      "verification_method": "Real-time Process Mapping + 60FPS Canvas Office Simulation",
+      "live_evidence": "เปิดทำงานครบ 6 แผนก · พนักงาน AI 8 ตัวซิงค์สถานะโปรเซสจริง 100%",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -90,7 +90,7 @@
       "verification_method": "Ledger File Check (revenue_ledger.json) + SQLite products table",
       "live_evidence": "ยอดบันทึกจริงวันนี้ ฿0.00 · สินค้าพร้อมปักตะกร้า 40 รายการ (คอมมิชชันเฉลี่ย 5% - 15.6% (จากสินค้าจริง 40 รายการใน DB))",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -99,9 +99,9 @@
       "title": "แสดง Performance การทำงานของเครื่อง PC (CPU/RAM/Disk) และมือถือทั้ง 4 เครื่องแบบเรียลไทม์",
       "summary": "ตรวจสอบโหลด CPU, RAM, พื้นที่ Disk, Uptime ของคอมพิวเตอร์ และระดับแบตเตอรี่/อุณหภูมิ (°C)/ค่า Ping ADB ของมือถือ Redmi 14C ทุกเครื่อง",
       "verification_method": "psutil Hardware Telemetry + ADB dumpsys battery",
-      "live_evidence": "PC CPU 36.3% · RAM 37.9% · Disk 44.4% · Uptime 00:00:30",
+      "live_evidence": "PC CPU 41.7% · RAM 34.4% · Disk 44.4% · Uptime 00:00:24",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -112,7 +112,7 @@
       "verification_method": "Schedule Guard Worker + 20s Shutdown Countdown State Check",
       "live_evidence": "สถานะเวลา: กำลังดำเนินการตามเวลาจริง (In Operating Hours) · โหมด Popup 20 วินาที: พร้อมทำงาน (Active=False)",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -123,7 +123,7 @@
       "verification_method": "Startup Script Check + ADB stay_on_while_plugged_in & Watchdog",
       "live_evidence": "PC Auto-Start & Wake Timer: ARMED · Phone Watchdog (30s): ซิงค์ครบ 4 เครื่อง",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     },
     {
@@ -134,11 +134,27 @@
       "verification_method": "Process Check (cloudflared.exe) + Git Repo Sync Verification",
       "live_evidence": "Cloudflare Tunnel: 🟢 ออนไลน์ (https://preserve-near-firms-blank.trycloudflare.com) · GitHub Synced",
       "status": "PASS",
-      "checked_at": "2026-11-14 22:26:59",
+      "checked_at": "2026-11-14 22:41:27",
       "confirmed": true
     }
   ],
   "audit_history": [
+    {
+      "audit_time": "2026-11-14 22:41:27",
+      "next_scheduled": "2026-11-15 01:41:27",
+      "trigger": "Auto-Audit with All-Platform Warmup & 3D Cartoon Office",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 41.7%"
+    },
+    {
+      "audit_time": "2026-11-14 22:41:11",
+      "next_scheduled": "2026-11-15 01:41:11",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
     {
       "audit_time": "2026-11-14 22:26:59",
       "next_scheduled": "2026-11-15 01:26:59",
