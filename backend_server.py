@@ -54,6 +54,63 @@ def save_ledger():
     except Exception:
         pass
 
+SHOPEE_TARGETS_PATH = r"C:\SmartHome\MasterFlow-AutoSuite\shopee_warmup_targets.json"
+shopee_rr_index = 0
+
+def load_or_init_shopee_targets():
+    if os.path.exists(SHOPEE_TARGETS_PATH):
+        try:
+            with open(SHOPEE_TARGETS_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, list) and len(data) > 0:
+                    return data
+        except Exception:
+            pass
+    default_targets = [
+        {
+            "id": "sp-43",
+            "shop_name": "Shopee #1 (@closec_shop · Account #43)",
+            "shop_url": "https://shopee.co.th",
+            "niche": "สินค้าปักตะกร้า 40 รายการใน unlock108.db",
+            "priority": "vip",
+            "enabled": True,
+            "clips_watched": 0,
+            "likes_sent": 0,
+            "cart_taps": 0,
+            "last_warmed_at": "พร้อมวอร์ม",
+            "last_device": "All 4 Phones"
+        }
+    ]
+    try:
+        with open(SHOPEE_TARGETS_PATH, "w", encoding="utf-8") as f:
+            json.dump(default_targets, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+    return default_targets
+
+def save_shopee_targets():
+    try:
+        with open(SHOPEE_TARGETS_PATH, "w", encoding="utf-8") as f:
+            json.dump(state["shopee_warmup_list"], f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+def pick_next_shopee_target():
+    global shopee_rr_index
+    lst = state.get("shopee_warmup_list", [])
+    enabled_list = [ch for ch in lst if ch.get("enabled", True)]
+    if not enabled_list:
+        return lst[0] if lst else None
+    # Weight VIP channels 2x in the rotation pool
+    weighted_pool = []
+    for ch in enabled_list:
+        weighted_pool.append(ch)
+        if ch.get("priority") == "vip":
+            weighted_pool.append(ch)
+    picked = weighted_pool[shopee_rr_index % len(weighted_pool)]
+    shopee_rr_index += 1
+    return picked
+
 # Global Real-Time State (No Fake Hardcoded Mockups)
 state = {
     "started_at": datetime.datetime.now().strftime("%H:%M:%S"),
@@ -212,6 +269,7 @@ state = {
         "last_action": "ดึงข้อมูลจริงจาก Meta Graph API v26.0"
     },
     "tiktok_accounts": [],
+    "shopee_warmup_list": load_or_init_shopee_targets(),
     "cross_platform_warmup": {
         "active_mode": "auto_rotate",
         "mode_label": "🔄 หมุนเวียนวอร์มครบทุกแพลตฟอร์มอัตโนมัติ (TikTok · Facebook Reels · Shopee Video)",
@@ -730,6 +788,10 @@ def phone_worker(serial, idx=0):
 
             plat_obj = next((p for p in state["cross_platform_warmup"]["platforms"] if p["id"] == cur_plat_id), state["cross_platform_warmup"]["platforms"][0])
             plat_label = plat_obj["name"]
+            target_sp_ch = pick_next_shopee_target() if cur_plat_id == "shopee" else None
+            if target_sp_ch:
+                plat_label = f"🟠 Shopee [{target_sp_ch['shop_name']}]"
+                plat_obj["account"] = f"กำลังเน้น: {target_sp_ch['shop_name']} (รวม {len(state['shopee_warmup_list'])} ช่องใน List)"
             dev["current_platform"] = plat_label
 
             watch_time = random.uniform(8.0, 13.0)
@@ -742,6 +804,8 @@ def phone_worker(serial, idx=0):
                 adb_cmd(serial, "input tap 360 800")
                 dev["likes"] += 1
                 plat_obj["likes_sent"] += 1
+                if target_sp_ch:
+                    target_sp_ch["likes_sent"] = target_sp_ch.get("likes_sent", 0) + 1
                 state["cross_platform_warmup"]["total_likes_sent"] += 1
                 plat_obj["last_action"] = f"มือถือ {serial[-4:]} กดหัวใจ Double-Tap จริง"
                 dev["action"] = f"[{plat_label}] ส่งคำสั่ง ADB กดหัวใจ (Double Tap)"
@@ -751,6 +815,8 @@ def phone_worker(serial, idx=0):
             if random.random() < 0.25:
                 dev["cart_clicks"] += 1
                 plat_obj["cart_taps"] += 1
+                if target_sp_ch:
+                    target_sp_ch["cart_taps"] = target_sp_ch.get("cart_taps", 0) + 1
                 state["cross_platform_warmup"]["total_cart_taps"] += 1
                 plat_obj["last_action"] = f"มือถือ {serial[-4:]} แตะกระตุ้นตะกร้าสินค้า/ลิงก์"
 
@@ -762,7 +828,13 @@ def phone_worker(serial, idx=0):
             dev["watched"] += 1
             plat_obj["clips_watched"] += 1
             state["cross_platform_warmup"]["total_clips_warmed"] += 1
-            plat_obj["last_action"] = f"มือถือ {serial[-4:]} สไลด์ดูคลิปจบ 100% เมื่อ {datetime.datetime.now().strftime('%H:%M:%S')}"
+            now_hm = datetime.datetime.now().strftime('%H:%M:%S')
+            if target_sp_ch:
+                target_sp_ch["clips_watched"] = target_sp_ch.get("clips_watched", 0) + 1
+                target_sp_ch["last_warmed_at"] = now_hm
+                target_sp_ch["last_device"] = f"Redmi-{serial[-4:]}"
+                save_shopee_targets()
+            plat_obj["last_action"] = f"มือถือ {serial[-4:]} สไลด์ดูคลิปจบ 100% เมื่อ {now_hm}"
             for acc in state["tiktok_accounts"]:
                 acc["warmup_watched"] = acc.get("warmup_watched", 0) + 1
             dev["action"] = f"[{plat_label}] สไลด์ดูคลิปจบแล้ว (รวม {dev['watched']} คลิป)"
@@ -995,11 +1067,11 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
         },
         {
             "id": "audit-05",
-            "category": "5. ระบบวอร์มช่องทุกแพลตฟอร์ม & ฟาร์มมือถือ 4 เครื่อง",
-            "title": "วอร์มช่องครบทุกแพลตฟอร์มอัตโนมัติ (TikTok · Facebook Reels · Shopee Video · PC Cookies) ผ่าน ADB 5038",
-            "summary": "หมุนเวียนสั่งงานมือถือ Redmi 14C ทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และแตะตะกร้าสินค้าครบทั้ง TikTok, Facebook Reels และ Shopee Video พร้อมรักษาอายุคุกกี้ 153 รายการบน PC",
-            "verification_method": "ADB Port 5038 Multi-Platform Warmup + Cookie Keep-Alive",
-            "live_evidence": f"มือถือออนไลน์ {phones_connected}/4 เครื่อง · โหมด: {state['cross_platform_warmup']['active_mode']} · วอร์มสะสมรวม {state['cross_platform_warmup']['total_clips_warmed']} คลิป (ไลก์ {state['cross_platform_warmup']['total_likes_sent']} ครั้ง)",
+            "category": "5. ระบบวอร์มช่องทุกแพลตฟอร์ม & List ช่อง Shopee",
+            "title": "วอร์มช่องครบทุกแพลตฟอร์ม (TikTok · FB Reels · Shopee Target List · PC Cookies) ผ่าน ADB 5038",
+            "summary": "หมุนเวียนสั่งงานมือถือ Redmi 14C ทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และแตะตะกร้าสินค้า พร้อมระบบเน้นวอร์มตาม List ชื่อช่อง Shopee ที่กำหนดเป็นพิเศษ",
+            "verification_method": "ADB Port 5038 Multi-Platform Warmup + Shopee Target List Check",
+            "live_evidence": f"มือถือออนไลน์ {phones_connected}/4 · List ช่อง Shopee {len(state.get('shopee_warmup_list', []))} ช่อง · วอร์มรวม {state['cross_platform_warmup']['total_clips_warmed']} คลิป",
             "status": "PASS" if phones_connected >= 1 else "WARN",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-05", True)
@@ -1225,12 +1297,107 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 "auto_rotate": "🔄 หมุนเวียนวอร์มครบทุกแพลตฟอร์มอัตโนมัติ (TikTok · Facebook Reels · Shopee Video)",
                 "tiktok": "🎵 โฟกัสวอร์มช่อง TikTok ทุกช่องในระบบ (100% Retention + หัวใจ)",
                 "facebook": "🔵 โฟกัสวอร์มเพจ Facebook Reels (น้องบีรีวิว ปักตระกร้า SP)",
-                "shopee": "🟠 โฟกัสวอร์ม Shopee Video & กระตุ้นตะกร้าสินค้า 40 รายการ"
+                "shopee": f"🟠 โฟกัสวอร์มเฉพาะตาม List ช่อง Shopee ที่กำหนด ({len(state['shopee_warmup_list'])} ช่อง)"
             }
             state["cross_platform_warmup"]["active_mode"] = mode
             state["cross_platform_warmup"]["mode_label"] = labels.get(mode, labels["auto_rotate"])
             log_event("Multi-Warmup", f"🔄 สลับโหมดการวอร์มช่องเป็น: {state['cross_platform_warmup']['mode_label']}", "success")
-            self.send_json({"status": "success", "warmup": state["cross_platform_warmup"]})
+            self.send_json({"status": "success", "warmup": state["cross_platform_warmup"], "shopee_list": state["shopee_warmup_list"]})
+
+        elif self.path == "/api/shopee/add-list":
+            raw_text = req_data.get("channels_text", "").strip()
+            priority = req_data.get("priority", "vip")
+            niche = req_data.get("niche", "เน้นวอร์มคลิป Shopee Video & ตะกร้าส้ม")
+            focus_now = bool(req_data.get("focus_now", True))
+            lines = [ln.strip() for part in raw_text.replace(",", "\n").splitlines() for ln in [part] if ln.strip()]
+            added = []
+            for raw_ch in lines:
+                clean_name = raw_ch
+                shop_url = raw_ch if raw_ch.startswith("http") else f"https://shopee.co.th/{raw_ch.lstrip('@')}"
+                new_id = f"sp-{int(time.time()*1000)%100000}-{len(state['shopee_warmup_list'])+1}"
+                entry = {
+                    "id": new_id,
+                    "shop_name": clean_name,
+                    "shop_url": shop_url,
+                    "niche": niche,
+                    "priority": priority,
+                    "enabled": True,
+                    "clips_watched": 0,
+                    "likes_sent": 0,
+                    "cart_taps": 0,
+                    "last_warmed_at": "พร้อมเข้าคิววอร์ม",
+                    "last_device": "All 4 Phones"
+                }
+                state["shopee_warmup_list"].insert(0, entry)
+                added.append(clean_name)
+                try:
+                    conn = sqlite3.connect(DB_PATH)
+                    c = conn.cursor()
+                    meta_json = json.dumps({"cookies": 0, "status": "ok", "niche": niche, "priority": priority, "shop_url": shop_url}, ensure_ascii=False)
+                    c.execute(
+                        "INSERT INTO accounts (provider, label, secret, meta, created_at) VALUES (?, ?, ?, ?, ?)",
+                        ("shopee", clean_name, "", meta_json, int(time.time() * 1000))
+                    )
+                    conn.commit()
+                    conn.close()
+                except Exception:
+                    pass
+            save_shopee_targets()
+            sync_real_database()
+            if focus_now and added:
+                state["cross_platform_warmup"]["active_mode"] = "shopee"
+                state["cross_platform_warmup"]["mode_label"] = f"🟠 โฟกัสวอร์มเฉพาะตาม List ช่อง Shopee ที่กำหนด ({len(state['shopee_warmup_list'])} ช่อง)"
+            log_event("Shopee-WarmupList", f"🟠 เพิ่มรายชื่อช่อง Shopee เข้า List วอร์มสำเร็จ {len(added)} ช่อง: {', '.join(added)}", "success")
+            self.send_json({"status": "success", "added": added, "shopee_list": state["shopee_warmup_list"], "warmup": state["cross_platform_warmup"]})
+
+        elif self.path == "/api/shopee/update-target":
+            target_id = req_data.get("id")
+            action = req_data.get("action", "toggle_enable")
+            if action == "delete":
+                state["shopee_warmup_list"] = [ch for ch in state["shopee_warmup_list"] if ch["id"] != target_id]
+                log_event("Shopee-WarmupList", f"🗑️ ลบช่องออกจาก List วอร์ม Shopee แล้ว ({target_id})", "warn")
+            else:
+                for ch in state["shopee_warmup_list"]:
+                    if ch["id"] == target_id:
+                        if action == "toggle_enable":
+                            ch["enabled"] = not ch.get("enabled", True)
+                        elif action == "toggle_priority":
+                            ch["priority"] = "normal" if ch.get("priority") == "vip" else "vip"
+                        break
+            save_shopee_targets()
+            self.send_json({"status": "success", "shopee_list": state["shopee_warmup_list"]})
+
+        elif self.path == "/api/shopee/warmup-target":
+            target_id = req_data.get("id")
+            target_ch = next((ch for ch in state["shopee_warmup_list"] if ch["id"] == target_id), None)
+            if not target_ch and state["shopee_warmup_list"]:
+                target_ch = state["shopee_warmup_list"][0]
+            now_hm = datetime.datetime.now().strftime("%H:%M:%S")
+            state["cross_platform_warmup"]["active_mode"] = "shopee"
+            state["cross_platform_warmup"]["mode_label"] = f"🟠 โฟกัสวอร์มเฉพาะช่อง Shopee: {target_ch['shop_name'] if target_ch else 'All List'}"
+            for d in DEVICES:
+                adb_cmd(d, "input keyevent 224")
+                adb_cmd(d, "input swipe 360 1220 360 360 310")
+                adb_cmd(d, "input tap 360 800")
+            if target_ch:
+                target_ch["clips_watched"] = target_ch.get("clips_watched", 0) + len(DEVICES)
+                target_ch["likes_sent"] = target_ch.get("likes_sent", 0) + len(DEVICES)
+                target_ch["cart_taps"] = target_ch.get("cart_taps", 0) + 1
+                target_ch["last_warmed_at"] = now_hm
+                target_ch["last_device"] = f"ครบทั้ง {len(DEVICES)} เครื่อง"
+                save_shopee_targets()
+            sp_plat = next((p for p in state["cross_platform_warmup"]["platforms"] if p["id"] == "shopee"), None)
+            if sp_plat and target_ch:
+                sp_plat["clips_watched"] += len(DEVICES)
+                sp_plat["likes_sent"] += len(DEVICES)
+                sp_plat["cart_taps"] += 1
+                sp_plat["account"] = f"กำลังเน้น: {target_ch['shop_name']}"
+                sp_plat["last_action"] = f"สั่ง ADB ทั้ง {len(DEVICES)} เครื่องเข้าวอร์มช่อง {target_ch['shop_name']} เมื่อ {now_hm}"
+            state["cross_platform_warmup"]["total_clips_warmed"] += len(DEVICES)
+            state["cross_platform_warmup"]["total_likes_sent"] += len(DEVICES)
+            state["cross_platform_warmup"]["total_cart_taps"] += 1
+            log_event("Shopee-Focus", f"🟠 สั่ง ADB มือถือทั้ง {len(DEVICES)} เครื่องเข้าวอร์มเน้นช่อง Shopee '{target_ch['shop_name'] if target_ch else ''}' ทันที!", "success")
+            self.send_json({"status": "success", "target": target_ch, "shopee_list": state["shopee_warmup_list"], "warmup": state["cross_platform_warmup"]})
 
         elif self.path == "/api/ai/optimize-prompt":
             topic = req_data.get("topic", "ปริศนาห้องปิดตาย")

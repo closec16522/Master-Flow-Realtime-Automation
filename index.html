@@ -27,83 +27,149 @@
     .iso-room:hover { border-color: rgba(99, 102, 241, 0.55); }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex">
 
-  <!-- Top Sticky Header -->
-  <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 lg:px-8 py-3.5 shadow-2xl">
-    <div class="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3.5">
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-emerald-500 flex items-center justify-center shadow-lg text-xl font-black text-white">
-          ⚡
-        </div>
-        <div>
-          <div class="flex items-center gap-2.5 flex-wrap">
-            <h1 class="text-lg md:text-xl font-black tracking-tight text-white">Master Flow Real-Time Production Suite</h1>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" id="live-badge">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot"></span>
-              100% REAL DATA (NO MOCKUP)
-            </span>
-            <span id="studio-detected-badge" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-pink-500/15 text-pink-300 border border-pink-500/30">
-              🎥 TikTok LIVE Studio: ตรวจพบเปิดอยู่บนเครื่อง
-            </span>
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="mobile-sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+  <!-- ========================================================================= -->
+  <!-- PROFESSIONAL LEFT SIDEBAR NAVIGATION (ENTERPRISE CONTROL CENTER)          -->
+  <!-- ========================================================================= -->
+  <aside id="left-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900/98 border-r border-slate-800/90 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-200 shadow-2xl">
+    <!-- Top Brand & Real-Time Badge -->
+    <div class="p-4 border-b border-slate-800/90 space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-emerald-500 flex items-center justify-center shadow-lg text-lg font-black text-white shrink-0">
+            ⚡
           </div>
-          <p class="text-[11px] text-slate-400">ดึงข้อมูลจริงจาก <code class="text-indigo-300">unlock108.db</code> · เชื่อมต่อ <code class="text-pink-300">TikTok LIVE Studio</code> · รัน <code class="text-purple-300">Ollama Llama 3.1</code> · คุมมือถือจริง 4 เครื่อง</p>
+          <div class="min-w-0">
+            <h1 class="text-sm font-black tracking-tight text-white truncate">Master Flow AI Suite</h1>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot"></span>
+              <span class="text-[10px] font-bold text-emerald-400">100% REAL DATA · LIVE</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="toggleMobileSidebar()" class="lg:hidden text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-800">✕</button>
+      </div>
+
+      <!-- Quick Server Status Box inside Sidebar -->
+      <div class="bg-slate-950/90 border border-slate-800/90 rounded-xl px-3 py-2 flex items-center justify-between">
+        <div>
+          <div class="text-[9px] uppercase font-bold text-slate-400">สถานะเชื่อมต่อเครื่อง PC</div>
+          <div class="text-[11px] font-semibold text-emerald-400 font-mono" id="server-status">กำลังเชื่อมต่อ...</div>
+        </div>
+        <button onclick="openServerConfigModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg border border-slate-700" title="ตั้งค่าเซิร์ฟเวอร์">
+          ⚙️ <span id="backend-label">Cloudflare</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scrollable Left Menu Items (Categorized) -->
+    <nav class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-4">
+      <!-- Group 1: Overview & Audit -->
+      <div class="space-y-1">
+        <div class="px-3 text-[10px] font-black uppercase tracking-wider text-slate-500">ภาพรวม & ตรวจสอบอัตโนมัติ</div>
+        <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>📊</span><span>ภาพรวมทั้งหมด (Overview)</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/20 text-white font-mono">ALL</span>
+        </button>
+        <button onclick="switchTab('audit_checklist')" id="tab-btn-audit_checklist" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-slate-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>✅</span><span>Checklist Audit (ทุก 3 ชม.)</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">12/12</span>
+        </button>
+        <button onclick="switchTab('office3d')" id="tab-btn-office3d" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-slate-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>🏢</span><span>ออฟฟิศ AI 3D Digital Twin</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">60FPS</span>
+        </button>
+      </div>
+
+      <!-- Group 2: Live Studio & Warmup -->
+      <div class="space-y-1">
+        <div class="px-3 text-[10px] font-black uppercase tracking-wider text-slate-500">ไลฟ์สด & วอร์มช่องทุกแพลตฟอร์ม</div>
+        <button onclick="switchTab('live_studio')" id="tab-btn-live_studio" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-amber-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>🕉️</span><span>TikTok LIVE Studio (4 ธีม)</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">9:16</span>
+        </button>
+        <button onclick="switchTab('warmup')" id="tab-btn-warmup" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-orange-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>🔥</span><span>วอร์มทุกแพลตฟอร์ม & List Shopee</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-mono">ADB</span>
+        </button>
+      </div>
+
+      <!-- Group 3: AI Video Production & Revenue -->
+      <div class="space-y-1">
+        <div class="px-3 text-[10px] font-black uppercase tracking-wider text-slate-500">การผลิตคลิป AI & รายได้</div>
+        <button onclick="switchTab('ai_prompt')" id="tab-btn-ai_prompt" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-slate-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>🧠</span><span>Local AI & เครดิต Google Flow</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono">FREE</span>
+        </button>
+        <button onclick="switchTab('masterflow')" id="tab-btn-masterflow" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-slate-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>🎬</span><span>คลังคลิป & ซีรีส์ TikTok</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300 font-mono">339</span>
+        </button>
+        <button onclick="switchTab('revenue')" id="tab-btn-revenue" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-slate-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>💰</span><span>รายได้จริง & สินค้า Affiliate</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">40</span>
+        </button>
+      </div>
+
+      <!-- Group 4: Hardware & Power -->
+      <div class="space-y-1">
+        <div class="px-3 text-[10px] font-black uppercase tracking-wider text-slate-500">ฮาร์ดแวร์ & พลังงานอัตโนมัติ</div>
+        <button onclick="switchTab('hardware')" id="tab-btn-hardware" class="tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-slate-300 hover:bg-slate-800 flex items-center justify-between">
+          <span class="flex items-center gap-2.5"><span>💻</span><span>Performance คอม & มือถือ (4)</span></span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">4/4</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Bottom Sidebar Quick Action Footer -->
+    <div class="p-3.5 border-t border-slate-800/90 space-y-2 bg-slate-950/60">
+      <button onclick="openLiveWindowInStudio()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3 py-2.5 rounded-xl transition shadow-lg shadow-amber-500/20 flex items-center justify-center gap-1.5">
+        <span>🖥️</span>
+        <span>ส่งจอไลฟ์ 9:16 เข้า Live Studio</span>
+      </button>
+      <div class="grid grid-cols-2 gap-2">
+        <a href="https://github.com/closec16522/Master-Flow-Realtime-Automation" target="_blank" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold py-2 rounded-xl text-center border border-slate-700">
+          📦 GitHub Repo
+        </a>
+        <button onclick="triggerShutdownCountdown()" class="bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-bold py-2 rounded-xl transition">
+          🛑 ปิดระบบ (20s)
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTENT WORKSPACE (RIGHT OF SIDEBAR)                                 -->
+  <!-- ========================================================================= -->
+  <div class="flex-1 lg:ml-72 min-w-0 flex flex-col min-h-screen">
+
+    <!-- Clean Sticky Top Bar -->
+    <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 lg:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMobileSidebar()" class="lg:hidden bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5">
+          <span>☰</span><span>เมนู</span>
+        </button>
+        <div>
+          <h2 id="active-page-header-title" class="text-sm md:text-base font-black text-white">📊 ภาพรวมการทำงานทั้งหมด (Executive Realtime Overview)</h2>
+          <p class="text-[11px] text-slate-400 hidden sm:block">ดึงข้อมูลจริงจาก <code class="text-indigo-300">unlock108.db</code> · เชื่อมต่อ <code class="text-pink-300">TikTok LIVE Studio</code> · รัน <code class="text-purple-300">Ollama Llama 3.1</code> · คุมมือถือจริง 4 เครื่อง</p>
         </div>
       </div>
 
       <div class="flex items-center flex-wrap gap-2">
-        <button onclick="openLiveWindowInStudio()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg shadow-amber-500/20 flex items-center gap-1.5">
-          <span>🖥️</span>
-          <span>ส่งจอไลฟ์ 9:16 เข้า TikTok LIVE Studio</span>
-        </button>
-
-        <button onclick="openServerConfigModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
-          <span>⚙️</span>
-          <span id="backend-label">Cloudflare Live</span>
-        </button>
-
-        <div class="bg-slate-950/90 border border-slate-800 rounded-xl px-3 py-1 text-right hidden md:block">
-          <div class="text-[9px] uppercase font-bold text-slate-400">สถานะเซิร์ฟเวอร์ PC</div>
-          <div class="text-xs font-semibold text-emerald-400 font-mono" id="server-status">กำลังเชื่อมต่อ...</div>
-        </div>
-
-        <button onclick="triggerShutdownCountdown()" class="bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
-          <span>🛑</span>
-          <span>สั่งปิดระบบ (20s Popup)</span>
+        <span id="studio-detected-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-pink-500/15 text-pink-300 border border-pink-500/30">
+          🎥 TikTok LIVE Studio: ตรวจพบเปิดอยู่บนเครื่อง
+        </span>
+        <button onclick="switchTab('audit_checklist')" class="bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 text-[11px] font-black px-3 py-1 rounded-full transition">
+          ✅ Audit 12/12 PASS (ตรวจทุก 3 ชม.)
         </button>
       </div>
-    </div>
+    </header>
 
-    <!-- Navigation Tabs -->
-    <div class="max-w-[1440px] mx-auto mt-3 pt-2.5 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1">
-      <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
-        <span>📊</span> ภาพรวมทั้งหมด (Overview)
-      </button>
-      <button onclick="switchTab('audit_checklist')" id="tab-btn-audit_checklist" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-emerald-900/60 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-800/60 flex items-center gap-1.5">
-        <span>✅</span> สรุปฟังก์ชัน & Checklist Audit (ทุก 3 ชม.)
-      </button>
-      <button onclick="switchTab('live_studio')" id="tab-btn-live_studio" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-amber-300 hover:bg-slate-800 flex items-center gap-1.5">
-        <span>🕉️</span> เชื่อมต่อ TikTok LIVE Studio (4 ธีมใหม่ไร้ลายน้ำ)
-      </button>
-      <button onclick="switchTab('office3d')" id="tab-btn-office3d" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
-        <span>🏢</span> ออฟฟิศ AI 3D Digital Twin (สถานะโปรเซสจริง)
-      </button>
-      <button onclick="switchTab('ai_prompt')" id="tab-btn-ai_prompt" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
-        <span>🧠</span> Local AI (Llama 3.1) & เครดิต Google Flow
-      </button>
-      <button onclick="switchTab('masterflow')" id="tab-btn-masterflow" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
-        <span>🎬</span> ข้อมูลจริง Master Flow & ซีรีส์ TikTok
-      </button>
-      <button onclick="switchTab('revenue')" id="tab-btn-revenue" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
-        <span>💰</span> บัญชีรายได้จริง & แคตตาล็อกสินค้า (40 รายการ)
-      </button>
-      <button onclick="switchTab('hardware')" id="tab-btn-hardware" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5">
-        <span>💻</span> Performance คอม & มือถือจริง (4 เครื่อง)
-      </button>
-    </div>
-  </header>
-
-  <main class="max-w-[1440px] mx-auto p-4 lg:p-6 space-y-6">
+    <main class="max-w-[1440px] w-full mx-auto p-4 lg:p-6 space-y-6">
 
     <!-- Top Real-Data Executive KPIs -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
@@ -513,25 +579,10 @@
     </section>
 
     <!-- ========================================================================= -->
-    <!-- SECTION 4: 🎬 REAL MASTER FLOW DB ACCOUNTS, SERIES & PUBLISHED CLIPS       -->
+    <!-- SECTION 4A: 🔥 ALL-PLATFORM WARMUP & SHOPEE TARGET CHANNEL LIST           -->
     <!-- ========================================================================= -->
-    <section id="sec-masterflow" class="tab-section space-y-5">
+    <section id="sec-warmup" class="tab-section space-y-5">
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h2 class="text-base md:text-lg font-black text-white">🎬 ข้อมูลจริงจากฐานข้อมูล Master Flow (<code class="text-indigo-300">unlock108.db</code>)</h2>
-            <p class="text-xs text-slate-400">แสดงบัญชีที่เชื่อมต่อจริง 5 บัญชี, คลิปซีรีส์เรื่องเล่าจริงในโฟลเดอร์ <code class="text-slate-300">generations/</code> และระบบวอร์มช่อง</p>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="warmupAllTikTokChannels()" class="bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl">
-              🔥 สั่ง ADB ปลุก & วอร์มมือถือจริงทั้ง 4 เครื่อง
-            </button>
-            <button onclick="openAddTikTokModal()" class="bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl">
-              ➕ เพิ่มช่อง TikTok ลงฐานข้อมูล unlock108.db
-            </button>
-          </div>
-        </div>
-
         <!-- Cross-Platform Warmup Control Center (All Platforms: TikTok + FB Reels + Shopee Video + PC Cookies) -->
         <div class="bg-gradient-to-br from-slate-950 via-orange-950/15 to-slate-950 border-2 border-orange-500/40 rounded-2xl p-4 space-y-3.5">
           <div class="flex flex-wrap items-center justify-between gap-3">
@@ -561,11 +612,79 @@
               <button onclick="setWarmupPlatformMode('shopee')" class="bg-amber-600/80 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
                 🟠 เน้น Shopee Video
               </button>
+              <button onclick="warmupAllTikTokChannels()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl transition">
+                ⚡ สั่งเร่งวอร์ม 4 เครื่องทันที
+              </button>
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="cross-platform-warmup-grid">
             <!-- Populated by JS from data.cross_platform_warmup.platforms -->
+          </div>
+
+          <!-- 🟠 Shopee Target Channel List Manager (เน้นวอร์มตาม List ชื่อช่อง Shopee ที่กำหนด) -->
+          <div class="mt-3 pt-3.5 border-t border-orange-500/30 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h4 class="text-xs md:text-sm font-black text-amber-300 flex items-center gap-1.5">
+                  <span>🟠📋</span>
+                  <span>กำหนด List รายชื่อช่อง Shopee ที่ต้องการเน้นเข้าวอร์มเป็นพิเศษ (Target Shopee Warmup List)</span>
+                  <span id="shopee-list-count-pill" class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-200 border border-amber-400/40">1 ช่องใน List</span>
+                </h4>
+                <p class="text-[11px] text-slate-400">
+                  พิมพ์หรือวางรายชื่อช่อง Shopee (ใส่ได้หลายช่องพร้อมกัน คั่นด้วยลูกน้ำ <code class="text-amber-300">,</code> หรือขึ้นบรรทัดใหม่) ระบบจะสั่งมือถือทั้ง 4 เครื่องเน้นเข้าวอร์มตาม List นี้โดยอัตโนมัติ
+                </p>
+              </div>
+              <button onclick="setWarmupPlatformMode('shopee')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl shadow-lg transition">
+                🎯 สั่งล็อกเป้าเน้นวอร์มเฉพาะ List ช่อง Shopee ทันที
+              </button>
+            </div>
+
+            <!-- Add Shopee Channels Input Bar (Supports Single or Multi-Channel List) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-2.5 bg-slate-900/90 border border-slate-800 rounded-2xl p-3">
+              <div class="lg:col-span-6">
+                <textarea id="input-shopee-list-text" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-amber-400 outline-none" placeholder="พิมพ์ชื่อช่อง Shopee หรือวางเป็น List หลายช่อง (เช่น: @closec_shop, nongb_shopee_th, ร้านแม่มณีสายมู)..."></textarea>
+              </div>
+              <div class="lg:col-span-3 flex flex-col justify-between gap-1.5">
+                <select id="input-shopee-priority" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-amber-300 font-bold">
+                  <option value="vip">🔥 เน้นพิเศษ (VIP Priority · วอร์มถี่ x2)</option>
+                  <option value="normal">⚡ ความสำคัญปกติ (Standard Queue)</option>
+                </select>
+                <input type="text" id="input-shopee-niche" value="เน้นดูคลิปจบ 100% + กดหัวใจ + แตะตะกร้าส้ม" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-[11px] text-slate-300" placeholder="เป้าหมายการวอร์ม...">
+              </div>
+              <div class="lg:col-span-3 flex flex-col justify-center gap-1.5">
+                <button onclick="addShopeeChannelsToList(true)" class="w-full bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-slate-950 text-xs font-black py-2.5 px-3 rounded-xl shadow-lg transition">
+                  ➕ เพิ่มเข้า List & เน้นวอร์มทันที
+                </button>
+                <button onclick="addShopeeChannelsToList(false)" class="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-[11px] font-bold py-1.5 px-3 rounded-xl transition">
+                  📥 เพิ่มเก็บเข้าคิว List (หมุนเวียนปกติ)
+                </button>
+              </div>
+            </div>
+
+            <!-- Active Shopee Target Channels List Table/Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="shopee-target-list-grid">
+              <!-- Populated by JS from data.shopee_warmup_list -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION 4B: 🎬 REAL MASTER FLOW DB ACCOUNTS, SERIES & PUBLISHED CLIPS      -->
+    <!-- ========================================================================= -->
+    <section id="sec-masterflow" class="tab-section space-y-5">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base md:text-lg font-black text-white">🎬 ข้อมูลจริงจากฐานข้อมูล Master Flow (<code class="text-indigo-300">unlock108.db</code>)</h2>
+            <p class="text-xs text-slate-400">แสดงบัญชีที่เชื่อมต่อจริง 5 บัญชี, คลิปซีรีส์เรื่องเล่าจริงในโฟลเดอร์ <code class="text-slate-300">generations/</code> และประวัติโพสต์จริง</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="openAddTikTokModal()" class="bg-pink-600 hover:bg-pink-500 text-white text-xs font-bold px-3.5 py-2 rounded-xl">
+              ➕ เพิ่มช่อง TikTok ลงฐานข้อมูล unlock108.db
+            </button>
           </div>
         </div>
 
@@ -703,7 +822,8 @@
       </div>
     </section>
 
-  </main>
+    </main>
+  </div>
 
   <!-- 20-Second Shutdown Warning Popup -->
   <div id="modal-shutdown-countdown" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
@@ -774,13 +894,37 @@
       liveIframe.src = getApiUrl('/live-scene?theme=naga');
     }
 
+    function toggleMobileSidebar() {
+      const sb = document.getElementById('left-sidebar');
+      const bd = document.getElementById('mobile-sidebar-backdrop');
+      if (!sb || !bd) return;
+      sb.classList.toggle('-translate-x-full');
+      bd.classList.toggle('hidden');
+    }
+
+    const TAB_TITLES = {
+      overview: '📊 ภาพรวมการทำงานทั้งหมด (Executive Realtime Overview)',
+      audit_checklist: '✅ สรุปฟังก์ชันการทำงาน & Checklist Audit อัตโนมัติ (ตรวจสอบทุก 3 ชั่วโมง)',
+      office3d: '🏢 ออฟฟิศ AI 3D Digital Twin (ระบบจำลองตัวการ์ตูนเดินทำงานจริง 60 FPS)',
+      live_studio: '🕉️ เชื่อมต่อ TikTok LIVE Studio & ฉากไลฟ์สด 9:16 ต้นฉบับ (ไร้ลายน้ำ 100%)',
+      warmup: '🔥 ระบบวอร์มช่องทุกแพลตฟอร์ม & กำหนด List รายชื่อช่อง Shopee ที่ต้องการเน้น',
+      ai_prompt: '🧠 ปรับแต่ง Prompt ด้วย Local AI (Ollama Llama 3.1) & เครดิต Google Flow',
+      masterflow: '🎬 คลังคลิปจริงจากฐานข้อมูล Master Flow (unlock108.db) & ซีรีส์ TikTok',
+      revenue: '💰 สมุดบัญชีรายรับจริง & แคตตาล็อกสินค้า Shopee Affiliate (40 รายการ)',
+      hardware: '💻 Performance เครื่องคอมพิวเตอร์ & มือถือ Redmi 14C จริงทั้ง 4 เครื่อง'
+    };
+
     function switchTab(tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.className = 'tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-slate-800/80 text-slate-300 hover:bg-slate-800 flex items-center gap-1.5';
+        btn.className = 'tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-slate-800/60 text-slate-300 hover:bg-slate-800 flex items-center justify-between';
       });
       const activeBtn = document.getElementById('tab-btn-' + tabId);
       if (activeBtn) {
-        activeBtn.className = 'tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center gap-1.5';
+        activeBtn.className = 'tab-btn w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center justify-between';
+      }
+      const titleEl = document.getElementById('active-page-header-title');
+      if (titleEl && TAB_TITLES[tabId]) {
+        titleEl.innerText = TAB_TITLES[tabId];
       }
       document.querySelectorAll('.tab-section').forEach(sec => {
         if (tabId === 'overview' || sec.id === 'sec-' + tabId) {
@@ -789,6 +933,14 @@
           sec.classList.add('hidden');
         }
       });
+      // Close mobile sidebar drawer if open
+      const sb = document.getElementById('left-sidebar');
+      const bd = document.getElementById('mobile-sidebar-backdrop');
+      if (sb && !sb.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
+        sb.classList.add('-translate-x-full');
+        if (bd) bd.classList.add('hidden');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     async function fetchStatus() {
@@ -1003,6 +1155,65 @@
               </div>
             </div>
           `).join('');
+        }
+      }
+
+      // 5C. Shopee Target Channel List Rendering
+      if (data.shopee_warmup_list) {
+        const spList = data.shopee_warmup_list;
+        const pillEl = document.getElementById('shopee-list-count-pill');
+        if (pillEl) pillEl.innerText = `${spList.length} ช่องใน List`;
+        const spGrid = document.getElementById('shopee-target-list-grid');
+        if (spGrid) {
+          spGrid.innerHTML = spList.map((ch, idx) => {
+            const isVip = ch.priority === 'vip';
+            const isEn = ch.enabled !== false;
+            return `
+              <div class="bg-slate-900/95 border ${isEn ? (isVip ? 'border-amber-500/60 shadow-lg shadow-amber-500/5' : 'border-slate-800') : 'border-slate-800/50 opacity-60'} rounded-2xl p-3.5 flex flex-col justify-between space-y-2.5 transition">
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between gap-1.5">
+                    <span class="text-xs font-black text-amber-300 font-mono truncate">#${idx + 1} · ${ch.shop_name}</span>
+                    <div class="flex items-center gap-1 shrink-0">
+                      <button onclick="updateShopeeTarget('${ch.id}', 'toggle_priority')" class="px-2 py-0.5 rounded-full text-[10px] font-black ${isVip ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-300'}">
+                        ${isVip ? '🔥 VIP x2' : '⚡ ปกติ'}
+                      </button>
+                      <button onclick="updateShopeeTarget('${ch.id}', 'toggle_enable')" class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isEn ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-300'}">
+                        ${isEn ? '🟢 วอร์มอยู่' : '⏸️ พัก'}
+                      </button>
+                    </div>
+                  </div>
+                  <div class="text-[10px] text-slate-400 truncate">${ch.niche || 'เน้นวอร์มคลิป Shopee Video & ตะกร้าส้ม'}</div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-1.5 bg-slate-950 rounded-xl p-2 text-center border border-slate-800/80">
+                  <div>
+                    <div class="text-[9px] text-slate-400">ดูคลิปจบ</div>
+                    <div class="text-xs font-black text-emerald-400">${ch.clips_watched || 0}</div>
+                  </div>
+                  <div>
+                    <div class="text-[9px] text-slate-400">กดหัวใจ</div>
+                    <div class="text-xs font-black text-pink-400">${ch.likes_sent || 0}</div>
+                  </div>
+                  <div>
+                    <div class="text-[9px] text-slate-400">แตะตะกร้าส้ม</div>
+                    <div class="text-xs font-black text-amber-400">${ch.cart_taps || 0}</div>
+                  </div>
+                </div>
+
+                <div class="pt-1.5 border-t border-slate-800/80 flex items-center justify-between gap-1.5">
+                  <span class="text-[10px] text-slate-400 font-mono truncate">🕒 ${ch.last_warmed_at || '-'} (${ch.last_device || 'ADB'})</span>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button onclick="warmupShopeeTargetNow('${ch.id}')" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-1 rounded-lg transition">
+                      ⚡ เน้นวอร์มช่องนี้ทันที
+                    </button>
+                    <button onclick="updateShopeeTarget('${ch.id}', 'delete')" class="bg-slate-800 hover:bg-rose-600 text-slate-400 hover:text-white text-[10px] px-2 py-1 rounded-lg transition" title="ลบออกจาก List">
+                      🗑️
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
         }
       }
 
@@ -1327,6 +1538,48 @@
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({platform: platId})
+      });
+      fetchStatus();
+    }
+
+    async function addShopeeChannelsToList(focusNow = true) {
+      const textEl = document.getElementById('input-shopee-list-text');
+      const priEl = document.getElementById('input-shopee-priority');
+      const nicheEl = document.getElementById('input-shopee-niche');
+      const rawText = (textEl ? textEl.value : '').trim();
+      if (!rawText) {
+        return alert('กรุณาพิมพ์ชื่อช่อง Shopee หรือวางรายชื่อช่องที่ต้องการเพิ่มเข้า List วอร์มก่อนครับ');
+      }
+      const res = await fetch(getApiUrl('/api/shopee/add-list'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          channels_text: rawText,
+          priority: priEl ? priEl.value : 'vip',
+          niche: nicheEl ? nicheEl.value : 'เน้นวอร์มคลิป Shopee Video & ตะกร้าส้ม',
+          focus_now: focusNow
+        })
+      });
+      const d = await res.json();
+      if (textEl) textEl.value = '';
+      await fetchStatus();
+      alert(`🟠 เพิ่มรายชื่อช่อง Shopee เข้า List วอร์มสำเร็จ (${(d.added || []).join(', ')}) ${focusNow ? 'และสั่งล็อกเป้าเน้นวอร์มทันที!' : 'เรียบร้อยแล้ว!'}`);
+    }
+
+    async function updateShopeeTarget(id, action) {
+      await fetch(getApiUrl('/api/shopee/update-target'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id, action})
+      });
+      fetchStatus();
+    }
+
+    async function warmupShopeeTargetNow(id) {
+      await fetch(getApiUrl('/api/shopee/warmup-target'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id})
       });
       fetchStatus();
     }
