@@ -853,9 +853,9 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
     next_dt = now_dt + datetime.timedelta(hours=3)
     next_str = next_dt.strftime("%Y-%m-%d %H:%M:%S")
 
-    procs = check_running_processes()
-    db_info = state["unlock108_db"]
     perf_pc = state["system_performance"]["pc"]
+    procs = perf_pc.get("processes", {})
+    mf = state["master_flow_overview"]
     phones_connected = len(state["devices"])
 
     # Check 4 original theme image files
@@ -872,8 +872,8 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
             "title": "เชื่อมต่อฐานข้อมูลจริง unlock108.db & บัญชีโซเชียลครบทุกแพลตฟอร์ม",
             "summary": "ดึงข้อมูลจริงจาก SQLite unlock108.db (TikTok @closec16522, เพจ Facebook น้องบีรีวิว, Google Flow, Shopee Affiliate, Meta AI) ไม่มีข้อมูล Mockup",
             "verification_method": "SQLite Query: accounts, products, generations, settings",
-            "live_evidence": f"พบ {len(db_info.get('accounts', []))} บัญชีจริง · คลิปสร้างเสร็จ {db_info['generations_count']['done']} คลิป · สินค้า {len(db_info.get('products', []))} รายการ",
-            "status": "PASS" if len(db_info.get("accounts", [])) > 0 else "WARN",
+            "live_evidence": f"พบ {len(mf.get('accounts_in_db', []))} บัญชีจริง · คลิปสร้างเสร็จ {mf.get('total_generations_done', 0)} คลิป · สินค้า {mf.get('products_in_catalog', 0)} รายการ",
+            "status": "PASS" if len(mf.get("accounts_in_db", [])) > 0 else "WARN",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-01", True)
         },
@@ -883,7 +883,7 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
             "title": "สร้างคลิปด้วย Google Flow (Veo 3.1 - Lite) & ระบบเช็คเครดิตหยุดอัตโนมัติ (Credit Guard)",
             "summary": "ตรวจสอบสถานะการสร้างวิดีโอจาก Google Flow บัญชี closec16522@gmail.com และสั่งหยุดพักอัตโนมัติทันทีหากโควต้าเครดิตเต็ม รอจนกว่าระบบจะรีเซ็ตเครดิตใหม่",
             "verification_method": "Process Check (Master Flow.exe) + Google Flow Cookies & Queue Check",
-            "live_evidence": f"Master Flow: {'🟢 ทำงานอยู่' if procs.get('master_flow') else '🟡 Standby'} · โหมด: {state['google_flow_credits']['status']} · รอคิว {db_info['generations_count']['pending']} คลิป",
+            "live_evidence": f"Master Flow: {'🟢 ทำงานอยู่' if procs.get('master_flow') else '🟡 Standby'} · โหมด: {state['google_flow_credits']['status']} · รอคิว {mf.get('total_generations_pending', 0)} คลิป",
             "status": "PASS",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-02", True)
@@ -894,7 +894,7 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
             "title": "เรียนรู้และปรับแต่ง Prompt อัตโนมัติด้วย Local AI (Ollama Llama 3.1 + Whisper Large · 0 Token Cost)",
             "summary": "ใช้ Local AI ในเครื่องคอมพิวเตอร์ (พอร์ต 11434) วิเคราะห์และอัปเกรด Prompt วิดีโอให้น่าสนใจและทันสมัยอยู่เสมอ พร้อมถอดเสียงด้วย Local Whisper โดยไม่เสียค่า Token",
             "verification_method": "HTTP Ping 127.0.0.1:11434 (ollama.exe) + whisperMode='local'",
-            "live_evidence": f"Ollama Llama 3.1: {'🟢 ออนไลน์' if procs.get('ollama_local_ai') else '🔴 ออฟไลน์'} · รันปรับ Prompt จริงแล้ว {state['local_ai_engine']['real_calls_count']} ครั้ง (ประหยัด {state['local_ai_engine']['tokens_saved_session']} โทเคน)",
+            "live_evidence": f"Ollama Llama 3.1: {'🟢 ออนไลน์' if procs.get('ollama_local_ai') else '🔴 ออฟไลน์'} · รันปรับ Prompt จริงแล้ว {state['local_ai_engine']['real_calls_count']} ครั้ง (0 Token Cost)",
             "status": "PASS" if procs.get("ollama_local_ai") else "WARN",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-03", True)
@@ -905,7 +905,7 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
             "title": "อัปโหลดคลิปซีรีส์ (EP ต่อเนื่อง) ดึงคนกดติดตาม & โพสต์ข้ามแพลตฟอร์ม (TikTok / FB Reels / Shopee)",
             "summary": "จัดการคิวคลิปซีรีส์ (story-vid-*.mp4) เพื่อดึงดูดคนกดติดตาม พร้อมตรวจสอบสถานะการโพสต์และดึงยอดวิวสดผ่าน Facebook Graph API v26.0",
             "verification_method": "File Verification (story-vid-*.mp4) + Meta Graph API v26.0",
-            "live_evidence": f"คิวซีรีส์พร้อมโพสต์ {len(state.get('series_campaigns', []))} ตอน · ยอดวิวเพจจริง {state['facebook'].get('total_video_views', 0)} วิว · ช่อง TikTok ในระบบ {len(state.get('tiktok_accounts', []))} ช่อง",
+            "live_evidence": f"คิวซีรีส์พร้อมโพสต์ {len(mf.get('series_queue', []))} ตอน · ยอดวิวเพจจริง {state['facebook'].get('total_video_views', 0)} วิว · ช่อง TikTok ในระบบ {len(state.get('tiktok_accounts', []))} ช่อง",
             "status": "PASS",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-04", True)
@@ -993,8 +993,8 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
             "title": "ดูสถานะออนไลน์แบบ Realtime จากที่อื่นผ่าน Cloudflare HTTPS Tunnel & ซิงค์โค้ดขึ้น GitHub",
             "summary": "ส่งข้อมูลสถานะจากเครื่องคอมพิวเตอร์ขึ้นออนไลน์แบบเรียลไทม์ผ่าน Cloudflare Tunnel และอัปเดตโปรเจกต์ขึ้น GitHub Repository",
             "verification_method": "Process Check (cloudflared.exe) + Git Repo Sync Verification",
-            "live_evidence": f"Cloudflare Tunnel: {'🟢 ออนไลน์' if procs.get('cloudflared_tunnel') else '🟡 รอเชื่อม'} ({state['tunnel_url']}) · GitHub Synced",
-            "status": "PASS" if procs.get("cloudflared_tunnel") else "WARN",
+            "live_evidence": f"Cloudflare Tunnel: {'🟢 ออนไลน์' if procs.get('cloudflared') else '🟡 รอเชื่อม'} ({state['tunnel_url']}) · GitHub Synced",
+            "status": "PASS" if procs.get("cloudflared") else "WARN",
             "checked_at": now_str,
             "confirmed": prev_confirmed.get("audit-12", True)
         }
@@ -1015,7 +1015,7 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
         "trigger": trigger_source,
         "score": f"{passed_cnt}/{len(checklist_items)}",
         "status": "PASS" if passed_cnt == len(checklist_items) else "WARN",
-        "summary": f"ตรวจสอบครบ 12 ระบบ: ผ่าน {passed_cnt} รายการ · มือถือออนไลน์ {phones_connected}/4 · คลิปเสร็จ {db_info['generations_count']['done']} คลิป · CPU {perf_pc.get('cpu_percent', 0)}%"
+        "summary": f"ตรวจสอบครบ 12 ระบบ: ผ่าน {passed_cnt} รายการ · มือถือออนไลน์ {phones_connected}/4 · คลิปเสร็จ {mf.get('total_generations_done', 0)} คลิป · CPU {perf_pc.get('cpu_percent', 0)}%"
     }
     state["audit_checklist"]["audit_history"].insert(0, history_entry)
     if len(state["audit_checklist"]["audit_history"]) > 30:
