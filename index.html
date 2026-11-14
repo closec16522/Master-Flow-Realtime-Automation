@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Flow - Live Realtime Automation Dashboard</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-fast {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.95); }
+    }
+    .live-dot {
+      animation: pulse-fast 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.2);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 md:p-6 font-sans">
+  <div class="max-w-7xl mx-auto space-y-6">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-slate-900/90 backdrop-blur border border-slate-800 rounded-2xl p-5 shadow-2xl flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 text-2xl font-black text-white">
+          ⚡
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-xl md:text-2xl font-black tracking-tight text-white">Master Flow Realtime Automation</h1>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot"></span>
+              LIVE ACTIVE
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">ระบบควบคุมและติดตามอัตโนมัติ: มือถือ 4 เครื่อง · Auto-Recovery · Facebook Reels · TikTok · Shopee Video</p>
+        </div>
+      </div>
+
+      <div class="flex items-center flex-wrap gap-3">
+        <a href="https://github.com/closec16522/Master-Flow-Realtime-Automation" target="_blank" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold px-3.5 py-2 rounded-xl transition flex items-center gap-2">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub Repo</span>
+        </a>
+        <div class="bg-slate-800/80 border border-slate-700/60 rounded-xl px-4 py-1.5 text-right">
+          <div class="text-[9px] uppercase font-bold text-slate-400 tracking-wider">เซิร์ฟเวอร์มอนิเตอร์</div>
+          <div class="text-xs font-semibold text-emerald-400 font-mono" id="server-status">กำลังเชื่อมต่อ...</div>
+        </div>
+        <button onclick="fetchStatus()" class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-semibold px-3.5 py-2 rounded-xl transition shadow-lg shadow-indigo-600/30">
+          🔄 รีเฟรชทันที
+        </button>
+      </div>
+    </header>
+
+    <!-- Overview Stats Counter -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-2xl">📱</div>
+        <div>
+          <div class="text-xs font-medium text-slate-400">โทรศัพท์ที่เชื่อมต่อ</div>
+          <div class="text-2xl font-black text-white mt-0.5" id="stat-phones">4 / 4 เครื่อง</div>
+          <div class="text-[11px] text-emerald-400">Redmi 14C พอร์ต 5038</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-2xl">🎬</div>
+        <div>
+          <div class="text-xs font-medium text-slate-400">วิดีโอที่วอร์มดูจบ 100%</div>
+          <div class="text-2xl font-black text-white mt-0.5" id="stat-watched">0 คลิป</div>
+          <div class="text-[11px] text-blue-400">ดัน Retention อัลกอริทึม</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-2xl">❤️</div>
+        <div>
+          <div class="text-xs font-medium text-slate-400">การมีส่วนร่วม (Like/Cart/Share)</div>
+          <div class="text-2xl font-black text-white mt-0.5" id="stat-actions">0 ครั้ง</div>
+          <div class="text-[11px] text-pink-400">สร้างความน่าเชื่อถือบัญชี</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-2xl">⚡</div>
+        <div>
+          <div class="text-xs font-medium text-slate-400">ระบบ Auto-Recovery</div>
+          <div class="text-2xl font-black text-emerald-400 mt-0.5">ARMED</div>
+          <div class="text-[11px] text-indigo-400">PC & มือถือเปิดเครื่องเอง</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW SECTION: Hardware Auto-Recovery & Power Protection System -->
+    <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/30 rounded-2xl p-5 shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-xl font-bold">
+            🛡️
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              ระบบป้องกันและกู้คืนพลังงานอัตโนมัติ (Hardware Auto-Recovery & Power Center)
+              <span class="px-2.5 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">ACTIVE</span>
+            </h2>
+            <p class="text-xs text-slate-400">ควบคุมการเปิด-ปิดเครื่องตามเวลา และกู้คืนอัตโนมัติหากคอมพิวเตอร์หรือโทรศัพท์ดับระหว่างวัน</p>
+          </div>
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700 rounded-xl px-3 py-1.5 text-right">
+          <div class="text-[10px] text-slate-400">สถานะช่วงเวลาทำงาน</div>
+          <div class="text-xs font-bold text-emerald-400" id="schedule-status">จ.-ศ. 07:00-22:00 | ส.-อ. 07:00-01:00</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- PC Power Auto-On -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-indigo-400 flex items-center gap-1.5">
+              <span>💻</span> ฝั่งคอมพิวเตอร์ (PC Auto Power-On)
+            </span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">READY</span>
+          </div>
+          <ul class="text-xs space-y-1.5 text-slate-300">
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400">✓</span>
+              <span><strong>RTC Wake Timer:</strong> เปิดใช้งานใน Powercfg อนุญาตให้ Windows ปลุกเครื่องอัตโนมัติ</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400">✓</span>
+              <span><strong>Startup Auto-Launch:</strong> ติดตั้งใน Windows Startup บูตแล้วรันระบบทันที 100%</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400">✓</span>
+              <span><strong>BIOS AC Recovery:</strong> ตั้งค่า Restore on AC/Power Loss: Always On เมื่อไฟตกจะเปิดเครื่องเอง</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Phone Auto-Recovery -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <span>📱</span> มือถือ 4 เครื่อง (Phone Auto-Recovery)
+            </span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">SYNCED</span>
+          </div>
+          <ul class="text-xs space-y-1.5 text-slate-300">
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400">✓</span>
+              <span><strong>Stay-On While Plugged:</strong> ตั้งค่า <code>stay_on_while_plugged_in 7</code> จอไม่ดับขณะเสียบชาร์จ</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400">✓</span>
+              <span><strong>Screen Lock Bypass:</strong> ปลดล็อค Keyguard อัตโนมัติเมื่อปลุกเครื่อง</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-emerald-400">✓</span>
+              <span><strong>Watchdog Heartbeat:</strong> ตรวจสอบหน้าจอทุก 30 วินาที หากจอดับจะปลุกและบูตแอปใหม่ทันที</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Schedule & Energy Management -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+              <span>⏰</span> ตารางเวลา & ถนอมอุปกรณ์
+            </span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">SCHEDULED</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div class="bg-slate-800/60 rounded p-2 text-[11px]">
+              <div class="text-amber-300 font-bold mb-1">📅 ตารางเวลาทำงาน:</div>
+              <div>• จันทร์ - ศุกร์: 07:00 - 22:00 น.</div>
+              <div>• เสาร์ - อาทิตย์: 07:00 - 01:00 น. (ตี 1)</div>
+            </div>
+            <div class="text-[11px] text-slate-400">
+              🌙 <strong>เมื่อหมดเวลา:</strong> ปิดงาน ปรับความสว่างเป็น 0 และดับหน้าจอมือถือเพื่อพักเครื่องและประหยัดแบตเตอรี่
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW SECTION: Full Project History & Operations Timeline -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-xl font-bold">
+            📜
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">ประวัติและการดำเนินการทั้งหมดของโปรเจกต์ (Project History & Milestones)</h2>
+            <p class="text-xs text-slate-400">สรุปขั้นตอนวิวัฒนาการและบันทึกการทำงานตั้งแต่เริ่มต้นจนถึงระบบอัตโนมัติสมบูรณ์แบบ</p>
+          </div>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/10 text-purple-300 border border-purple-500/20">
+          7 MILESTONES COMPLETED
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="timeline-container">
+        <!-- Rendered dynamically via JS from API -->
+      </div>
+    </div>
+
+    <!-- Section 1: 4 Connected Mobile Devices Status (Redmi 14C) -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>📱</span> สถานะโทรศัพท์มือถือ 4 เครื่อง (Redmi 14C)
+        </h2>
+        <span class="text-xs text-slate-400">อัปเดตแบบเรียลไทม์ผ่าน ADB Interface</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="devices-grid">
+        <!-- Loaded via JS -->
+      </div>
+    </div>
+
+    <!-- Section 2: Published Posts History (Facebook Reels / Shopee / TikTok) -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl font-bold">
+            🚀
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">ประวัติคลิปที่โพสต์สำเร็จแล้ว (Live Published History)</h2>
+            <p class="text-xs text-slate-400">ตรวจสอบคลิปที่ถูกยิงขึ้น Facebook Reels, Shopee Video และ TikTok พร้อมลิงก์คลิปสด</p>
+          </div>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          Facebook Reels v26.0 Connected
+        </span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[11px]">
+              <th class="pb-3 pl-2">ID</th>
+              <th class="pb-3">ชื่อคลิป / คอนเทนต์</th>
+              <th class="pb-3">เวลาโพสต์</th>
+              <th class="pb-3">Facebook Reels</th>
+              <th class="pb-3">Shopee Video</th>
+              <th class="pb-3">TikTok</th>
+              <th class="pb-3 pr-2">การดำเนินการ</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 font-mono" id="posted-table-body">
+            <!-- Dynamically populated from /api/status -->
+            <tr>
+              <td colspan="7" class="py-4 text-center text-slate-500">กำลังโหลดข้อมูลประวัติคลิป...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 3: Content Production Pipeline (Alternating Series ↔ Reviews) -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl font-bold">
+            ⚙️
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">ผังการผลิตคอนเทนต์สลับอัตโนมัติ (Alternating Queue)</h2>
+            <p class="text-xs text-slate-400">ซีรีส์เรื่องเล่า (สร้างยอดวิว & ผู้ติดตาม) สลับกับ รีวิวสินค้า Affiliate (สร้างยอดขาย)</p>
+          </div>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          Auto-Alternating Mode
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="pipeline-grid">
+        <!-- Pipeline cards loaded by JS -->
+      </div>
+    </div>
+
+    <!-- Section 4: Social Channels & Live System Logs -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Channels Info -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>🌐</span> แพลตฟอร์มที่เชื่อมต่อ
+        </h2>
+
+        <!-- Facebook -->
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-blue-400 flex items-center gap-1.5">
+              <span>🔵</span> Facebook Reels
+            </span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">CONNECTED</span>
+          </div>
+          <div class="text-sm font-bold text-white" id="fb-page-name">น้องบีรีวิว ปักตระกร้า SP</div>
+          <div class="text-xs text-slate-400 flex items-center justify-between">
+            <span>Page ID: <code class="text-slate-300" id="fb-page-id">1012215361986434</code></span>
+            <span class="text-indigo-400" id="fb-followers">3 ผู้ติดตาม</span>
+          </div>
+          <div class="text-[11px] text-slate-400 pt-1 border-t border-slate-800/60" id="fb-last-action">
+            โพสต์คลิปสำเร็จล่าสุด: ปริศนาห้องปิดตายใต้หอสมุด EP.1
+          </div>
+        </div>
+
+        <!-- TikTok -->
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-pink-400 flex items-center gap-1.5">
+              <span>🎵</span> TikTok
+            </span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">COOKIE SYNCED</span>
+          </div>
+          <div class="text-sm font-bold text-white" id="tiktok-account">@closec16522</div>
+          <div class="text-xs text-slate-400 flex items-center justify-between">
+            <span>Niche: #เรื่องผี #คดีปริศนา #รีวิว</span>
+          </div>
+          <div class="text-[11px] text-slate-400 pt-1 border-t border-slate-800/60" id="tiktok-last-action">
+            วอร์ม Showcase และกระดานคลิป
+          </div>
+        </div>
+
+        <!-- Shopee Video -->
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-orange-400 flex items-center gap-1.5">
+              <span>🟠</span> Shopee Video
+            </span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">4 PHONES ACTIVE</span>
+          </div>
+          <div class="text-sm font-bold text-white">Shopee Creator Affiliate</div>
+          <div class="text-xs text-slate-400">
+            วอร์มช่องด้วยฟีดวิดีโอ & ปักหมุดตะกร้าสินค้าอัตโนมัติ
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Logs Stream -->
+      <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col h-[380px]">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>⚡</span> บันทึกกิจกรรมอัตโนมัติ (Live Activity Stream)
+          </h2>
+          <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+            Realtime Polling (1.5s)
+          </span>
+        </div>
+
+        <div class="flex-1 bg-slate-950 rounded-xl p-3.5 border border-slate-800/80 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar" id="logs-container">
+          <!-- Logs will be populated here -->
+          <div class="text-slate-500 text-center py-8">กำลังเชื่อมต่อกับกิจกรรมของบอท...</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+      <div>Master Flow Realtime Automation Suite · Running on Windows 11 · Managed by Google Antigravity</div>
+      <div class="flex items-center gap-4">
+        <span>Cloudflare Tunnel: Active</span>
+        <span>•</span>
+        <a href="https://github.com/closec16522/Master-Flow-Realtime-Automation" target="_blank" class="text-indigo-400 hover:underline">GitHub Repository</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JavaScript to poll /api/status -->
+  <script>
+    const API_ENDPOINT = '/api/status';
+
+    async function fetchStatus() {
+      try {
+        const res = await fetch(API_ENDPOINT, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Network response was not ok');
+        const data = await res.json();
+        renderDashboard(data);
+        document.getElementById('server-status').innerText = 'Online (' + new Date().toLocaleTimeString() + ')';
+        document.getElementById('server-status').className = 'text-xs font-semibold text-emerald-400 font-mono';
+      } catch (err) {
+        document.getElementById('server-status').innerText = 'Offline / Reconnecting...';
+        document.getElementById('server-status').className = 'text-xs font-semibold text-rose-400 font-mono';
+      }
+    }
+
+    function renderDashboard(data) {
+      if (!data) return;
+
+      // 1. Overview Stats
+      let totalWatched = 0;
+      let totalActions = 0;
+      if (data.devices) {
+        Object.values(data.devices).forEach(d => {
+          totalWatched += (d.watched || 0);
+          totalActions += (d.likes || 0) + (d.cart_clicks || 0) + (d.shares || 0);
+        });
+      }
+      document.getElementById('stat-watched').innerText = totalWatched + ' คลิป';
+      document.getElementById('stat-actions').innerText = totalActions + ' ครั้ง';
+
+      // 2. Project History Timeline
+      if (data.project_history) {
+        const histContainer = document.getElementById('timeline-container');
+        histContainer.innerHTML = data.project_history.map(item => `
+          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3.5 flex flex-col justify-between hover:border-slate-700 transition">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">STEP ${item.step}</span>
+                <span class="text-[10px] text-emerald-400 font-medium">${item.status}</span>
+              </div>
+              <h3 class="text-xs font-bold text-white mb-1">${item.title}</h3>
+              <p class="text-[11px] text-slate-400 leading-relaxed">${item.desc}</p>
+            </div>
+            <div class="mt-2 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500">
+              <span>หมวด: ${item.badge}</span>
+              <span class="text-slate-400">✓ ตรวจสอบแล้ว</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 3. Devices Grid
+      if (data.devices) {
+        const devGrid = document.getElementById('devices-grid');
+        devGrid.innerHTML = Object.entries(data.devices).map(([serial, dev]) => `
+          <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-4 shadow-lg space-y-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-xl pointer-events-none"></div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 live-dot"></div>
+                <span class="text-xs font-bold text-white font-mono">${serial.substring(0, 10)}...</span>
+              </div>
+              <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                ${dev.battery || '100%'}
+              </span>
+            </div>
+
+            <div class="text-xs text-slate-300">
+              <div class="text-[11px] text-slate-400">พฤติกรรมปัจจุบัน:</div>
+              <div class="font-semibold text-indigo-300 truncate mt-0.5">${dev.action || 'กำลังวอร์มฟีด...'}</div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 bg-slate-950/60 rounded-xl p-2.5 text-center text-xs border border-slate-800/60">
+              <div>
+                <div class="text-[10px] text-slate-400">ดูจบ</div>
+                <div class="font-bold text-blue-400 mt-0.5">${dev.watched || 0}</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400">ไลก์</div>
+                <div class="font-bold text-pink-400 mt-0.5">${dev.likes || 0}</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400">ตะกร้า/แชร์</div>
+                <div class="font-bold text-amber-400 mt-0.5">${(dev.cart_clicks || 0) + (dev.shares || 0)}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+              <span>โหมด: Shopee Warm</span>
+              <span class="text-emerald-400 font-medium">Stay-On: Active</span>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 4. Posted History Table
+      if (data.posted_history) {
+        const tableBody = document.getElementById('posted-table-body');
+        if (data.posted_history.length === 0) {
+          tableBody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-500">ยังไม่มีประวัติการโพสต์</td></tr>';
+        } else {
+          tableBody.innerHTML = data.posted_history.map(item => `
+            <tr class="hover:bg-slate-800/30 transition">
+              <td class="py-3 pl-2 text-slate-400">#${item.id}</td>
+              <td class="py-3 font-sans font-medium text-white max-w-[200px] truncate" title="${item.title}">
+                ${item.title}
+              </td>
+              <td class="py-3 text-slate-400">${item.time}</td>
+              <td class="py-3">
+                ${item.fb ? `
+                  <a href="${item.fb_link || '#'}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 font-sans font-semibold">
+                    <span>🔵</span> ดู Reel สด ↗
+                  </a>
+                ` : '<span class="text-slate-600">-</span>'}
+              </td>
+              <td class="py-3">
+                ${item.shopee ? '<span class="text-orange-400 font-semibold font-sans">🟠 โพสต์แล้ว</span>' : '<span class="text-slate-600">-</span>'}
+              </td>
+              <td class="py-3">
+                ${item.tiktok ? '<span class="text-pink-400 font-semibold font-sans">🎵 โพสต์แล้ว</span>' : '<span class="text-slate-600">-</span>'}
+              </td>
+              <td class="py-3 pr-2">
+                <span class="px-2 py-0.5 text-[10px] rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-sans">
+                  Published
+                </span>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+
+      // 5. Pipeline Grid
+      if (data.pipeline) {
+        const pipeGrid = document.getElementById('pipeline-grid');
+        pipeGrid.innerHTML = data.pipeline.map(item => `
+          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded ${item.type === 'Series' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+                  ${item.type === 'Series' ? '📖 ซีรีส์เรื่องเล่า' : '🛍️ รีวิวสินค้า'}
+                </span>
+                <span class="text-[10px] text-slate-400">${item.platform}</span>
+              </div>
+              <h3 class="text-xs font-bold text-white line-clamp-2">${item.title}</h3>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="text-slate-400">สถานะ:</span>
+                <span class="text-emerald-400 font-medium">${item.status}</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-500 to-emerald-400 h-1.5 rounded-full transition-all duration-500" style="width: ${item.pct}%"></div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 6. Facebook & TikTok info
+      if (data.facebook) {
+        document.getElementById('fb-page-name').innerText = data.facebook.page_name || 'น้องบีรีวิว ปักตระกร้า SP';
+        document.getElementById('fb-page-id').innerText = data.facebook.page_id || '1012215361986434';
+        document.getElementById('fb-followers').innerText = (data.facebook.followers || 3) + ' ผู้ติดตาม';
+        if (data.facebook.last_action) document.getElementById('fb-last-action').innerText = data.facebook.last_action;
+      }
+      if (data.tiktok) {
+        document.getElementById('tiktok-account').innerText = data.tiktok.account || '@closec16522';
+        if (data.tiktok.last_action) document.getElementById('tiktok-last-action').innerText = data.tiktok.last_action;
+      }
+
+      // 7. Live Logs
+      if (data.logs) {
+        const logBox = document.getElementById('logs-container');
+        logBox.innerHTML = data.logs.map(l => `
+          <div class="flex items-start gap-2.5 leading-relaxed">
+            <span class="text-slate-500 select-none">[${l.time}]</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] font-semibold ${l.channel.includes('Shopee') ? 'bg-orange-500/10 text-orange-400' : l.channel === 'Facebook' ? 'bg-blue-500/10 text-blue-400' : 'bg-purple-500/10 text-purple-400'}">${l.channel}</span>
+            <span class="${l.tone === 'success' ? 'text-emerald-300' : l.tone === 'warn' ? 'text-amber-300' : 'text-slate-300'}">${l.msg}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Auto poll every 1.5s
+    fetchStatus();
+    setInterval(fetchStatus, 1500);
+  </script>
+</body>
+</html>

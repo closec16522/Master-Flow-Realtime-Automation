@@ -1,0 +1,33 @@
+{
+  "adb": {
+    "port": "5038",
+    "path": "C:\\Users\\Administrator\\AppData\\Roaming\\flow-automation\\phone-tools\\scrcpy-win64-v4.1\\adb_real.exe",
+    "devices": [
+      "9T9PTC4LTOY9BQ75",
+      "OR7LHALZSCKNZPDA",
+      "RCV4R8FAV8UWRKPZ",
+      "RS9POV8XPRPZ4XE6"
+    ]
+  },
+  "schedule": {
+    "weekday": {
+      "start": "07:00",
+      "end": "22:00"
+    },
+    "weekend": {
+      "start": "07:00",
+      "end": "01:00"
+    }
+  },
+  "facebook": {
+    "page_id": "1012215361986434",
+    "page_name": "น้องบีรีวิว ปักตระกร้า SP"
+  },
+  "tiktok": {
+    "account": "@closec16522"
+  },
+  "server": {
+    "port": 3333,
+    "host": "127.0.0.1"
+  }
+}

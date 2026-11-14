@@ -1,0 +1,26 @@
+# Logs and Temp
+*.log
+*.tmp
+__pycache__/
+*.pyc
+
+# Sensitive Local Data & DBs
+*.db
+*.sqlite
+Local State
+*_token.txt
+token.txt
+secret*.json
+
+# Large binaries (download on demand)
+cloudflared.exe
+adb.exe
+adb_real.exe
+AdbWinApi.dll
+AdbWinUsbApi.dll
+
+# IDE / System
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
