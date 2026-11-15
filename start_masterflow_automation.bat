@@ -2,7 +2,13 @@
 chcp 65001 >nul
 setlocal
 set ANDROID_ADB_SERVER_PORT=5038
+set __COMPAT_LAYER=RunAsInvoker
 set "PY_EXE=C:\Users\Administrator\AppData\Local\Programs\Python\Python311\python.exe"
+set "MF_EXE=C:\Users\Administrator\AppData\Local\Programs\flow-automation\Master Flow.exe"
+
+:: Remove RUNASADMIN compatibility flag so Master Flow never triggers UAC prompt
+reg delete "HKCU\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "%MF_EXE%" /f >nul 2>&1
+reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "%MF_EXE%" /f >nul 2>&1
 
 echo ============================================================
 echo   Master Flow Realtime Automation Suite (Auto-Supervisor)

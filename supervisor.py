@@ -11,7 +11,7 @@ ADB_PATH = r"C:\Users\Administrator\AppData\Roaming\flow-automation\phone-tools\
 ADB_PORT = "5038"
 MASTER_FLOW_EXE = r"C:\Users\Administrator\AppData\Local\Programs\flow-automation\Master Flow.exe"
 BACKEND_SCRIPT = r"C:\SmartHome\MasterFlow-AutoSuite\backend_server.py"
-CLOUDFLARED_EXE = r"C:\Users\Administrator\.gemini\antigravity\brain\d1568b5b-90b0-480a-b56a-6691372d4e53\scratch\cloudflared.exe"
+CLOUDFLARED_EXE = r"C:\SmartHome\MasterFlow-AutoSuite\cloudflared.exe"
 DEVICES = ["9T9PTC4LTOY9BQ75", "OR7LHALZSCKNZPDA", "RCV4R8FAV8UWRKPZ", "RS9POV8XPRPZ4XE6"]
 
 def log(msg):
@@ -56,9 +56,17 @@ def is_process_running(process_name):
 
 def ensure_master_flow():
     if not is_process_running("Master Flow.exe"):
-        log("Master Flow ไม่ได้เปิดอยู่ -> สั่งเปิดโปรแกรมอัตโนมัติ...")
+        log("Master Flow ไม่ได้เปิดอยู่ -> สั่งเปิดโปรแกรมอัตโนมัติ (Bypass UAC / RunAsInvoker)...")
         try:
-            subprocess.Popen([MASTER_FLOW_EXE], shell=True)
+            # Ensure RUNASADMIN compatibility flag is removed so Windows UAC never prompts
+            subprocess.run([
+                "reg", "delete",
+                r"HKCU\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers",
+                "/v", MASTER_FLOW_EXE, "/f"
+            ], capture_output=True)
+            env = os.environ.copy()
+            env["__COMPAT_LAYER"] = "RunAsInvoker"
+            subprocess.Popen([MASTER_FLOW_EXE], env=env, cwd=os.path.dirname(MASTER_FLOW_EXE))
             time.sleep(5)
         except Exception as e:
             log(f"ไม่สามารถเปิด Master Flow: {e}")
