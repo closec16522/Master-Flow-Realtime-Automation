@@ -1292,6 +1292,13 @@ def generate_ai_blessing_and_prompt(text_input, mode="blessing"):
         return "ขออำนาจบารมีสิ่งศักดิ์สิทธิ์ประทานพรให้ท่านสมปรารถนา การเงินมั่งคั่ง โชคลาภเปิดทางสำเร็จทันใจเทอญ"
     return f"【Hook 0-3s】Cinematic extreme close-up reveal of {text_input}, dramatic lighting, high-retention pacing, 9:16 vertical"
 
+DEVICE_REAL_ACCOUNTS = {
+    "9T9PTC4LTOY9BQ75": {"tiktok": "@closec16523 (closec16523)", "shopee": "taweesakkompok (47 ผู้ติดตาม)"},
+    "OR7LHALZSCKNZPDA": {"tiktok": "@closec16525 (closec165251)", "shopee": "closecidtwo (5 ผู้ติดตาม)"},
+    "RCV4R8FAV8UWRKPZ": {"tiktok": "@taweesakkompok0", "shopee": "smarttechgadget (35 ผู้ติดตาม)"},
+    "RS9POV8XPRPZ4XE6": {"tiktok": "@closec16522 (ClosecOneShop1)", "shopee": "closecone2026 (7 ผู้ติดตาม)"}
+}
+
 def query_phone_hardware_identity(serial):
     aid = adb_cmd(serial, "settings get secure android_id")
     size_str = adb_cmd(serial, "wm size")
@@ -1300,7 +1307,7 @@ def query_phone_hardware_identity(serial):
     baseband = adb_cmd(serial, "getprop gsm.version.baseband") or "MOLY.LR12A.R3.MP.V315"
     sensor_info = adb_cmd(serial, "dumpsys sensorservice | grep -i gyro | head -n 1")
     gyro_status = "9-Axis Gyro Fusion (200.00Hz Active)" if "gyro" in sensor_info.lower() else "Active 200Hz Hardware Gyro"
-    tt_ch = state["tiktok_accounts"][0]["account"] if state.get("tiktok_accounts") else "@closec16522"
+    real_acc = DEVICE_REAL_ACCOUNTS.get(serial, {"tiktok": "@closec16522", "shopee": "Shopee #1"})
     return {
         "android_id": aid.strip() if aid else "9b2c7db86fad7221",
         "model": f"{model.strip()} (Redmi 14C)",
@@ -1312,7 +1319,8 @@ def query_phone_hardware_identity(serial):
         "anti_bot_trust_score": 98.8,
         "shadowban_status": "🟢 บัญชีสะอาด (Clean Fingerprint - Safe)",
         "captcha_status": "🟢 ปลอดภัย (ไม่พบจิ๊กซอว์ / Zero Challenge)",
-        "tiktok_channel": tt_ch
+        "tiktok_channel": real_acc["tiktok"],
+        "shopee_channel": real_acc["shopee"]
     }
 
 def human_slider_drag(serial, sx=160, ex=560, y=980):
@@ -1321,6 +1329,78 @@ def human_slider_drag(serial, sx=160, ex=560, y=980):
     adb_cmd(serial, f"input draganddrop {sx} {y} {ex} {y + random.randint(-3, 3)} {dur}")
     time.sleep(1.0)
     log_event(f"AntiCaptcha-{serial[-4:]}", f"✅ ส่งคำสั่งเลื่อนจิ๊กซอว์เสร็จสิ้น ตรวจสอบผลลัพธ์...", "success")
+
+def adb_dump_ui_nodes(serial):
+    """Dump and parse Android UI Hierarchy dynamically for AI Vision & Smart Tap."""
+    try:
+        res_dump = subprocess.run(
+            [ADB_PATH, "-P", ADB_PORT, "-s", serial, "shell", "uiautomator dump --compressed /sdcard/mf_ui.xml && cat /sdcard/mf_ui.xml"],
+            capture_output=True, text=True, timeout=7
+        )
+        raw = res_dump.stdout or ""
+        idx = raw.find("<hierarchy")
+        if idx == -1:
+            return []
+        xml_str = raw[idx:]
+        import xml.etree.ElementTree as ET
+        root = ET.fromstring(xml_str)
+        nodes = []
+        for node in root.iter("node"):
+            b = node.attrib.get("bounds", "")
+            m = re.findall(r'\d+', b)
+            if len(m) == 4:
+                x1, y1, x2, y2 = int(m[0]), int(m[1]), int(m[2]), int(m[3])
+                cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+                nodes.append({
+                    "text": (node.attrib.get("text") or "").strip(),
+                    "desc": (node.attrib.get("content-desc") or "").strip(),
+                    "res_id": (node.attrib.get("resource-id") or "").strip(),
+                    "cx": cx,
+                    "cy": cy,
+                    "bounds": (x1, y1, x2, y2)
+                })
+        return nodes
+    except Exception:
+        return []
+
+def ui_guard_check(serial, nodes):
+    """Detect and dismiss off-track modals (Report, Comment box, Checkout, Camera filters, Captcha)."""
+    if not nodes:
+        return False
+    unwanted = ["ข้อเสนอแนะ", "ทำการสั่งซื้อ", "เพิ่มความคิดเห็น", "เพิ่มคอมเมนต์", "Point of View", "ช่องทางการชำระเงิน", "ยืนยันคำสั่งซื้อ", "ส่งสินค้า", "รายงานปัญหา", "เปิดใช้งาน"]
+    captcha_kw = ["เลื่อนเพื่อยืนยัน", "Verify", "จิ๊กซอว์"]
+    for n in nodes:
+        combined = f"{n['text']} {n['desc']}"
+        for ckw in captcha_kw:
+            if ckw.lower() in combined.lower():
+                human_slider_drag(serial)
+                return True
+        for ukw in unwanted:
+            if ukw in combined:
+                adb_cmd(serial, "input keyevent 4")
+                log_event(f"UI-Guard-{serial[-4:]}", f"🛡️ UI Hierarchy ตรวจพบหน้าจอหลงทาง ({ukw}) -> กด BACK กลับหน้าวอร์มคลิปทันที", "warn")
+                time.sleep(1.0)
+                return True
+    return False
+
+def ui_find_and_tap(serial, nodes, keywords=None, res_id_substrs=None):
+    """Dynamically locate and tap a UI element by text/content-desc/resource-id."""
+    if not nodes:
+        return False
+    for n in nodes:
+        if keywords:
+            combined = f"{n['text']} {n['desc']}".lower()
+            for kw in keywords:
+                if kw.lower() in combined and 30 < n["cx"] < 700 and 100 < n["cy"] < 1580:
+                    adb_cmd(serial, f"input tap {n['cx']} {n['cy']}")
+                    return True
+        if res_id_substrs:
+            rid = n["res_id"].lower()
+            for rsub in res_id_substrs:
+                if rsub.lower() in rid and 30 < n["cx"] < 700 and 100 < n["cy"] < 1580:
+                    adb_cmd(serial, f"input tap {n['cx']} {n['cy']}")
+                    return True
+    return False
 
 def phone_screen_streamer_worker():
     while True:
@@ -1359,6 +1439,7 @@ def phone_worker(serial, idx=0):
         "shadowban_status": hw["shadowban_status"],
         "captcha_status": hw["captcha_status"],
         "tiktok_channel": hw["tiktok_channel"],
+        "shopee_channel": hw["shopee_channel"],
         "state": "เชื่อมต่อ ADB 5037 จริง",
         "action": "เตรียมความพร้อมหน้าจอ...",
         "watched": 0,
@@ -1425,37 +1506,49 @@ def phone_worker(serial, idx=0):
                     dev["current_app_pkg"] = "com.shopee.th"
                     log_event(f"Phone-{serial[-4:]}", "🟠 สลับเปิดแอป Shopee จริงบนมือถือ เพื่อวอร์ม Shopee Video", "info")
                     time.sleep(3.5)
-                    adb_cmd(serial, "input tap 429 1503")
-                    time.sleep(1.0)
+                    sp_nodes = adb_dump_ui_nodes(serial)
+                    ui_guard_check(serial, sp_nodes)
+                    if not ui_find_and_tap(serial, sp_nodes, ["วิดีโอ", "Video", "Live & Video"]):
+                        adb_cmd(serial, "input tap 429 1545")
+                    time.sleep(1.2)
 
-            # 2. Human-like watch retention (8 - 14 seconds)
+            # 2. Human-like watch retention (8 - 14 seconds) + UI Guard Check
             watch_time = random.uniform(8.0, 13.5)
             dev["action"] = f"[{plat_label}] กำลังดูคลิปจนจบ ({int(watch_time)}s)..."
-            time.sleep(watch_time)
+            time.sleep(watch_time * 0.6)
+            live_nodes = adb_dump_ui_nodes(serial)
+            ui_guard_check(serial, live_nodes)
+            time.sleep(watch_time * 0.4)
 
-            # 3. Double-tap to Like
+            # 3. Dynamic UI Hierarchy Like (AI Vision / Resource-ID)
             if random.random() < 0.40:
-                adb_cmd(serial, "input tap 360 800")
-                time.sleep(0.12)
-                adb_cmd(serial, "input tap 360 800")
+                if not ui_find_and_tap(serial, live_nodes, ["ถูกใจ", "Like"], ["digg", "like_btn", "heart"]):
+                    # Safe upper-center double tap (avoids comment/checkout areas)
+                    adb_cmd(serial, "input tap 360 660")
+                    time.sleep(0.12)
+                    adb_cmd(serial, "input tap 360 660")
                 dev["likes"] += 1
                 plat_obj["likes_sent"] += 1
                 if target_sp_ch:
                     target_sp_ch["likes_sent"] = target_sp_ch.get("likes_sent", 0) + 1
                 state["cross_platform_warmup"]["total_likes_sent"] += 1
-                plat_obj["last_action"] = f"มือถือ {serial[-4:]} กดหัวใจ Double-Tap จริง ({cur_plat_id.upper()})"
-                dev["action"] = f"[{plat_label}] ส่งคำสั่ง ADB กดหัวใจ (Double Tap)"
+                plat_obj["last_action"] = f"มือถือ {serial[-4:]} กดหัวใจแบบ UI Hierarchy ({cur_plat_id.upper()})"
+                dev["action"] = f"[{plat_label}] กดหัวใจผ่าน AI UI Hierarchy"
                 log_event(f"Warmup-{cur_plat_id.upper()}", f"❤️ เครื่อง {serial[-4:]} กดหัวใจวอร์มช่องบน {plat_label} (รวม {plat_obj['likes_sent']} ครั้ง)", "success")
                 time.sleep(0.8)
 
-            # 4. Occasional product basket tap
-            if random.random() < 0.22:
+            # 4. Smart Conversion Optimization: Dynamic Product Basket Tap & Clean Back
+            if random.random() < 0.25:
+                tapped_cart = ui_find_and_tap(serial, live_nodes, ["ตะกร้า", "ดูสินค้า", "สินค้าที่เกี่ยวข้อง"], ["anchor", "basket", "cart"])
+                if tapped_cart:
+                    time.sleep(1.2)
+                    adb_cmd(serial, "input keyevent 4")  # Close product drawer cleanly so it never enters Checkout!
                 dev["cart_clicks"] += 1
                 plat_obj["cart_taps"] += 1
                 if target_sp_ch:
                     target_sp_ch["cart_taps"] = target_sp_ch.get("cart_taps", 0) + 1
                 state["cross_platform_warmup"]["total_cart_taps"] += 1
-                plat_obj["last_action"] = f"มือถือ {serial[-4:]} แตะกระตุ้นตะกร้าสินค้า/ลิงก์"
+                plat_obj["last_action"] = f"มือถือ {serial[-4:]} แตะกระตุ้นตะกร้าสินค้า (Smart Conversion)"
 
             # 5. Natural Swipe Up to next video
             sx = random.randint(350, 370)
@@ -2266,13 +2359,20 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 print("Clear pending error:", e)
             self.send_json({"status": "success", "message": "เคลียร์งานค้างสำเร็จ"})
 
-        elif self.path == "/api/masterflow/resume-queue":
+        elif self.path == "/api/masterflow/resume-queue" or self.path == "/api/masterflow/recover-queue":
+            reset_cnt = 0
             try:
+                conn = sqlite3.connect(DB_PATH, timeout=5)
+                cur = conn.cursor()
+                cur.execute("UPDATE generations SET status='pending' WHERE status='cancelled'")
+                reset_cnt = cur.rowcount
+                conn.commit()
+                conn.close()
                 sync_real_database()
-                log_event("MasterFlow", "🚀 สั่งให้ระบบเตรียมสร้างคลิปชุดใหม่สำหรับสินค้า 40 รายการใน unlock108.db", "success")
+                log_event("MasterFlow", f"🚀 Auto Queue Recovery & Direct Flow API: รีเซ็ตและปลดบล็อกคิวงาน {reset_cnt} รายการใน unlock108.db กลับมาผลิตคลิปต่อเนื่อง!", "success")
             except Exception as e:
-                print("Resume queue error:", e)
-            self.send_json({"status": "success", "message": "สั่งสตาร์ทสร้างคลิปชุดใหม่แล้ว"})
+                print("Resume/recover queue error:", e)
+            self.send_json({"status": "success", "reset_count": reset_cnt, "message": f"ปลดบล็อกคิวงาน {reset_cnt} รายการสำเร็จ"})
 
         else:
             self.send_json({"status": "not_found"}, 404)

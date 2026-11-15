@@ -1474,6 +1474,10 @@
                   <div class="text-[10px] text-slate-400">ช่อง TikTok ที่ผูกไว้</div>
                   <div class="font-bold text-pink-300 mt-0.5 truncate" id="mirror-hw-channel">@closec16522</div>
                 </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 col-span-2 md:col-span-3">
+                  <div class="text-[10px] text-slate-400">ช่อง Shopee ที่ผูกไว้กับเครื่องนี้</div>
+                  <div class="font-bold text-orange-300 mt-0.5 truncate" id="mirror-hw-shopee">กำลังตรวจสอบ...</div>
+                </div>
               </div>
 
               <!-- Shadowban & Captcha Sentinel Indicators -->
@@ -1913,6 +1917,12 @@
       window.latestStateData = data;
       if (typeof updateMirrorTelemetry === 'function') {
         updateMirrorTelemetry(activeMirrorSerial);
+      }
+      if (data.all_channels_directory && typeof renderChannelsDirectory === 'function') {
+        renderChannelsDirectory(data.all_channels_directory);
+      }
+      if (data.ai_executive_boardroom && typeof renderAiBoardroom === 'function') {
+        renderAiBoardroom(data.ai_executive_boardroom);
       }
 
       // 1. Real Master Flow DB KPIs
@@ -4133,7 +4143,8 @@
       if (document.getElementById('mirror-hw-res')) document.getElementById('mirror-hw-res').innerText = (dev.screen_res || '720x1640') + ' (90Hz)';
       if (document.getElementById('mirror-hw-gyro')) document.getElementById('mirror-hw-gyro').innerText = dev.gyroscope || '9-Axis Gyro (200Hz Active)';
       if (document.getElementById('mirror-hw-bat')) document.getElementById('mirror-hw-bat').innerText = `${dev.battery || '100%'} · ${dev.temp_c || 38}°C`;
-      if (document.getElementById('mirror-hw-channel')) document.getElementById('mirror-hw-channel').innerText = dev.tiktok_channel || '@closec16522 (ClosecOneShop)';
+      if (document.getElementById('mirror-hw-channel')) document.getElementById('mirror-hw-channel').innerText = dev.tiktok_channel || 'ไม่ระบุ';
+      if (document.getElementById('mirror-hw-shopee')) document.getElementById('mirror-hw-shopee').innerText = dev.shopee_channel || 'กำลังตรวจสอบ...';
       if (document.getElementById('mirror-trust-badge')) document.getElementById('mirror-trust-badge').innerText = `TRUST SCORE: ${dev.anti_bot_trust_score || 98.8}% (CLEAN)`;
       if (document.getElementById('mirror-hw-captcha')) document.getElementById('mirror-hw-captcha').innerText = dev.captcha_status || '🟢 ปกติ (ไม่พบจิ๊กซอว์)';
     }

@@ -192,6 +192,43 @@ def sleep_phones_and_pc():
         adb_shell(d, "settings put system screen_brightness 0")
         adb_shell(d, "input keyevent 26")
 
+def check_and_recover_masterflow_queue():
+    """
+    Auto Queue Recovery (Direct Flow API & unlock108.db Watchdog):
+    Checks unlock108.db for stuck/cancelled generation items and resets/queues
+    new Affiliate product video tasks automatically.
+    """
+    db_path = r"C:\Users\Administrator\AppData\Roaming\flow-automation\unlock108.db"
+    if not os.path.exists(db_path):
+        return
+    try:
+        import sqlite3
+        conn = sqlite3.connect(db_path, timeout=5)
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM generations WHERE status IN ('pending', 'processing', 'generating')")
+        active_cnt = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM generations WHERE status = 'cancelled'")
+        cancelled_cnt = cur.fetchone()[0]
+
+        if active_cnt == 0 and cancelled_cnt > 0:
+            cur.execute("UPDATE generations SET status = 'pending' WHERE status = 'cancelled'")
+            conn.commit()
+            log(f"🔄 Auto Queue Recovery: รีเซ็ตคิวงานที่ค้าง/ยกเลิก ({cancelled_cnt} รายการ) ใน unlock108.db กลับเป็น 'pending' สำเร็จ!")
+            # Notify backend to log and trigger Direct Flow API worker
+            try:
+                req = urllib.request.Request(
+                    "http://127.0.0.1:3333/api/masterflow/recover-queue",
+                    data=json.dumps({"reset_count": cancelled_cnt}).encode("utf-8"),
+                    headers={"Content-Type": "application/json"},
+                    method="POST"
+                )
+                urllib.request.urlopen(req, timeout=3)
+            except Exception:
+                pass
+        conn.close()
+    except Exception as e:
+        log(f"Auto Queue Recovery error: {e}")
+
 def main():
     log("=====================================================")
     log("เริ่มต้นระบบ Master Flow Auto-Supervisor & Keep-Alive")
@@ -212,6 +249,7 @@ def main():
                 ensure_master_flow()
                 ensure_backend_server()
                 ensure_cloudflared()
+                check_and_recover_masterflow_queue()
 
                 for d in DEVICES:
                     recover_phone(d)
