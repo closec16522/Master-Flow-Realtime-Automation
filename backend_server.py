@@ -778,8 +778,9 @@ def phone_worker(serial, idx=0):
     adb_cmd(serial, "settings put global stay_on_while_plugged_in 7")
     adb_cmd(serial, "svc power stayon true")
 
-    platform_cycle = ["tiktok", "facebook", "shopee"]
-    cycle_step = idx % 3
+    dev["current_app_pkg"] = ""
+    dev["cur_plat_id"] = "tiktok" if idx % 2 == 0 else "shopee"
+    dev["batch_clips_left"] = random.randint(3, 5)
 
     while True:
         try:
@@ -792,8 +793,12 @@ def phone_worker(serial, idx=0):
 
             mode = state["cross_platform_warmup"]["active_mode"]
             if mode == "auto_rotate":
-                cur_plat_id = platform_cycle[cycle_step % 3]
-                cycle_step += 1
+                if dev["batch_clips_left"] <= 0:
+                    # Switch app between TikTok and Shopee for natural human behavior
+                    dev["cur_plat_id"] = "shopee" if dev["cur_plat_id"] == "tiktok" else "tiktok"
+                    dev["batch_clips_left"] = random.randint(3, 5)
+                cur_plat_id = dev["cur_plat_id"]
+                dev["batch_clips_left"] -= 1
             else:
                 cur_plat_id = mode if mode in ("tiktok", "facebook", "shopee") else "tiktok"
 
@@ -805,11 +810,31 @@ def phone_worker(serial, idx=0):
                 plat_obj["account"] = f"กำลังเน้น: {target_sp_ch['shop_name']} (รวม {len(state['shopee_warmup_list'])} ช่องใน List)"
             dev["current_platform"] = plat_label
 
-            watch_time = random.uniform(8.0, 13.0)
-            dev["action"] = f"[{plat_label}] กำลังดูคลิปจนจบ ({int(watch_time)} วินาที)..."
+            # 1. Switch to the target application on Redmi 14C via ADB if needed
+            if cur_plat_id == "tiktok":
+                if dev.get("current_app_pkg") != "com.ss.android.ugc.trill":
+                    dev["action"] = "📱 กำลังเปิดแอป TikTok (com.ss.android.ugc.trill)..."
+                    adb_cmd(serial, "monkey -p com.ss.android.ugc.trill -c android.intent.category.LAUNCHER 1")
+                    dev["current_app_pkg"] = "com.ss.android.ugc.trill"
+                    log_event(f"Phone-{serial[-4:]}", "📱 สลับเปิดแอป TikTok จริงบนมือถือ เพื่อวอร์มฟีด & หัวใจ", "info")
+                    time.sleep(3.5)
+            elif cur_plat_id == "shopee":
+                if dev.get("current_app_pkg") != "com.shopee.th":
+                    dev["action"] = "🟠 กำลังเปิดแอป Shopee (com.shopee.th)..."
+                    adb_cmd(serial, "monkey -p com.shopee.th -c android.intent.category.LAUNCHER 1")
+                    dev["current_app_pkg"] = "com.shopee.th"
+                    log_event(f"Phone-{serial[-4:]}", "🟠 สลับเปิดแอป Shopee จริงบนมือถือ เพื่อวอร์ม Shopee Video", "info")
+                    time.sleep(3.5)
+                    adb_cmd(serial, "input tap 429 1503")
+                    time.sleep(1.0)
+
+            # 2. Human-like watch retention (8 - 14 seconds)
+            watch_time = random.uniform(8.0, 13.5)
+            dev["action"] = f"[{plat_label}] กำลังดูคลิปจนจบ ({int(watch_time)}s)..."
             time.sleep(watch_time)
 
-            if random.random() < 0.35:
+            # 3. Double-tap to Like
+            if random.random() < 0.40:
                 adb_cmd(serial, "input tap 360 800")
                 time.sleep(0.12)
                 adb_cmd(serial, "input tap 360 800")
@@ -818,12 +843,13 @@ def phone_worker(serial, idx=0):
                 if target_sp_ch:
                     target_sp_ch["likes_sent"] = target_sp_ch.get("likes_sent", 0) + 1
                 state["cross_platform_warmup"]["total_likes_sent"] += 1
-                plat_obj["last_action"] = f"มือถือ {serial[-4:]} กดหัวใจ Double-Tap จริง"
+                plat_obj["last_action"] = f"มือถือ {serial[-4:]} กดหัวใจ Double-Tap จริง ({cur_plat_id.upper()})"
                 dev["action"] = f"[{plat_label}] ส่งคำสั่ง ADB กดหัวใจ (Double Tap)"
                 log_event(f"Warmup-{cur_plat_id.upper()}", f"❤️ เครื่อง {serial[-4:]} กดหัวใจวอร์มช่องบน {plat_label} (รวม {plat_obj['likes_sent']} ครั้ง)", "success")
                 time.sleep(0.8)
 
-            if random.random() < 0.25:
+            # 4. Occasional product basket tap
+            if random.random() < 0.22:
                 dev["cart_clicks"] += 1
                 plat_obj["cart_taps"] += 1
                 if target_sp_ch:
@@ -831,6 +857,7 @@ def phone_worker(serial, idx=0):
                 state["cross_platform_warmup"]["total_cart_taps"] += 1
                 plat_obj["last_action"] = f"มือถือ {serial[-4:]} แตะกระตุ้นตะกร้าสินค้า/ลิงก์"
 
+            # 5. Natural Swipe Up to next video
             sx = random.randint(350, 370)
             sy = random.randint(1180, 1250)
             ey = random.randint(360, 430)

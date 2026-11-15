@@ -119,7 +119,7 @@ def recover_phone(serial):
         adb_shell(serial, "ime set com.android.adbkeyboard/.AdbIME")
 
     win = adb_shell(serial, "dumpsys window")
-    if "com.shopee.th" not in win and "com.zhiliaoapp.musically" not in win:
+    if "com.shopee.th" not in win and "com.ss.android.ugc.trill" not in win and "com.zhiliaoapp.musically" not in win:
         log(f"มือถือ {serial} ยังไม่ได้เปิด Shopee/TikTok -> สั่งเปิดแอปอัตโนมัติ...")
         adb_shell(serial, "monkey -p com.shopee.th -c android.intent.category.LAUNCHER 1")
         time.sleep(4)

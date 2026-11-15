@@ -600,21 +600,39 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-1.5">
-              <button onclick="setWarmupPlatformMode('auto_rotate')" class="bg-orange-600 hover:bg-orange-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl transition">
-                🔄 หมุนเวียนครบทุกแพลตฟอร์ม
+              <button onclick="setWarmupPlatformMode('auto_rotate')" class="bg-orange-600 hover:bg-orange-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl transition shadow-lg shadow-orange-600/30">
+                🔄 สลับสุ่มมือถือ TikTok ⇄ Shopee
               </button>
               <button onclick="setWarmupPlatformMode('tiktok')" class="bg-pink-600/80 hover:bg-pink-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
-                🎵 เน้น TikTok
+                🎵 เน้นแอป TikTok มือถือ
+              </button>
+              <button onclick="setWarmupPlatformMode('shopee')" class="bg-amber-600/80 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
+                🟠 เน้นแอป Shopee มือถือ
               </button>
               <button onclick="setWarmupPlatformMode('facebook')" class="bg-blue-600/80 hover:bg-blue-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
                 🔵 เน้น FB Reels
               </button>
-              <button onclick="setWarmupPlatformMode('shopee')" class="bg-amber-600/80 hover:bg-amber-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl transition">
-                🟠 เน้น Shopee Video
-              </button>
               <button onclick="warmupAllTikTokChannels()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black px-3 py-1.5 rounded-xl transition">
                 ⚡ สั่งเร่งวอร์ม 4 เครื่องทันที
               </button>
+            </div>
+          </div>
+
+          <!-- Strategy Insight Banner: Mobile Phone Warmup vs PC -->
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">💡 คำแนะนำเชิงเทคนิค</span>
+                <span class="font-bold text-white">วอร์มช่อง TikTok บนมือถือจริง (Redmi 14C) ดีกว่าบนคอมพิวเตอร์อย่างมหาศาล</span>
+              </div>
+              <p class="text-[11px] text-slate-300 leading-relaxed">
+                การเปิดแอป TikTok บนมือถือจริง (<code class="text-pink-300">com.ss.android.ugc.trill</code>) มี Device Fingerprint ฮาร์ดแวร์จริง, แบตเตอรี่, หน้าจอสัมผัสจริง และระบบเซ็นเซอร์ครบถ้วน ซึ่งอัลกอริทึมของ TikTok ให้ความน่าเชื่อถือสูงกว่า Browser บน PC ถึง 10 เท่า ป้องกันการติด Shadowban และ Captcha 100% โดยระบบจะสั่งสลับดูคลิป Shopee 3-5 คลิป แล้วสลับมาดู TikTok 3-5 คลิป แบบสุ่มเป็นธรรมชาติเสมือนคนใช้งานจริง
+              </p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="px-2.5 py-1 rounded-lg bg-pink-500/15 border border-pink-500/30 text-pink-300 font-mono text-[11px] font-bold">
+                📱 TikTok App: พร้อมทำงาน 4 เครื่อง
+              </span>
             </div>
           </div>
 
@@ -1262,10 +1280,16 @@
         document.getElementById('devices-grid').innerHTML = entries.map(([serial, dev]) => {
           totalWatched += (dev.watched || 0);
           return `
-            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-2.5">
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-2.5 shadow-lg">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-black text-white font-mono">${serial}</span>
                 <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/15 text-emerald-400">🔋 ${dev.battery}</span>
+              </div>
+              <div class="flex items-center justify-between gap-1 text-[11px]">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${dev.cur_plat_id === 'tiktok' ? 'bg-pink-500/20 text-pink-300 border border-pink-500/30' : 'bg-orange-500/20 text-orange-300 border border-orange-500/30'}">
+                  ${dev.cur_plat_id === 'tiktok' ? '🎵 แอป TikTok มือถือ' : '🟠 แอป Shopee มือถือ'}
+                </span>
+                <span class="text-slate-400 text-[10px] truncate max-w-[120px]">${dev.current_platform || 'สลับสุ่มอัตโนมัติ'}</span>
               </div>
               <div class="text-[11px] text-indigo-300 truncate">${dev.action}</div>
               <div class="grid grid-cols-2 gap-2 bg-slate-900 rounded-xl p-2 text-center text-[11px] border border-slate-800">
@@ -1744,39 +1768,477 @@
         if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lineW; ctx.stroke(); }
       }
 
-      function drawComputerWorkstation(x, y, screenColor, label, progress) {
-        // Desk shadow & 3D Isometric Desk top
-        drawRoundedRect(x - 46, y - 36, 92, 42, 8, '#1e293b', '#475569', 2);
-        drawRoundedRect(x - 42, y - 33, 84, 34, 6, '#0f172a', null);
-        // Dual Monitors
-        drawRoundedRect(x - 34, y - 52, 32, 22, 4, '#020617', screenColor, 1.8);
-        drawRoundedRect(x + 2, y - 52, 32, 22, 4, '#020617', screenColor, 1.8);
-        // Animated code lines / progress on monitor screens
+      // Draw 3D Isometric Desk with Curved Dual Screens, Ergonomic Mesh Chair & Ambient Light Bloom
+      function draw3DWorkstation(x, y, screenColor, label, progress, hasCoffee = true, hasPlant = false) {
+        // 1. Soft Ambient Ground Shadow
+        ctx.beginPath();
+        ctx.ellipse(x, y + 10, 56, 18, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+        ctx.fill();
+
+        // 2. 3D Ergonomic Mesh Chair Behind Desk
+        const chairY = y - 38;
+        // 5-Star Caster Wheel Base
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2.5;
+        for (let a = 0; a < 5; a++) {
+          const ang = (a * Math.PI * 2) / 5 + (x % 3);
+          ctx.beginPath();
+          ctx.moveTo(x, chairY + 12);
+          ctx.lineTo(x + Math.cos(ang) * 16, chairY + 12 + Math.sin(ang) * 6);
+          ctx.stroke();
+        }
+        // Hydraulic Center Post
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(x, chairY + 12);
+        ctx.lineTo(x, chairY);
+        ctx.stroke();
+        // Padded Seat Cushion
+        drawRoundedRect(x - 18, chairY - 8, 36, 12, 5, '#0f172a', '#475569', 1.5);
+        // Mesh Curved Backrest
+        drawRoundedRect(x - 16, chairY - 26, 32, 18, 6, '#1e293b', screenColor, 1.5);
+        ctx.strokeStyle = screenColor;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x - 10, chairY - 17);
+        ctx.lineTo(x + 10, chairY - 17);
+        ctx.stroke();
+
+        // 3. 3D Wooden Desk Structure
+        // Front beveled thickness (6px depth facing viewer)
+        drawRoundedRect(x - 50, y - 22, 100, 26, 6, '#0f172a', '#334155', 1.5);
+        // Desktop Surface (Oak/Charcoal with rich gradient)
+        const deskGrad = ctx.createLinearGradient(x - 50, y - 36, x + 50, y - 16);
+        deskGrad.addColorStop(0, '#1e293b');
+        deskGrad.addColorStop(0.5, '#334155');
+        deskGrad.addColorStop(1, '#1e293b');
+        drawRoundedRect(x - 50, y - 36, 100, 24, 7, deskGrad, '#64748b', 1.8);
+
+        // Desk Chrome Tubular Legs with Floor Pads
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(x - 44, y - 10); ctx.lineTo(x - 44, y + 8);
+        ctx.moveTo(x + 44, y - 10); ctx.lineTo(x + 44, y + 8);
+        ctx.stroke();
+        // Floor Rubber Pads
+        ctx.fillStyle = '#020617';
+        ctx.fillRect(x - 47, y + 6, 6, 3);
+        ctx.fillRect(x + 41, y + 6, 6, 3);
+
+        // 4. Ambient Screen Glow Bloom onto Desktop Surface
+        const bloom = ctx.createRadialGradient(x, y - 40, 10, x, y - 26, 50);
+        bloom.addColorStop(0, screenColor.replace(')', ', 0.35)').replace('rgb', 'rgba'));
+        bloom.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = bloom;
+        ctx.fillRect(x - 48, y - 36, 96, 24);
+
+        // 5. Dual Ultra-Wide Curved Monitors on Heavy-Duty Articulated Arm
+        // Heavy-Duty Metal Stand Post
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(x, y - 32);
+        ctx.lineTo(x, y - 44);
+        ctx.stroke();
+
+        // Left Curved Screen (Tilted inwards +10°)
+        ctx.save();
+        ctx.translate(x - 20, y - 48);
+        ctx.rotate(-0.08);
+        drawRoundedRect(-20, -14, 38, 26, 4, '#020617', screenColor, 1.8);
+        // Live Screen Telemetry Lines
         ctx.fillStyle = screenColor;
         const barW = 10 + ((officeSimTick + x) % 18);
-        ctx.fillRect(x - 30, y - 47, barW, 3);
-        ctx.fillRect(x - 30, y - 41, 22, 3);
-        ctx.fillRect(x + 6, y - 47, 24 * progress, 4);
-        ctx.fillRect(x + 6, y - 40, 18, 3);
-        // Glowing Keyboard
-        drawRoundedRect(x - 16, y - 22, 32, 9, 2, '#334155', '#64748b', 1);
-        // Label on desk front
-        ctx.fillStyle = '#94a3b8';
+        ctx.fillRect(-16, -9, barW, 3);
+        ctx.fillRect(-16, -3, 26, 2.5);
+        ctx.fillRect(-16, 3, 20, 2.5);
+        ctx.restore();
+
+        // Right Curved Screen (Tilted inwards -10°)
+        ctx.save();
+        ctx.translate(x + 20, y - 48);
+        ctx.rotate(0.08);
+        drawRoundedRect(-18, -14, 38, 26, 4, '#020617', screenColor, 1.8);
+        // Live Screen Progress Bar & Waveform
+        ctx.fillStyle = screenColor;
+        ctx.fillRect(-14, -9, 28 * Math.max(0.2, progress), 4);
+        const waveH = Math.sin((officeSimTick + x) * 0.15) * 4;
+        ctx.fillRect(-14, -1, 14, 3 + waveH);
+        ctx.fillRect(4, -1, 10, 3 - waveH);
+        ctx.fillRect(-14, 5, 24, 2);
+        ctx.restore();
+
+        // 6. RGB Mechanical Keyboard & Optical Mouse
+        drawRoundedRect(x - 20, y - 27, 28, 8, 2, '#0f172a', '#475569', 1);
+        // Glowing Key Row
+        ctx.fillStyle = screenColor;
+        ctx.fillRect(x - 18, y - 25, 24, 2);
+        // Precision Optical Mouse & RGB Pad
+        drawRoundedRect(x + 14, y - 28, 14, 10, 2, '#020617', null);
+        ctx.fillStyle = '#64748b';
+        ctx.beginPath();
+        ctx.ellipse(x + 21, y - 23, 3, 4.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 7. Steaming Hot Coffee Mug
+        if (hasCoffee) {
+          const mugX = x - 38;
+          const mugY = y - 26;
+          drawRoundedRect(mugX - 4, mugY - 6, 8, 9, 2, '#f8fafc', '#94a3b8', 1);
+          // Handle
+          ctx.strokeStyle = '#f8fafc';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(mugX - 4, mugY - 1.5, 3, Math.PI * 0.5, Math.PI * 1.5);
+          ctx.stroke();
+          // Animated Steam Wisp
+          const steamY = (officeSimTick * 0.5) % 12;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(mugX, mugY - 7 - steamY);
+          ctx.quadraticCurveTo(mugX + 3, mugY - 11 - steamY, mugX - 1, mugY - 15 - steamY);
+          ctx.stroke();
+        }
+
+        // 8. Mini Modern Desk Succulent / Plant
+        if (hasPlant) {
+          const plantX = x + 38;
+          const plantY = y - 26;
+          // Ceramic Pot
+          drawRoundedRect(plantX - 5, plantY - 4, 10, 7, 2, '#f97316', '#c2410c', 1);
+          // Green Leaves
+          ctx.fillStyle = '#22c55e';
+          ctx.beginPath();
+          ctx.arc(plantX, plantY - 6, 4, 0, Math.PI * 2);
+          ctx.arc(plantX - 4, plantY - 5, 3, 0, Math.PI * 2);
+          ctx.arc(plantX + 4, plantY - 5, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 9. Metallic Badge Label on Desk Fascia
+        ctx.fillStyle = '#cbd5e1';
         ctx.font = 'bold 9px Prompt, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(label, x, y + 16);
+        ctx.fillText(label, x, y + 20);
       }
 
+      // Draw 3D Grand Conference Table with Hologram & Leather Chairs
+      function draw3DMeetingTable(x, y) {
+        // Table Ground Shadow
+        ctx.beginPath();
+        ctx.ellipse(x, y + 6, 92, 44, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.fill();
+
+        // 6 3D Executive Leather Chairs around Table
+        const chairRadiusX = 86;
+        const chairRadiusY = 38;
+        for (let i = 0; i < 6; i++) {
+          const theta = (i * Math.PI * 2) / 6;
+          const cx = x + Math.cos(theta) * chairRadiusX;
+          const cy = y + Math.sin(theta) * chairRadiusY;
+          // Chair Shadow
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + 8, 12, 5, 0, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0,0,0,0.4)';
+          ctx.fill();
+          // Leather Chair Backrest
+          drawRoundedRect(cx - 10, cy - 14, 20, 14, 5, '#0f172a', '#3b82f6', 1.5);
+          drawRoundedRect(cx - 8, cy - 2, 16, 8, 3, '#1e293b', null);
+        }
+
+        // Mahogany & Tempered Glass Table Edge Bevel (Thickness)
+        ctx.beginPath();
+        ctx.ellipse(x, y + 3, 76, 34, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#0f172a';
+        ctx.fill();
+        ctx.strokeStyle = '#1e3a8a';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Table Glass Surface with Gradient
+        ctx.beginPath();
+        ctx.ellipse(x, y, 76, 34, 0, 0, Math.PI * 2);
+        const tg = ctx.createLinearGradient(x - 70, y - 30, x + 70, y + 30);
+        tg.addColorStop(0, 'rgba(30, 58, 138, 0.5)');
+        tg.addColorStop(0.5, 'rgba(56, 189, 248, 0.3)');
+        tg.addColorStop(1, 'rgba(30, 58, 138, 0.6)');
+        ctx.fillStyle = tg;
+        ctx.fill();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Center 3D Holographic Projector Emitter
+        ctx.beginPath();
+        ctx.ellipse(x, y, 22, 10, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#020617';
+        ctx.fill();
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Holographic Rotating Wireframe Globe / Pyramid
+        const holoAngle = officeSimTick * 0.03;
+        const holoY = y - 26 + Math.sin(officeSimTick * 0.06) * 4;
+        ctx.save();
+        ctx.translate(x, holoY);
+        // Holographic Beam Cones
+        ctx.beginPath();
+        ctx.moveTo(x - 18 - x, y - holoY);
+        ctx.lineTo(-24, 0);
+        ctx.lineTo(24, 0);
+        ctx.lineTo(x + 18 - x, y - holoY);
+        ctx.closePath();
+        const beamGrad = ctx.createLinearGradient(0, y - holoY, 0, 0);
+        beamGrad.addColorStop(0, 'rgba(34, 211, 238, 0.35)');
+        beamGrad.addColorStop(1, 'rgba(34, 211, 238, 0.05)');
+        ctx.fillStyle = beamGrad;
+        ctx.fill();
+
+        // 3D Wireframe Rings
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 18, 18 * Math.abs(Math.cos(holoAngle)), holoAngle, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 18, 18 * Math.abs(Math.sin(holoAngle)), holoAngle + Math.PI / 4, 0, Math.PI * 2);
+        ctx.stroke();
+        // Orbiting Satellite Node
+        const satX = Math.cos(holoAngle * 2) * 22;
+        const satY = Math.sin(holoAngle * 2) * 10;
+        ctx.fillStyle = '#34d399';
+        ctx.beginPath();
+        ctx.arc(satX, satY, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Floating 3D Text
+        ctx.fillStyle = '#67e8f9';
+        ctx.font = 'bold 9.5px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🔍 3-HOUR AUTO AUDIT', x, y - 44);
+        ctx.fillStyle = '#34d399';
+        ctx.font = 'bold 11px Prompt, sans-serif';
+        ctx.fillText('PASS 12 / 12 (100%)', x, y - 33);
+      }
+
+      // Draw 3D Phone Farm Rack (Redmi 14C Tilted Aluminum Stand)
+      function draw3DPhoneFarmDock(x, y) {
+        // Stand Base Shadow
+        ctx.beginPath();
+        ctx.ellipse(x + 155, y + 42, 165, 20, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.65)';
+        ctx.fill();
+
+        // Tilted Aluminum Stand (3D Depth Plate)
+        drawRoundedRect(x - 5, y + 6, 320, 42, 8, '#0f172a', '#f97316', 2);
+        drawRoundedRect(x - 5, y - 8, 320, 36, 8, '#1e293b', '#64748b', 1.8);
+
+        // Heavy-Duty Multi-Port USB Fast-Charger Hub with Status LEDs
+        drawRoundedRect(x + 10, y + 24, 75, 18, 4, '#020617', '#34d399', 1.2);
+        ctx.fillStyle = '#34d399';
+        ctx.font = 'bold 8px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('ADB:5038 ⚡', x + 47, y + 36);
+
+        const phoneLabels = ['BQ75', 'ZPDA', 'RKPZ', '4XE6'];
+        for (let p = 0; p < 4; p++) {
+          const px = x + 100 + p * 54;
+          const py = y - 16;
+          // Smartphone 3D Body (Tilted 30° Backwards)
+          drawRoundedRect(px - 16, py - 20, 32, 44, 5, '#020617', '#475569', 1.8);
+          // Bezel & Screen
+          const isTikTok = p % 2 === 0;
+          const screenBg = isTikTok ? '#000000' : '#ea580c';
+          drawRoundedRect(px - 14, py - 18, 28, 40, 3, screenBg, null);
+
+          // Dynamic Animated Screen Graphic
+          if (isTikTok) {
+            // TikTok Musical Note / FYP Video Scroll
+            const barY = (officeSimTick * 0.8 + p * 8) % 24;
+            ctx.fillStyle = '#22d3ee';
+            ctx.fillRect(px - 9, py - 10 + barY * 0.4, 18, 7);
+            ctx.fillStyle = '#ec4899';
+            ctx.fillRect(px - 7, py - 8 + barY * 0.4, 14, 5);
+            // Floating Mini Like Heart on Phone Screen
+            ctx.fillStyle = '#f43f5e';
+            ctx.font = '7px sans-serif';
+            ctx.fillText('❤️', px + 5, py - 4);
+          } else {
+            // Shopee Video & Orange Shopping Basket
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(px - 9, py - 9, 18, 8);
+            ctx.fillStyle = '#ea580c';
+            ctx.font = 'bold 6px Prompt, sans-serif';
+            ctx.fillText('SP', px, py - 3);
+          }
+
+          // Live Device Serial Label
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 7.5px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(phoneLabels[p], px, py + 18);
+
+          // Braided USB-C Cable running down to base
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(px, py + 24);
+          ctx.bezierCurveTo(px, py + 34, x + 85, py + 30, x + 85, py + 33);
+          ctx.stroke();
+        }
+
+        // Spawn Floating Hearts ❤️ Rising from Phone Stand
+        if (officeSimTick % 22 === 0) {
+          officeFloatingHearts.push({
+            x: x + 100 + Math.random() * 200,
+            y: y - 20,
+            alpha: 1.0,
+            icon: Math.random() > 0.35 ? '❤️' : '🛒'
+          });
+        }
+        for (let i = officeFloatingHearts.length - 1; i >= 0; i--) {
+          const h = officeFloatingHearts[i];
+          h.y -= 0.85;
+          h.alpha -= 0.016;
+          if (h.alpha <= 0) { officeFloatingHearts.splice(i, 1); continue; }
+          ctx.globalAlpha = h.alpha;
+          ctx.font = '12px sans-serif';
+          ctx.fillText(h.icon || '❤️', h.x, h.y);
+          ctx.globalAlpha = 1.0;
+        }
+      }
+
+      // Draw 3D Server Rack Tower (Ollama & Whisper Inference Engine)
+      function draw3DServerCabinet(x, y) {
+        // Cabinet Shadow
+        ctx.beginPath();
+        ctx.ellipse(x + 24, y + 54, 34, 12, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.fill();
+
+        // 3D Cabinet Enclosure
+        drawRoundedRect(x, y - 20, 48, 70, 6, '#020617', '#a855f7', 2);
+        // Glass Reflection Glare Line
+        ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x + 6, y + 44);
+        ctx.lineTo(x + 40, y - 14);
+        ctx.stroke();
+
+        // 4 Rack Server Trays
+        const leds = ['#34d399', '#a855f7', '#ec4899', '#38bdf8'];
+        for (let s = 0; s < 4; s++) {
+          const sy = y - 12 + s * 14;
+          drawRoundedRect(x + 5, sy, 38, 10, 2, '#0f172a', '#334155', 1);
+          // Pulsing Activity LED
+          const blink = (officeSimTick + s * 8) % 20 < 12;
+          ctx.fillStyle = blink ? leds[s] : '#1e293b';
+          ctx.beginPath();
+          ctx.arc(x + 11, sy + 5, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          // Air Vent Slots
+          ctx.fillStyle = '#475569';
+          ctx.fillRect(x + 18, sy + 3.5, 20, 1.5);
+          ctx.fillRect(x + 18, sy + 6, 20, 1.5);
+        }
+      }
+
+      // Draw 3D Raised Live Stage with Spotlight & 9:16 Sacred Monolith
+      function draw3DLiveStage(x, y) {
+        // Spotlight Beam from Ceiling
+        const spotGrad = ctx.createRadialGradient(x, y + 10, 10, x, y + 10, 75);
+        spotGrad.addColorStop(0, 'rgba(251, 191, 36, 0.35)');
+        spotGrad.addColorStop(0.7, 'rgba(251, 191, 36, 0.08)');
+        spotGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = spotGrad;
+        ctx.beginPath();
+        ctx.ellipse(x, y + 10, 75, 34, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Raised Circular Stage with Gold Trim & Velvet Carpet
+        ctx.beginPath();
+        ctx.ellipse(x, y + 8, 65, 28, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#78350f';
+        ctx.fill();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(x, y, 65, 28, 0, 0, Math.PI * 2);
+        const stageGrad = ctx.createLinearGradient(x - 50, y - 20, x + 50, y + 20);
+        stageGrad.addColorStop(0, '#991b1b');
+        stageGrad.addColorStop(0.5, '#b91c1c');
+        stageGrad.addColorStop(1, '#7f1d1d');
+        ctx.fillStyle = stageGrad;
+        ctx.fill();
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // 9:16 Broadcast Monolith Screen (Vertical Broadcast Stand)
+        drawRoundedRect(x - 22, y - 76, 44, 76, 6, '#0c0a09', '#f59e0b', 2.5);
+        // Sacred Aura Glow
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.25)';
+        ctx.beginPath();
+        ctx.arc(x, y - 40, 18 + Math.sin(officeSimTick * 0.1) * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 8.5px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🐉 LIVE 9:16', x, y - 62);
+        ctx.fillText('พญานาคราช', x, y - 38);
+        ctx.fillStyle = '#34d399';
+        ctx.font = 'bold 8px Prompt, sans-serif';
+        ctx.fillText('● ON AIR', x, y - 10);
+      }
+
+      // Draw Potted Monstera / Office Plant
+      function draw3DOfficePlant(x, y) {
+        // Ceramic Planter Pot
+        drawRoundedRect(x - 8, y - 4, 16, 14, 3, '#e2e8f0', '#94a3b8', 1.5);
+        // Soil
+        ctx.fillStyle = '#451a03';
+        ctx.fillRect(x - 6, y - 3, 12, 3);
+        // Lush Green Monstera Leaves
+        ctx.fillStyle = '#15803d';
+        ctx.beginPath();
+        ctx.arc(x - 5, y - 10, 6, 0, Math.PI * 2);
+        ctx.arc(x + 5, y - 11, 5.5, 0, Math.PI * 2);
+        ctx.arc(x, y - 15, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.arc(x - 2, y - 13, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Draw Cartoon Worker with Smooth Depth, Directional Facing & Desk Seating
       function drawCartoonWorker(ag) {
-        // Movement update
         const dx = ag.tx - ag.x;
         const dy = ag.ty - ag.y;
         const dist = Math.hypot(dx, dy);
         const isWalking = dist > 3.5;
 
+        // Facing direction (flip sprite horizontally when walking left)
+        if (Math.abs(dx) > 1.5) {
+          ag.facing = dx >= 0 ? 1 : -1;
+        } else if (!ag.facing) {
+          ag.facing = 1;
+        }
+
         if (isWalking) {
-          const step = 2.1 * officeSimSpeed;
-          // Use central corridor (y=288) if moving between top and bottom rooms
+          const step = 2.2 * officeSimSpeed;
+          // Use central corridor (y=288) for smooth pathfinding
           if (Math.abs(ag.y - ag.ty) > 130 && Math.abs(ag.x - ag.tx) > 90 && Math.abs(ag.y - 288) > 12) {
             const cy = 288 - ag.y;
             ag.y += Math.sign(cy) * Math.min(Math.abs(cy), step);
@@ -1790,7 +2252,6 @@
           if (officeSimMode === 'work') {
             ag.walkTimer -= officeSimSpeed;
             if (ag.walkTimer <= 0) {
-              // Occasionally stroll to corridor / phone rack / meeting board and back
               if (Math.hypot(ag.x - ag.deskX, ag.y - ag.deskY) < 10) {
                 const spots = [
                   {x: 640, y: 288}, {x: 320, y: 150}, {x: 640, y: 410}, {x: 980, y: 288}
@@ -1813,115 +2274,152 @@
         const cx = ag.x;
         const cy = ag.y + typeBob;
 
-        // Shadow under character
+        // Ground Shadow
         ctx.beginPath();
         ctx.ellipse(cx, ag.y + 22, 14, 6, 0, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fill();
 
-        // Legs (animated walking)
+        ctx.save();
+        ctx.translate(cx, cy);
+        if (ag.facing === -1) {
+          ctx.scale(-1, 1);
+        }
+
+        // Legs (Walking Cycle)
         ctx.strokeStyle = '#1e293b';
         ctx.lineWidth = 4.5;
         ctx.lineCap = 'round';
         ctx.beginPath();
-        ctx.moveTo(cx - 5, cy + 8);
-        ctx.lineTo(cx - 5 - swing * 0.5, ag.y + 20 + swing * 0.6);
-        ctx.moveTo(cx + 5, cy + 8);
-        ctx.lineTo(cx + 5 + swing * 0.5, ag.y + 20 - swing * 0.6);
+        ctx.moveTo(-5, 8);
+        ctx.lineTo(-5 - swing * 0.5, 20 + swing * 0.6);
+        ctx.moveTo(5, 8);
+        ctx.lineTo(5 + swing * 0.5, 20 - swing * 0.6);
         ctx.stroke();
 
-        // Shoes
+        // Sneakers with Colored Sole
         ctx.fillStyle = '#f8fafc';
         ctx.beginPath();
-        ctx.arc(cx - 5 - swing * 0.5, ag.y + 20 + swing * 0.6, 3, 0, Math.PI * 2);
-        ctx.arc(cx + 5 + swing * 0.5, ag.y + 20 - swing * 0.6, 3, 0, Math.PI * 2);
+        ctx.arc(-5 - swing * 0.5, 20 + swing * 0.6, 3.2, 0, Math.PI * 2);
+        ctx.arc(5 + swing * 0.5, 20 - swing * 0.6, 3.2, 0, Math.PI * 2);
         ctx.fill();
 
-        // Body / Shirt
-        drawRoundedRect(cx - 11, cy - 8, 22, 18, 6, ag.shirt, '#ffffff', 1.2);
+        // Torso / Stylish Hoodie (Gradient Shading)
+        const shirtGrad = ctx.createLinearGradient(-11, -8, 11, 10);
+        shirtGrad.addColorStop(0, ag.shirt);
+        shirtGrad.addColorStop(1, '#0f172a');
+        drawRoundedRect(-11, -8, 22, 18, 6, shirtGrad, '#ffffff', 1.2);
 
-        // Arms (typing on keyboard when at desk, swinging when walking)
+        // Arms (Typing at Desk vs Walking Swing)
         ctx.strokeStyle = ag.shirt;
         ctx.lineWidth = 4;
         ctx.beginPath();
         if (isWalking) {
-          ctx.moveTo(cx - 11, cy - 4);
-          ctx.lineTo(cx - 15 + swing, cy + 6);
-          ctx.moveTo(cx + 11, cy - 4);
-          ctx.lineTo(cx + 15 - swing, cy + 6);
+          ctx.moveTo(-11, -4);
+          ctx.lineTo(-15 + swing, 6);
+          ctx.moveTo(11, -4);
+          ctx.lineTo(15 - swing, 6);
         } else {
           const handTap = Math.sin(officeSimTick * 0.6 + ag.x) * 3;
-          ctx.moveTo(cx - 11, cy - 4);
-          ctx.lineTo(cx - 8, cy - 14 + handTap);
-          ctx.moveTo(cx + 11, cy - 4);
-          ctx.lineTo(cx + 8, cy - 14 - handTap);
+          ctx.moveTo(-11, -4);
+          ctx.lineTo(-7, -13 + handTap);
+          ctx.moveTo(11, -4);
+          ctx.lineTo(7, -13 - handTap);
         }
         ctx.stroke();
 
-        // Cute Cartoon Head
+        // Expressive Cartoon Head with 3D Spherical Shading
+        const headGrad = ctx.createRadialGradient(-3, -21, 3, 0, -18, 13);
+        headGrad.addColorStop(0, '#fef08a');
+        headGrad.addColorStop(0.8, '#fde047');
+        headGrad.addColorStop(1, '#eab308');
         ctx.beginPath();
-        ctx.arc(cx, cy - 18, 11.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#fde68a';
+        ctx.arc(0, -18, 12, 0, Math.PI * 2);
+        ctx.fillStyle = headGrad;
         ctx.fill();
         ctx.strokeStyle = '#475569';
         ctx.lineWidth = 1.2;
         ctx.stroke();
 
-        // Hair / Cap / Crown / Headset
+        // Hair / Bangs
         ctx.fillStyle = ag.hair;
         ctx.beginPath();
-        ctx.arc(cx, cy - 21, 11.5, Math.PI, 0);
+        ctx.arc(0, -21, 12, Math.PI, 0);
         ctx.fill();
 
+        // Headgear / Accessories
         if (ag.hat === 'headset') {
           ctx.strokeStyle = '#22d3ee';
-          ctx.lineWidth = 2.2;
+          ctx.lineWidth = 2.5;
           ctx.beginPath();
-          ctx.arc(cx, cy - 19, 12.5, Math.PI * 0.85, Math.PI * 0.15);
+          ctx.arc(0, -19, 13, Math.PI * 0.85, Math.PI * 0.15);
+          ctx.stroke();
+          // Glowing Neon Mic Boom
+          ctx.strokeStyle = '#34d399';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(12, -18);
+          ctx.lineTo(6, -12);
           ctx.stroke();
         } else if (ag.hat === 'crown') {
           ctx.fillStyle = '#fbbf24';
           ctx.beginPath();
-          ctx.moveTo(cx - 7, cy - 28);
-          ctx.lineTo(cx - 4, cy - 35);
-          ctx.lineTo(cx, cy - 30);
-          ctx.lineTo(cx + 4, cy - 35);
-          ctx.lineTo(cx + 7, cy - 28);
+          ctx.moveTo(-8, -28);
+          ctx.lineTo(-5, -36);
+          ctx.lineTo(0, -30);
+          ctx.lineTo(5, -36);
+          ctx.lineTo(8, -28);
           ctx.closePath();
           ctx.fill();
         }
 
-        // Blinking Eyes & Smile
+        // Blinking Anime Eyes
         const blink = (officeSimTick + Math.floor(ag.x)) % 110 < 5;
         ctx.fillStyle = '#0f172a';
         if (blink) {
-          ctx.fillRect(cx - 5, cy - 18, 3, 1);
-          ctx.fillRect(cx + 2, cy - 18, 3, 1);
+          ctx.fillRect(-5, -18, 3.5, 1.2);
+          ctx.fillRect(2, -18, 3.5, 1.2);
         } else {
           ctx.beginPath();
-          ctx.arc(cx - 3.8, cy - 18, 1.7, 0, Math.PI * 2);
-          ctx.arc(cx + 3.8, cy - 18, 1.7, 0, Math.PI * 2);
+          ctx.arc(-3.8, -18, 1.8, 0, Math.PI * 2);
+          ctx.arc(3.8, -18, 1.8, 0, Math.PI * 2);
           ctx.fill();
         }
+        // Rosy Cheeks
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.4)';
+        ctx.beginPath();
+        ctx.arc(-7, -15, 2, 0, Math.PI * 2);
+        ctx.arc(7, -15, 2, 0, Math.PI * 2);
+        ctx.fill();
 
-        // Name Tag Pill
+        ctx.restore();
+
+        // Name Tag Pill (Always oriented normally, not flipped)
         ctx.font = 'bold 9.5px Prompt, sans-serif';
         ctx.textAlign = 'center';
-        const nameW = ctx.measureText(ag.name).width + 12;
-        drawRoundedRect(cx - nameW / 2, ag.y + 24, nameW, 14, 5, 'rgba(2, 6, 23, 0.88)', ag.shirt, 1);
+        const nameW = ctx.measureText(ag.name).width + 14;
+        drawRoundedRect(cx - nameW / 2, ag.y + 24, nameW, 15, 5, 'rgba(2, 6, 23, 0.92)', ag.shirt, 1.2);
         ctx.fillStyle = '#ffffff';
-        ctx.fillText(ag.name, cx, ag.y + 34);
+        ctx.fillText(ag.name, cx, ag.y + 35);
 
-        // Live Speech Bubble above head
+        // Live Floating Speech Bubble with Tail
         if (ag.bubble) {
           ctx.font = 'bold 9.5px Prompt, sans-serif';
           const text = ag.bubble.length > 34 ? ag.bubble.slice(0, 34) + '…' : ag.bubble;
-          const bw = Math.min(210, Math.max(95, ctx.measureText(text).width + 16));
+          const bw = Math.min(220, Math.max(95, ctx.measureText(text).width + 18));
           const bx = Math.max(12, Math.min(1280 - bw - 12, cx - bw / 2));
-          const by = cy - 54;
-          drawRoundedRect(bx, by, bw, 18, 6, 'rgba(15, 23, 42, 0.94)', '#38bdf8', 1);
+          const by = cy - 58;
+          drawRoundedRect(bx, by, bw, 20, 7, 'rgba(15, 23, 42, 0.95)', '#38bdf8', 1.2);
+          // Tail
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
+          ctx.beginPath();
+          ctx.moveTo(cx - 4, by + 20);
+          ctx.lineTo(cx + 4, by + 20);
+          ctx.lineTo(cx, by + 26);
+          ctx.closePath();
+          ctx.fill();
           ctx.fillStyle = '#e0f2fe';
-          ctx.fillText(text, bx + bw / 2, by + 12.5);
+          ctx.fillText(text, bx + bw / 2, by + 13.5);
         }
       }
 
@@ -1929,10 +2427,15 @@
         officeSimTick += 1;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. Floor Background & Isometric Grid Lines
-        ctx.fillStyle = '#060a17';
+        // 1. 3D Polished Studio Floor & Receding Isometric Grid
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        bgGrad.addColorStop(0, '#040714');
+        bgGrad.addColorStop(1, '#080d21');
+        ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = 'rgba(51, 65, 85, 0.25)';
+
+        // Isometric Floor Grid
+        ctx.strokeStyle = 'rgba(51, 65, 85, 0.22)';
         ctx.lineWidth = 1;
         for (let gx = 0; gx < canvas.width; gx += 32) {
           ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, canvas.height); ctx.stroke();
@@ -1941,111 +2444,82 @@
           ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(canvas.width, gy); ctx.stroke();
         }
 
-        // Central Corridor Carpet (Walkway between rooms)
-        drawRoundedRect(20, 268, 1240, 40, 8, 'rgba(30, 41, 59, 0.55)', 'rgba(99, 102, 241, 0.3)', 1);
-        ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
+        // Central Automation Corridor (Carpet Runner with LED Guide Strips)
+        drawRoundedRect(16, 268, 1248, 40, 8, 'rgba(30, 41, 59, 0.65)', 'rgba(99, 102, 241, 0.4)', 1.5);
+        // Animated Guide Dots
+        const dotOffset = (officeSimTick * 0.8) % 40;
+        ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
+        for (let dx = 30; dx < 1240; dx += 40) {
+          ctx.beginPath();
+          ctx.arc(dx + dotOffset, 288, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.fillStyle = 'rgba(226, 232, 240, 0.7)';
         ctx.font = 'bold 10px Prompt, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('⬅️ โถงทางเดินกลางออฟฟิศ AI 3D Digital Twin (Central Automation Corridor) ➡️', 640, 292);
+        ctx.fillText('⚡ โถงทางเดินกลางออฟฟิศ AI 3D Digital Twin (Central Corridor · 60 FPS Engine) ⚡', 640, 292);
 
-        // 2. Draw All 6 Department Rooms
+        // 2. Draw All 6 Department Rooms with 3D Raised Foundations & Glass Partitions
         OFFICE_ROOMS.forEach(rm => {
+          // 3D Extruded Front Facing (Room Base Elevation)
+          drawRoundedRect(rm.x, rm.y + 6, rm.w, rm.h, 16, '#020617', rm.color, 1.5);
+          // Room Main Surface
           drawRoundedRect(rm.x, rm.y, rm.w, rm.h, 16, rm.bg, rm.color, 2);
-          // Room Header Banner
-          drawRoundedRect(rm.x + 10, rm.y + 8, rm.w - 20, 24, 8, 'rgba(2, 6, 23, 0.85)', rm.color, 1);
+
+          // 3D Glass Partition Reflection Glare
+          const glassGrad = ctx.createLinearGradient(rm.x, rm.y, rm.x + rm.w, rm.y + rm.h);
+          glassGrad.addColorStop(0, 'rgba(56, 189, 248, 0.08)');
+          glassGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.03)');
+          glassGrad.addColorStop(1, 'rgba(99, 102, 241, 0.08)');
+          ctx.fillStyle = glassGrad;
+          ctx.beginPath();
+          ctx.roundRect(rm.x, rm.y, rm.w, rm.h, 16);
+          ctx.fill();
+
+          // Room Header 3D Neon Banner
+          drawRoundedRect(rm.x + 10, rm.y + 8, rm.w - 20, 24, 7, 'rgba(2, 6, 23, 0.92)', rm.color, 1);
           ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 11.5px Prompt, sans-serif';
+          ctx.font = 'bold 11px Prompt, sans-serif';
           ctx.textAlign = 'left';
           ctx.fillText(rm.title, rm.x + 20, rm.y + 24);
-          // Status Dot
+          // Pulsing Room Status Dot
           ctx.beginPath();
           ctx.arc(rm.x + rm.w - 22, rm.y + 20, 4.5, 0, Math.PI * 2);
           ctx.fillStyle = '#10b981';
           ctx.fill();
         });
 
-        // 3. Draw Room-Specific 3D Furniture & Live Hardware
-        // Room 1: Executive Meeting & 3-Hour Audit Room (Holographic Oval Table)
-        ctx.beginPath();
-        ctx.ellipse(220, 155, 82, 42, 0, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(37, 99, 235, 0.35)';
-        ctx.fill();
-        ctx.strokeStyle = '#60a5fa';
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-        ctx.fillStyle = '#93c5fd';
-        ctx.font = 'bold 10px Prompt, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('🔍 AUTO-AUDIT EVERY 3 HRS', 220, 152);
-        ctx.fillStyle = '#34d399';
-        ctx.fillText('PASS 12 / 12 (100%)', 220, 166);
+        // 3. Draw Room-Specific 3D Props & Furniture
+        // Room 1: Executive Strategy & 3-Hour Audit Room (Grand Conference Table)
+        draw3DMeetingTable(220, 155);
 
-        // Room 2: Local AI Lab (2 Dual-Monitor Desks + Blinking Ollama Server Rack)
-        drawComputerWorkstation(545, 115, '#a855f7', 'PC-1: Ollama Llama 3.1', 0.9);
-        drawComputerWorkstation(715, 115, '#ec4899', 'PC-2: Local Whisper Large', 0.8);
-        // Server Rack
-        drawRoundedRect(615, 185, 50, 62, 6, '#0f172a', '#a855f7', 1.8);
-        for (let s = 0; s < 4; s++) {
-          ctx.fillStyle = ((officeSimTick + s * 9) % 24 < 14) ? '#34d399' : '#a855f7';
-          ctx.fillRect(623, 193 + s * 13, 34, 6);
-        }
+        // Room 2: Creative Local AI Lab (Ollama & Whisper Workstations + 3D Server Tower)
+        draw3DWorkstation(545, 115, '#a855f7', 'PC-1: Ollama Llama 3.1', 0.9, true, false);
+        draw3DWorkstation(715, 115, '#ec4899', 'PC-2: Local Whisper AI', 0.8, true, true);
+        draw3DServerCabinet(618, 185);
 
-        // Room 3: Google Flow Video Studio (2 Render Workstations)
+        // Room 3: Google Flow Video Studio (Veo 3.1 & Nano Banana Pro)
         const prog = ((officeSimTick % 120) / 120);
-        drawComputerWorkstation(975, 115, '#38bdf8', 'Veo 3.1 Render #1', prog);
-        drawComputerWorkstation(1145, 115, '#fbbf24', 'Nano Banana Art #2', 1 - prog * 0.5);
+        draw3DWorkstation(975, 115, '#38bdf8', 'Veo 3.1 Render #1', prog, true, false);
+        draw3DWorkstation(1145, 115, '#fbbf24', 'Nano Banana Art #2', 1 - prog * 0.5, false, true);
 
-        // Room 4: Series & Multi-Platform Broadcast Hub
-        drawComputerWorkstation(215, 415, '#f43f5e', 'TikTok + FB Reels + Shopee', 0.85);
+        // Room 4: Series & Multi-Platform Broadcast Hub (Admin Bee)
+        draw3DWorkstation(215, 415, '#f43f5e', 'TikTok + Reels + Shopee', 0.85, true, true);
 
         // Room 5: 4x Redmi 14C Cross-Platform Warmup Dock
-        drawRoundedRect(485, 360, 310, 68, 10, '#0f172a', '#f97316', 2);
-        const phoneLabels = ['BQ75 (TikTok)', 'ZPDA (FB Reels)', 'RKPZ (Shopee)', '4XE6 (Rotate)'];
-        for (let p = 0; p < 4; p++) {
-          const px = 505 + p * 72;
-          const py = 368;
-          drawRoundedRect(px, py, 46, 52, 6, '#020617', '#34d399', 1.5);
-          // Scrolling video feed animation inside each phone screen
-          const slideY = (officeSimTick * 0.8 + p * 12) % 34;
-          ctx.fillStyle = p === 0 ? '#ec4899' : p === 1 ? '#3b82f6' : p === 2 ? '#f97316' : '#10b981';
-          ctx.fillRect(px + 5, py + 6 + slideY * 0.4, 36, 18);
-          ctx.fillStyle = '#ffffff';
-          ctx.font = 'bold 8px monospace';
-          ctx.textAlign = 'center';
-          ctx.fillText(phoneLabels[p].split(' ')[0], px + 23, py + 47);
-        }
-        // Spawn floating hearts from phones
-        if (officeSimTick % 28 === 0) {
-          officeFloatingHearts.push({ x: 525 + Math.random() * 230, y: 375, alpha: 1.0 });
-        }
-        for (let i = officeFloatingHearts.length - 1; i >= 0; i--) {
-          const h = officeFloatingHearts[i];
-          h.y -= 0.7;
-          h.alpha -= 0.018;
-          if (h.alpha <= 0) { officeFloatingHearts.splice(i, 1); continue; }
-          ctx.globalAlpha = h.alpha;
-          ctx.font = '11px sans-serif';
-          ctx.fillText('❤️', h.x, h.y);
-          ctx.globalAlpha = 1.0;
-        }
+        draw3DPhoneFarmDock(485, 400);
 
         // Room 6: TikTok LIVE Studio 9:16 Sacred Stage
-        drawComputerWorkstation(980, 425, '#eab308', 'TikTok LIVE Studio Host', 0.95);
-        // 9:16 Vertical Stage Screen on Right Side of Room 6
-        drawRoundedRect(1140, 360, 86, 152, 10, '#1c1917', '#fbbf24', 2.5);
-        ctx.fillStyle = 'rgba(245, 158, 11, 0.28)';
-        ctx.beginPath();
-        ctx.arc(1183, 425, 26 + Math.sin(officeSimTick * 0.1) * 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#fde047';
-        ctx.font = 'bold 9.5px Prompt, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('🐉 LIVE 9:16', 1183, 382);
-        ctx.fillText('พญานาคราช', 1183, 428);
-        ctx.fillStyle = '#34d399';
-        ctx.fillText('ON AIR', 1183, 496);
+        draw3DWorkstation(980, 425, '#eab308', 'TikTok LIVE Studio Host', 0.95, true, false);
+        draw3DLiveStage(1180, 440);
 
-        // 4. Sort Cartoon Workers by Y coordinate for proper 2.5D depth and draw them
+        // Decorative 3D Corner Plants
+        draw3DOfficePlant(40, 45);
+        draw3DOfficePlant(1240, 45);
+        draw3DOfficePlant(40, 520);
+        draw3DOfficePlant(880, 520);
+
+        // 4. Sort Cartoon Workers by Y-coordinate for realistic 2.5D depth
         const sortedAgents = [...CARTOON_AGENTS].sort((a, b) => a.y - b.y);
         sortedAgents.forEach(ag => drawCartoonWorker(ag));
 
