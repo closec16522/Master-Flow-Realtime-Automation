@@ -46,12 +46,21 @@
   <!-- 9:16 Broadcast Canvas Container -->
   <div id="broadcast-stage" class="relative w-full h-full max-w-[56.25vh] max-h-screen aspect-[9/16] overflow-hidden flex flex-col justify-between p-3.5 border border-amber-500/40 shadow-2xl" style="background: radial-gradient(circle at 50% 35%, #2a1805 0%, #090b16 75%, #030408 100%);">
 
-    <!-- Full-Bleed Sacred Artwork Backdrop -->
+    <!-- Full-Bleed Sacred Artwork Backdrop (Hidden automatically when ?transparent=1) -->
     <img id="scene-bg-img" src="assets/theme_naga.jpg" class="absolute inset-0 w-full h-full object-cover opacity-55 transition-all duration-700" alt="Sacred Backdrop">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/75 via-black/20 to-black/90 pointer-events-none"></div>
+    <div id="scene-bg-overlay" class="absolute inset-0 bg-gradient-to-b from-black/75 via-black/20 to-black/90 pointer-events-none"></div>
 
     <!-- Animated Particle & Firework Canvas -->
     <canvas id="fx-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+    <!-- Module 2 & 4: Interactive Avatar & Mini-Game Stage Overlay -->
+    <div id="avatar-minigame-stage" class="absolute inset-x-0 bottom-28 top-32 pointer-events-none z-25 overflow-hidden"></div>
+
+    <!-- Module 3: God / Mythical Beast Milestone Fly-In -->
+    <div id="god-milestone-banner" class="hidden absolute top-24 left-1/2 -translate-x-1/2 z-40 w-[92%] bg-gradient-to-r from-amber-500 via-rose-500 to-amber-500 border-2 border-white rounded-2xl p-3 text-center shadow-2xl gift-pop">
+      <div class="text-sm font-black text-white text-stroke-dark">🐉 สัตว์เทพทะยานเข้าจอ! (MILESTONE UNLOCKED)</div>
+      <div id="god-milestone-text" class="text-xs font-bold text-amber-100 mt-0.5"></div>
+    </div>
 
     <!-- =============================================================== -->
     <!-- 1. TOP HEADER: Temple Banner & Clear Mobile-Readable Guide      -->
@@ -198,38 +207,91 @@
   </div>
 
   <script>
-    // Theme Configurations (100% Original Watermark-Free Artwork)
+    // Theme Configurations (4 Original + 15 New Themes = 19 Total)
     const THEMES = {
-      naga: {
-        title: "🐉 วังบาดาลพญานาคราช · มณีนาคา",
-        sub: "พิมพ์ 'ขอพร + คำอธิษฐาน' รับพรพญานาคราช & เลขมงคลมณีนาคา!",
-        img: "assets/theme_naga.jpg",
-        accent: "#10b981"
-      },
-      ganesha: {
-        title: "🐘 มหาเทวาลัยพระพิฆเนศ · ประทานทรัพย์",
-        sub: "พิมพ์ 'โอม ศรี คเณศายะ นะมะฮา' ตามด้วยคำอธิษฐานขอพร!",
-        img: "assets/theme_ganesha.jpg",
-        accent: "#f59e0b"
-      },
-      caishen: {
-        title: "🪙 ตำหนักไฉ่ซิงเอี๊ย · ต้นไม้ทองคำพันปี",
-        sub: "พิมพ์ 'รับทรัพย์ + ชื่อเล่น' ขอพรการเงิน ค้าขายร่ำรวย เงินไหลมา!",
-        img: "assets/theme_caishen.jpg",
-        accent: "#eab308"
-      },
-      tarot: {
-        title: "🔮 สำนักไพ่ทาโรต์ & แมวมงคล AI พยากรณ์สด",
-        sub: "พิมพ์ 'ดูดวง + เรื่องที่อยากถาม' ให้ Local AI เปิดไพ่ทำนายสด!",
-        img: "assets/theme_neko_tarot.jpg",
-        accent: "#a855f7"
-      }
+      naga: { title: "🐉 วังบาดาลพญานาคราช · มณีนาคา", sub: "พิมพ์ 'ขอพร + คำอธิษฐาน' รับพรพญานาคราช & เลขมงคลมณีนาคา!", img: "assets/theme_naga.jpg", accent: "#10b981" },
+      ganesha: { title: "🐘 มหาเทวาลัยพระพิฆเนศ · ประทานทรัพย์", sub: "พิมพ์ 'โอม ศรี คเณศายะ นะมะฮา' ตามด้วยคำอธิษฐานขอพร!", img: "assets/theme_ganesha.jpg", accent: "#f59e0b" },
+      caishen: { title: "🪙 ตำหนักไฉ่ซิงเอี๊ย · ต้นไม้ทองคำพันปี", sub: "พิมพ์ 'รับทรัพย์ + ชื่อเล่น' ขอพรการเงิน ค้าขายร่ำรวย เงินไหลมา!", img: "assets/theme_caishen.jpg", accent: "#eab308" },
+      tarot: { title: "🔮 สำนักไพ่ทาโรต์ & แมวมงคล AI พยากรณ์สด", sub: "พิมพ์ 'ดูดวง + เรื่องที่อยากถาม' ให้ Local AI เปิดไพ่ทำนายสด!", img: "assets/theme_neko_tarot.jpg", accent: "#a855f7" },
+      parade_truck: { title: "🚚 รถแห่มหาสนุก & ขบวนแดนซ์สายย่อ", sub: "พิมพ์แชทหรือส่งกำลังใจขึ้นเต้นบนรถแห่ ขยายร่างตามแรงเชียร์!", img: "assets/theme_caishen.jpg", accent: "#ec4899" },
+      dance_arena: { title: "🪩 เวทีคอนเสิร์ต & แดนซ์ปาร์ตี้ 3D Neon", sub: "พิมพ์ข้อความในแชทเพื่อส่งตัวละครของคุณขึ้นฟลอร์แดนซ์!", img: "assets/theme_neko_tarot.jpg", accent: "#06b6d4" },
+      floating_lantern: { title: "🏮 โคมลอยยี่เป็ง & ลอยกระทงอธิษฐาน", sub: "พิมพ์คำอธิษฐานในแชท เพื่อปล่อยโคมลอยขึ้นฟ้าแบบเรียลไทม์!", img: "assets/theme_naga.jpg", accent: "#fb923c" },
+      cyber_samurai: { title: "⚔️ ซามูไรไซเบอร์ & มังกรนีออน", sub: "ร่วมเชียร์ปลุกพลังมังกรนีออนทะยานเข้าจอเมื่อครบ Milestone!", img: "assets/theme_neko_tarot.jpg", accent: "#22d3ee" },
+      kumanthong_rich: { title: "🧸 กุมารทองมหาเศรษฐี & เรียกทรัพย์ 999", sub: "พิมพ์ 'เรียกทรัพย์ + ชื่อเล่น' รับพรโชคลาภและเลขมงคล!", img: "assets/theme_caishen.jpg", accent: "#f43f5e" },
+      thao_wessuwan: { title: "👹 ท้าวเวสสุวรรณโณ มหาเทพคุ้มครองทรัพย์", sub: "พิมพ์ 'สาธุ' ขอพรคุ้มครองแคล้วคลาดและเปิดขุมทรัพย์!", img: "assets/theme_ganesha.jpg", accent: "#dc2626" },
+      dragon_palace: { title: "🐲 ตำหนักมังกรทองจักรพรรดิ 9 มิติ", sub: "สะสมกำลังใจครบเป้า เรียกมังกรทองจักรพรรดิทะยานเข้าจอ!", img: "assets/theme_naga.jpg", accent: "#eab308" },
+      space_galaxy: { title: "🚀 กาแล็กซีอวกาศ & ยานรบพิทักษ์จักรวาล", sub: "พิมพ์แชทเพื่อปล่อยยานรบอวกาศและยิงดาวตกนำโชค!", img: "assets/theme_neko_tarot.jpg", accent: "#38bdf8" },
+      underwater_mermaid: { title: "🧜‍♀️ โลกใต้บาดาล & ฝูงปลาคราฟนำโชค", sub: "พิมพ์คำอวยพร ปล่อยฝูงปลาคราฟ 9 สีแหวกว่ายเสริมสิริมงคล!", img: "assets/theme_naga.jpg", accent: "#2dd4bf" },
+      muay_thai_arena: { title: "🥊 สังเวียนมวยไทยไฟต์เดือด (Team Battle)", sub: "กดหัวใจรัวๆ เพื่อเพิ่มพลังให้นักมวยฝั่งที่คุณเชียร์!", img: "assets/theme_ganesha.jpg", accent: "#f97316" },
+      cafe_cozy: { title: "☕ คาเฟ่อบอุ่น Lo-Fi & น้องแมวบาริสต้า", sub: "ทักทายพูดคุยสบายๆ น้อง AI อ่านแชทและทักทายเสียงนุ่ม!", img: "assets/theme_neko_tarot.jpg", accent: "#d97706" },
+      halloween_ghost: { title: "👻 คฤหาสน์ภูตผี & ฟักทองเรืองแสง", sub: "พิมพ์แชทปล่อยภูตผีจิ๋วสุดน่ารักลอยป่วนเต็มหน้าจอ!", img: "assets/theme_neko_tarot.jpg", accent: "#a855f7" },
+      sakura_shrine: { title: "🌸 ศาลเจ้าซากุระ & จิ้งจอกเก้าหาง", sub: "พิมพ์ 'เซียมซี' เพื่อสุ่มใบทำนายดวงชะตาใต้ต้นซากุระ!", img: "assets/theme_ganesha.jpg", accent: "#f472b6" },
+      football_stadium: { title: "⚽ สนามฟุตบอลโลก & ยิงจุดโทษลุ้นโชค", sub: "ร่วมเชียร์และส่งกำลังใจยิงจุดโทษเข้าโกล์รับพลุฉลอง!", img: "assets/theme_caishen.jpg", accent: "#22c55e" },
+      lucky_wheel_casino: { title: "🎡 วงล้อมหาโชค & ฝนดาวตกเพชร", sub: "หมุนวงล้อมหาโชคสุ่มเลขเด็ดและปล่อยฝนดาวตกเพชร!", img: "assets/theme_caishen.jpg", accent: "#facc15" }
     };
 
     const params = new URLSearchParams(window.location.search);
     let currentThemeKey = params.get('theme') || 'naga';
+    let isTransparent = params.get('transparent') === '1';
+    let complianceShield = params.get('shield') !== '0';
+    let minigameMode = params.get('minigame') || 'parade';
     let lastPrayerId = null;
     let lastGiftCount = 0;
+
+    // Module 6: Transparent Window Mode for OBS / TikTok LIVE Studio / Electron
+    function applyTransparentMode(enabled) {
+      isTransparent = Boolean(enabled);
+      const stage = document.getElementById('broadcast-stage');
+      const bgImg = document.getElementById('scene-bg-img');
+      const bgOverlay = document.getElementById('scene-bg-overlay');
+      if (isTransparent) {
+        document.body.style.background = 'transparent';
+        stage.style.background = 'transparent';
+        stage.style.borderColor = 'transparent';
+        bgImg.style.display = 'none';
+        bgOverlay.style.display = 'none';
+      } else {
+        document.body.style.background = '#000';
+        stage.style.background = 'radial-gradient(circle at 50% 35%, #2a1805 0%, #090b16 75%, #030408 100%)';
+        bgImg.style.display = 'block';
+        bgOverlay.style.display = 'block';
+      }
+    }
+    applyTransparentMode(isTransparent);
+
+    // Module 2: Avatar & Chat Bubble Manager
+    const viewerAvatars = new Map();
+    function upsertStageAvatar(name, comment = '', coins = 0) {
+      const av = viewerAvatars.get(name) || { name, coins: 0, x: 15 + Math.random() * 70, y: 20 + Math.random() * 55, bubble: '', expires: 0 };
+      av.coins += coins;
+      if (comment) { av.bubble = comment.slice(0, 36); av.expires = Date.now() + 5000; }
+      viewerAvatars.set(name, av);
+      if (viewerAvatars.size > 12) {
+        const firstKey = viewerAvatars.keys().next().value;
+        viewerAvatars.delete(firstKey);
+      }
+      renderStageAvatars();
+    }
+
+    function renderStageAvatars() {
+      const container = document.getElementById('avatar-minigame-stage');
+      if (!container) return;
+      const now = Date.now();
+      const modeBadge = minigameMode === 'parade' ? '🚚' : minigameMode === 'dance' ? '🪩' : minigameMode === 'lantern' ? '🏮' : '👑';
+      container.innerHTML = Array.from(viewerAvatars.values()).map(av => {
+        const scale = Math.min(1.85, 1 + Math.log10(1 + av.coins) * 0.35);
+        const showBubble = av.bubble && now < av.expires;
+        return `
+          <div style="position:absolute; left:${av.x}%; top:${av.y}%; transform:translate(-50%,-50%) scale(${scale}); transition:all 0.5s ease;" class="flex flex-col items-center">
+            ${showBubble ? `<div class="bg-white text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-xl shadow mb-1 max-w-[120px] truncate">${av.bubble}</div>` : ''}
+            <div class="w-9 h-9 rounded-full border-2 border-amber-300 bg-slate-900/90 flex items-center justify-center text-xs font-black text-amber-200 shadow-lg">
+              ${modeBadge}
+            </div>
+            <div class="text-[9px] font-bold text-white bg-black/70 px-1.5 rounded-full mt-0.5 truncate max-w-[75px]">${av.name}</div>
+          </div>
+        `;
+      }).join('');
+    }
 
     // Particle & Fireworks Canvas Engine
     const canvas = document.getElementById('fx-canvas');
@@ -381,14 +443,23 @@
           lbEl.innerHTML = `<div class="text-slate-400 text-[10px] py-2 text-center">ยังไม่มีรายการของขวัญในรอบนี้</div>`;
         }
 
-        // Gifts Menu
+        // Gifts Menu (Module 7: Compliance Shield masks coin prices when enabled)
         if (ls.gifts_menu) {
           document.getElementById('scene-gifts-menu').innerHTML = ls.gifts_menu.map(g => `
             <div class="flex justify-between items-center bg-black/50 px-2 py-0.5 rounded-lg border border-amber-500/20">
               <span>${g.icon} ${g.name}</span>
-              <span class="text-amber-300 font-mono">${g.coins}</span>
+              <span class="text-amber-300 font-mono">${complianceShield ? '✨' : g.coins}</span>
             </div>
           `).join('');
+        }
+        if (typeof ls.compliance_shield === 'boolean' && !params.get('shield')) {
+          complianceShield = ls.compliance_shield;
+        }
+        if (ls.minigame_mode && !params.get('minigame')) {
+          minigameMode = ls.minigame_mode;
+        }
+        if (typeof ls.transparent_mode === 'boolean' && !params.get('transparent')) {
+          applyTransparentMode(ls.transparent_mode);
         }
 
         // Prayer & AI Blessing Queue
@@ -403,6 +474,7 @@
           if (pid !== lastPrayerId) {
             lastPrayerId = pid;
             spawnFireworkBurst();
+            upsertStageAvatar(topP.user, topP.wish, 0);
             speakThaiBlessing(`โมทนาสาธุ คุณ ${topP.user} อธิษฐานว่า ${topP.wish} ${topP.ai_blessing || ''} เลขมงคลคือ ${ls.current_lucky_number || '895'}`);
           }
 
@@ -444,6 +516,28 @@
     applyThemeVisuals(currentThemeKey);
     pollLiveState();
     setInterval(pollLiveState, 1200);
+
+    // Optional WebSocket Connection to Standalone Worker (ws://127.0.0.1:3334)
+    (function initWorkerWs() {
+      try {
+        const ws = new WebSocket('ws://127.0.0.1:3334');
+        ws.onmessage = (evt) => {
+          const msg = JSON.parse(evt.data);
+          if (msg.type === 'CHAT_BUBBLE') {
+            upsertStageAvatar(msg.payload.nickname, msg.payload.comment, 0);
+          } else if (msg.type === 'GIFT_EFFECT') {
+            upsertStageAvatar(msg.payload.nickname, '', msg.payload.coins || 10);
+            spawnFireworkBurst();
+            if (msg.payload.speech) speakThaiBlessing(msg.payload.speech);
+          } else if (msg.type === 'GOD_MILESTONE') {
+            const mb = document.getElementById('god-milestone-banner');
+            document.getElementById('god-milestone-text').innerText = `ขอขอบคุณคุณ ${msg.payload.triggerUser} ปลดล็อกพลังสัตว์เทพ!`;
+            mb.classList.remove('hidden');
+            setTimeout(() => mb.classList.add('hidden'), 4500);
+          }
+        };
+      } catch (e) {}
+    })();
   </script>
 </body>
 </html>

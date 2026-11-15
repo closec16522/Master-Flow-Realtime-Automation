@@ -315,8 +315,15 @@ state = {
         "series_queue": []
     },
     "live_studio": {
-        "version": "Master Flow Sacred & Viral Live Engine (TikTok LIVE Studio Ready)",
+        "version": "TikTok Live Interactive Game Engine v2.0 (8-Module MagicLive + 19 Themes)",
         "active_theme": "naga",
+        "minigame_mode": "parade",
+        "transparent_mode": False,
+        "compliance_shield": True,
+        "tts_enabled": True,
+        "milestone_progress": 0,
+        "milestone_target": 500,
+        "avatars": [],
         "tiktok_connected": False,
         "connected_channel": "@closec16522",
         "tiktok_studio_running": False,
@@ -352,7 +359,22 @@ state = {
                 "desc": "คนดูพิมพ์ 'ดูดวง + คำถาม' ในแชท แล้ว Local AI (Llama 3.1) เปิดไพ่ทำนายดวงชะตาและอ่านออกเสียงสด!",
                 "img": "/assets/theme_neko_tarot.jpg",
                 "url": "http://127.0.0.1:3333/live-scene?theme=tarot"
-            }
+            },
+            {"id": "parade_truck", "name": "🚚 รถแห่มหาสนุก & ขบวนแดนซ์สายย่อ", "desc": "มินิเกมรถแห่ คนดูส่งของขวัญ/พิมพ์แชทขึ้นเต้นบนรถแห่และขยายตัวตามยอดเปย์", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=parade_truck"},
+            {"id": "dance_arena", "name": "🪩 เวทีคอนเสิร์ต & แดนซ์ปาร์ตี้ 3D Neon", "desc": "ฟลอร์เต้นไฟนีออน 3D ตัวละครคนดูเต้นตามจังหวะพร้อม Chat Bubble สด", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=dance_arena"},
+            {"id": "floating_lantern", "name": "🏮 โคมลอยยี่เป็ง & ลอยกระทงอธิษฐาน", "desc": "ลอยโคมยี่เป็งและกระทงทองขึ้นฟ้าพร้อมชื่อและคำอธิษฐานจากแชทคนดู", "img": "/assets/theme_naga.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=floating_lantern"},
+            {"id": "cyber_samurai", "name": "⚔️ ซามูไรไซเบอร์ & มังกรนีออน", "desc": "ธีม Cyberpunk แสงสีฟ้า-ม่วง พร้อมมังกรนีออนทะยานเข้าจอเมื่อถึง Milestone", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=cyber_samurai"},
+            {"id": "kumanthong_rich", "name": "🧸 กุมารทองมหาเศรษฐี & เรียกทรัพย์ 999", "desc": "สายมูเรียกทรัพย์ โปรยเหรียญทองและพวงมาลัยเมื่อคนดูร่วมส่งกำลังใจ", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=kumanthong_rich"},
+            {"id": "thao_wessuwan", "name": "👹 ท้าวเวสสุวรรณโณ มหาเทพคุ้มครองทรัพย์", "desc": "ปัดเป่าสิ่งชั่วร้าย เปิดขุมทรัพย์ทองคำ พร้อมเสียงอ่านคำอธิษฐาน AI", "img": "/assets/theme_ganesha.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=thao_wessuwan"},
+            {"id": "dragon_palace", "name": "🐲 ตำหนักมังกรทองจักรพรรดิ 9 มิติ", "desc": "มังกรทองคำทะยานเข้าจออัตโนมัติเมื่อสะสมกำลังใจครบ Milestone", "img": "/assets/theme_naga.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=dragon_palace"},
+            {"id": "space_galaxy", "name": "🚀 กาแล็กซีอวกาศ & ยานรบพิทักษ์จักรวาล", "desc": "คนดูขับยานอวกาศยิงดาวตกในฉากอวกาศ 3D ตามยอดแชทและของขวัญ", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=space_galaxy"},
+            {"id": "underwater_mermaid", "name": "🧜‍♀️ โลกใต้บาดาล & ฝูงปลาคราฟนำโชค", "desc": "โลกใต้ทะเลพร้อมฝูงปลาคราฟ 9 สีแหวกว่ายนำโชคตามคำอวยพร", "img": "/assets/theme_naga.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=underwater_mermaid"},
+            {"id": "muay_thai_arena", "name": "🥊 สังเวียนมวยไทยไฟต์เดือด (Team Battle)", "desc": "สังเวียนมวยไทยแบ่งทีมแดง-น้ำเงิน กดหัวใจและส่งของขวัญเพิ่มพลัง", "img": "/assets/theme_ganesha.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=muay_thai_arena"},
+            {"id": "cafe_cozy", "name": "☕ คาเฟ่อบอุ่น Lo-Fi & น้องแมวบาริสต้า", "desc": "โหมดชิลล์ คุยแชท อ่านคอมเมนต์เสียงนุ่ม พร้อมน้องแมวบาริสต้า", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=cafe_cozy"},
+            {"id": "halloween_ghost", "name": "👻 คฤหาสน์ภูตผี & ฟักทองเรืองแสง", "desc": "ปาร์ตี้หลอนน่ารัก ปล่อยภูตผีจิ๋วจากโปรไฟล์คนดูลอยเต็มหน้าจอ", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=halloween_ghost"},
+            {"id": "sakura_shrine", "name": "🌸 ศาลเจ้าซากุระ & จิ้งจอกเก้าหาง", "desc": "กลีบซากุระโปรยปราย สุ่มใบเซียมซีทำนายดวงชะตาจาก AI", "img": "/assets/theme_ganesha.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=sakura_shrine"},
+            {"id": "football_stadium", "name": "⚽ สนามฟุตบอลโลก & ยิงจุดโทษลุ้นโชค", "desc": "ส่งของขวัญยิงจุดโทษเข้าโกล์รับถ้วยรางวัลและพลุฉลอง", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=football_stadium"},
+            {"id": "lucky_wheel_casino", "name": "🎡 วงล้อมหาโชค & ฝนดาวตกเพชร", "desc": "หมุนวงล้อสุ่มเลขมงคลและปล่อยฝนดาวตกเพชรทุกครั้งที่มีของขวัญ", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=lucky_wheel_casino"}
         ],
         "leaderboard": [],
         "gifts_menu": [
@@ -2196,9 +2218,16 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                     lb.append({"name": sender, "points": coins})
                 lb.sort(key=lambda x: x["points"], reverse=True)
                 log_event("LiveStudio", f"🎆 แสดงเอฟเฟกต์พลุฉลองของขวัญ '{gift_name}' (+{coins} เหรียญ) บนจอไลฟ์ 9:16", "success")
+            elif action_type == "config":
+                for k in ("minigame_mode", "transparent_mode", "compliance_shield", "tts_enabled"):
+                    if k in req_data:
+                        state["live_studio"][k] = req_data[k]
+                log_event("LiveStudio", f"⚙️ อัปเดตตั้งค่า Engine: minigame={state['live_studio']['minigame_mode']} | shield={state['live_studio']['compliance_shield']} | transparent={state['live_studio']['transparent_mode']}", "info")
             elif action_type == "reset_session":
                 state["live_studio"]["leaderboard"] = []
                 state["live_studio"]["prayer_queue"] = []
+                state["live_studio"]["avatars"] = []
+                state["live_studio"]["milestone_progress"] = 0
                 state["live_studio"]["wish_board"] = {"career": 0, "finance": 0, "love": 0, "health": 0, "hearts": 0, "coins": 0}
                 log_event("LiveStudio", "รีเซ็ตกระดานไลฟ์สดเป็น 0 เพื่อเริ่มรอบไลฟ์จริงใหม่", "info")
             self.send_json({"status": "success", "live_studio": state["live_studio"]})

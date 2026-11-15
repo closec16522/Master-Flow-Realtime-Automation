@@ -616,13 +616,24 @@
               </div>
             </div>
 
-            <!-- 4 Original Trending Themes Selector (100% Original Watermark-Free Artwork!) -->
+            <!-- 19 Interactive Game Engine Themes (4 Original + 15 New Themes) -->
             <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 space-y-3">
-              <div class="text-xs font-bold text-amber-300 flex items-center justify-between">
-                <span>🎨 เลือกธีมไลฟ์สดต้นฉบับ (4 ธีมกระแสแรง ออกแบบใหม่ไร้ลายน้ำ สลับได้ทันทีขณะไลฟ์):</span>
-                <span class="text-emerald-400">Original High-Res Art</span>
+              <div class="text-xs font-bold text-amber-300 flex flex-wrap items-center justify-between gap-2">
+                <span>🎨 เลือกธีมไลฟ์สด (19 ธีม: 4 ธีมหลัก + 15 ธีมใหม่ MagicLive Engine):</span>
+                <span class="text-emerald-400">Transparent & 3D Ready</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="themes-catalog-grid">
+              <div class="flex flex-wrap items-center gap-2 bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 text-[11px]">
+                <select id="live-minigame-select" onchange="updateLiveEngineConfig({minigame_mode: this.value})" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-amber-300 font-bold">
+                  <option value="parade">🚚 มินิเกม: รถแห่มหาสนุก</option>
+                  <option value="dance">🪩 มินิเกม: แดนซ์ปาร์ตี้ 3D</option>
+                  <option value="lantern">🏮 มินิเกม: โคมลอย / กระทง</option>
+                  <option value="top_spender">👑 มินิเกม: คิว Top Spender</option>
+                </select>
+                <button onclick="updateLiveEngineConfig({transparent_mode: true})" class="bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-400/40 text-indigo-200 px-2.5 py-1 rounded-lg font-bold">🪟 ฉากโปร่งใส (OBS)</button>
+                <button onclick="updateLiveEngineConfig({transparent_mode: false})" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 px-2.5 py-1 rounded-lg font-bold">🖼️ ฉากเต็ม (BG)</button>
+                <button onclick="updateLiveEngineConfig({compliance_shield: true})" class="bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/40 text-emerald-200 px-2.5 py-1 rounded-lg font-bold">🛡️ โหมดกันแบน (ซ่อนราคา)</button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[380px] overflow-y-auto pr-1" id="themes-catalog-grid">
                 <!-- Populated by JS -->
               </div>
             </div>
@@ -2422,6 +2433,15 @@
         body: JSON.stringify({type: 'connect_tiktok', channel: ch})
       });
       alert(`📡 เริ่มเชื่อมต่อสัญญาณแชทและของขวัญสดของช่อง ${ch} แล้ว!`);
+      fetchStatus();
+    }
+
+    async function updateLiveEngineConfig(patch) {
+      await fetch(getApiUrl('/api/live/action'), {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({type: 'config', ...patch})
+      });
       fetchStatus();
     }
 
