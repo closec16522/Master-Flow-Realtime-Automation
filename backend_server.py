@@ -2540,7 +2540,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             asset_file = os.path.join(r"C:\SmartHome\MasterFlow-AutoSuite\assets", fname)
             if os.path.exists(asset_file):
                 self.send_response(200)
-                self.send_header("Content-Type", "image/jpeg")
+                ctype = "image/svg+xml" if fname.lower().endswith(".svg") else ("image/png" if fname.lower().endswith(".png") else "image/jpeg")
+                self.send_header("Content-Type", ctype)
                 self.end_headers()
                 with open(asset_file, "rb") as f:
                     self.wfile.write(f.read())
