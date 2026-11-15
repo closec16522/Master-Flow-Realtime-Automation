@@ -11,6 +11,7 @@ import requests
 import sqlite3
 import psutil
 import asyncio
+import re
 
 PORT = 3333
 ADB_PATH = r"C:\Users\Administrator\AppData\Roaming\flow-automation\phone-tools\scrcpy-win64-v4.1\adb_real.exe"
@@ -116,7 +117,7 @@ state = {
     "started_at": datetime.datetime.now().strftime("%H:%M:%S"),
     "status": "active",
     "github_url": "https://github.com/closec16522/Master-Flow-Realtime-Automation",
-    "tunnel_url": "https://preserve-near-firms-blank.trycloudflare.com",
+    "tunnel_url": "https://reasoning-framed-mat-kernel.trycloudflare.com",
     "live_scene_url": "http://127.0.0.1:3333/live-scene",
     "schedule": {
         "status": "กำลังดำเนินการตามเวลาจริง (In Operating Hours)",
@@ -566,6 +567,16 @@ def update_system_performance_and_office():
         adb_on = any("adb" in n for n in proc_names)
 
         state["live_studio"]["tiktok_studio_running"] = tt_studio_on
+        # Dynamically detect latest Cloudflare Quick Tunnel URL from cloudflared.log
+        cf_log_path = r"C:\SmartHome\MasterFlow-AutoSuite\cloudflared.log"
+        if os.path.exists(cf_log_path):
+            try:
+                with open(cf_log_path, "r", encoding="utf-8", errors="ignore") as f:
+                    matches = re.findall(r"https://[a-zA-Z0-9-]+\.trycloudflare\.com", f.read())
+                    if matches:
+                        state["tunnel_url"] = matches[-1]
+            except Exception:
+                pass
         state["system_performance"]["pc"] = {
             "cpu_percent": round(cpu, 1),
             "ram_percent": round(mem.percent, 1),
@@ -1472,7 +1483,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         elif self.path == "/api/live/open-window":
             theme = req_data.get("theme", state["live_studio"]["active_theme"])
             local_url = f"http://127.0.0.1:3333/live-scene?theme={theme}"
-            https_url = f"{state.get('tunnel_url', 'https://preserve-near-firms-blank.trycloudflare.com')}/live-scene?theme={theme}"
+            https_url = f"{state.get('tunnel_url', 'https://reasoning-framed-mat-kernel.trycloudflare.com')}/live-scene?theme={theme}"
             # Copy HTTPS URL to Windows clipboard (TikTok LIVE Studio requires https:// domain, not 127.0.0.1) and launch standalone 9:16 window
             try:
                 subprocess.run(["powershell", "-NoProfile", "-Command", f"Set-Clipboard -Value '{https_url}'"], timeout=4)

@@ -24,3 +24,6 @@ AdbWinUsbApi.dll
 .idea/
 Thumbs.db
 Desktop.ini
+
+cloudflared.exe
+cloudflared.log

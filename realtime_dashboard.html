@@ -384,7 +384,7 @@
                     <li>วาง <strong>HTTPS URL</strong> ด้านล่างนี้ (TikTok LIVE Studio บังคับใช้ลิงก์โดเมน <code>https://</code> ห้ามใช้ IP <code>127.0.0.1</code>) แล้วตั้งค่า <strong>W 1080 x H 1920</strong>:</li>
                   </ol>
                   <div class="flex items-center gap-1.5 pt-1">
-                    <input type="text" id="live-source-url-input" readonly value="https://preserve-near-firms-blank.trycloudflare.com/live-scene?theme=naga" class="flex-1 bg-slate-950 border border-amber-500/40 rounded-lg px-2.5 py-1.5 text-[11px] text-amber-300 font-mono">
+                    <input type="text" id="live-source-url-input" readonly value="https://reasoning-framed-mat-kernel.trycloudflare.com/live-scene?theme=naga" class="flex-1 bg-slate-950 border border-amber-500/40 rounded-lg px-2.5 py-1.5 text-[11px] text-amber-300 font-mono">
                     <button onclick="copyLiveSourceUrl()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shrink-0">
                       📋 คัดลอก HTTPS
                     </button>
@@ -878,7 +878,7 @@
   </div>
 
   <script>
-    const DEFAULT_TUNNEL_URL = 'https://preserve-near-firms-blank.trycloudflare.com';
+    const DEFAULT_TUNNEL_URL = 'https://reasoning-framed-mat-kernel.trycloudflare.com';
     let activeBackendUrl = localStorage.getItem('mf_backend_url') || (window.location.hostname.includes('github.io') ? DEFAULT_TUNNEL_URL : '');
     let localShutdownTimer = null;
     let localCountdownSec = 20;
@@ -1009,7 +1009,8 @@
         const activeThemeObj = (ls.themes_catalog || []).find(t => t.id === ls.active_theme);
         if (activeThemeObj) {
           document.getElementById('kpi-active-theme').innerText = activeThemeObj.name;
-          document.getElementById('live-source-url-input').value = `https://preserve-near-firms-blank.trycloudflare.com/live-scene?theme=${ls.active_theme}`;
+          const tunnelBase = data.tunnel_url || 'https://reasoning-framed-mat-kernel.trycloudflare.com';
+          document.getElementById('live-source-url-input').value = `${tunnelBase}/live-scene?theme=${ls.active_theme}`;
         }
 
         if (ls.themes_catalog) {
@@ -1417,7 +1418,7 @@
       });
       const iframe = document.getElementById('live-scene-iframe');
       iframe.src = getApiUrl(`/live-scene?theme=${themeId}`);
-      document.getElementById('live-source-url-input').value = `https://preserve-near-firms-blank.trycloudflare.com/live-scene?theme=${themeId}`;
+      document.getElementById('live-source-url-input').value = `https://reasoning-framed-mat-kernel.trycloudflare.com/live-scene?theme=${themeId}`;
       fetchStatus();
     }
 

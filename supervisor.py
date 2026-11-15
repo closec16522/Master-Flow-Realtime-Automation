@@ -77,7 +77,8 @@ def ensure_cloudflared():
     if not is_process_running("cloudflared.exe") and os.path.exists(CLOUDFLARED_EXE):
         log("Cloudflare Tunnel ออฟไลน์ -> สั่งเปิด Tunnel อัตโนมัติ...")
         try:
-            subprocess.Popen([CLOUDFLARED_EXE, "tunnel", "--url", "http://127.0.0.1:3333"],
+            cf_log = r"C:\SmartHome\MasterFlow-AutoSuite\cloudflared.log"
+            subprocess.Popen([CLOUDFLARED_EXE, "tunnel", "--url", "http://127.0.0.1:3333", "--logfile", cf_log],
                              creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
             time.sleep(3)
         except Exception as e:
