@@ -1228,7 +1228,7 @@ def update_system_performance_and_office():
             },
             {
                 "id": "phone_farm",
-                "name": "📱 ห้องควบคุมฟาร์มมือถือจริง 4 เครื่อง (ADB Port 5038)",
+                "name": "📱 ห้องควบคุมฟาร์มมือถือจริง 4 เครื่อง (ADB Port 5037)",
                 "role": "ควบคุม Redmi 14C ทั้ง 4 เครื่อง ดูคลิป กดไลก์ กดตะกร้าตามจริง",
                 "status": f"เชื่อมต่อจริง {len(state['devices'])} เครื่อง",
                 "agents": [
@@ -1359,7 +1359,7 @@ def phone_worker(serial, idx=0):
         "shadowban_status": hw["shadowban_status"],
         "captcha_status": hw["captcha_status"],
         "tiktok_channel": hw["tiktok_channel"],
-        "state": "เชื่อมต่อ ADB 5038 จริง",
+        "state": "เชื่อมต่อ ADB 5037 จริง",
         "action": "เตรียมความพร้อมหน้าจอ...",
         "watched": 0,
         "likes": 0,
@@ -1706,9 +1706,9 @@ def run_system_audit(trigger_source="Auto-Audit (รอบตรวจอัต�
         {
             "id": "audit-05",
             "category": "5. ระบบวอร์มช่องทุกแพลตฟอร์ม & List ช่อง Shopee",
-            "title": "วอร์มช่องครบทุกแพลตฟอร์ม (TikTok · FB Reels · Shopee Target List · PC Cookies) ผ่าน ADB 5038",
+            "title": "วอร์มช่องครบทุกแพลตฟอร์ม (TikTok · FB Reels · Shopee Target List · PC Cookies) ผ่าน ADB 5037",
             "summary": "หมุนเวียนสั่งงานมือถือ Redmi 14C ทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และแตะตะกร้าสินค้า พร้อมระบบเน้นวอร์มตาม List ชื่อช่อง Shopee ที่กำหนดเป็นพิเศษ",
-            "verification_method": "ADB Port 5038 Multi-Platform Warmup + Shopee Target List Check",
+            "verification_method": "ADB Port 5037 Multi-Platform Warmup + Shopee Target List Check",
             "live_evidence": f"มือถือออนไลน์ {phones_connected}/4 · List ช่อง Shopee {len(state.get('shopee_warmup_list', []))} ช่อง · วอร์มรวม {state['cross_platform_warmup']['total_clips_warmed']} คลิป",
             "status": "PASS" if phones_connected >= 1 else "WARN",
             "checked_at": now_str,
@@ -2427,9 +2427,9 @@ def ai_boardroom_worker():
         time.sleep(900)
 
 def run_server():
-    socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("0.0.0.0", PORT), RequestHandler) as httpd:
-        print(f"Realtime Monitoring Server started at http://0.0.0.0:{PORT}", flush=True)
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    with socketserver.ThreadingTCPServer(("0.0.0.0", PORT), RequestHandler) as httpd:
+        print(f"Realtime Monitoring Server (Multi-Threaded) started at http://0.0.0.0:{PORT}", flush=True)
         httpd.serve_forever()
 
 if __name__ == "__main__":

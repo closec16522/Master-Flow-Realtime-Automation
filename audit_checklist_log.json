@@ -1,6 +1,6 @@
 {
-  "last_audit_at": "2026-11-15 10:56:24",
-  "next_audit_at": "2026-11-15 13:56:24",
+  "last_audit_at": "2026-11-15 16:41:57",
+  "next_audit_at": "2026-11-15 19:41:57",
   "user_confirmed_at": "Auto-Confirmed",
   "passed_items": 12,
   "total_items": 12,
@@ -13,7 +13,7 @@
       "verification_method": "SQLite Query: accounts, products, generations, settings",
       "live_evidence": "พบ 13 บัญชีจริง · คลิปสร้างเสร็จ 339 คลิป · สินค้า 40 รายการ",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -24,7 +24,7 @@
       "verification_method": "Process Check (Master Flow.exe) + Google Flow Cookies & Queue Check",
       "live_evidence": "Master Flow: 🟢 ทำงานอยู่ · โหมด: ACTIVE · รอคิว 4 คลิป",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -35,7 +35,7 @@
       "verification_method": "HTTP Ping 127.0.0.1:11434 (ollama.exe) + whisperMode='local'",
       "live_evidence": "Ollama Llama 3.1: 🟢 ออนไลน์ · รันปรับ Prompt จริงแล้ว 1 ครั้ง (0 Token Cost)",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -46,18 +46,18 @@
       "verification_method": "File Verification (story-vid-*.mp4) + Meta Graph API v26.0",
       "live_evidence": "คิวซีรีส์พร้อมโพสต์ 10 ตอน · ยอดวิวเพจจริง 0 วิว · ช่อง TikTok ในระบบ 2 ช่อง",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
       "id": "audit-05",
       "category": "5. ระบบวอร์มช่องทุกแพลตฟอร์ม & List ช่อง Shopee",
-      "title": "วอร์มช่องครบทุกแพลตฟอร์ม (TikTok · FB Reels · Shopee Target List · PC Cookies) ผ่าน ADB 5038",
+      "title": "วอร์มช่องครบทุกแพลตฟอร์ม (TikTok · FB Reels · Shopee Target List · PC Cookies) ผ่าน ADB 5037",
       "summary": "หมุนเวียนสั่งงานมือถือ Redmi 14C ทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และแตะตะกร้าสินค้า พร้อมระบบเน้นวอร์มตาม List ชื่อช่อง Shopee ที่กำหนดเป็นพิเศษ",
-      "verification_method": "ADB Port 5038 Multi-Platform Warmup + Shopee Target List Check",
-      "live_evidence": "มือถือออนไลน์ 4/4 · List ช่อง Shopee 8 ช่อง · วอร์มรวม 0 คลิป",
+      "verification_method": "ADB Port 5037 Multi-Platform Warmup + Shopee Target List Check",
+      "live_evidence": "มือถือออนไลน์ 2/4 · List ช่อง Shopee 8 ช่อง · วอร์มรวม 0 คลิป",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -68,7 +68,7 @@
       "verification_method": "Process Check (TikTok LIVE Studio) + Asset Check (4 Original Themes) + HTTPS /live-scene",
       "live_evidence": "TikTok LIVE Studio: 🟢 เปิดทำงานอยู่ · ธีมไร้ลายน้ำครบ 4/4 ธีม · ธีมปัจจุบัน: naga",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -77,9 +77,9 @@
       "title": "จำลองออฟฟิศ AI 3D Digital Twin (ตัวการ์ตูนพนักงานเดินไปมาและนั่งทำงานหน้าคอม 6 แผนก + ห้องประชุม)",
       "summary": "จำลองออฟฟิศ 60 FPS มีตัวการ์ตูนพนักงาน AI เดินส่งงาน ประชุมรวม และนั่งพิมพ์คอมพิวเตอร์ตามสถานะโปรเซสจริงในเครื่อง (Master Flow, Ollama, ADB 4 Phones, Live Studio)",
       "verification_method": "Real-time Process Mapping + 60FPS Canvas Office Simulation",
-      "live_evidence": "เปิดทำงานครบ 0 แผนก · พนักงาน AI 8 ตัวซิงค์สถานะโปรเซสจริง 100%",
+      "live_evidence": "เปิดทำงานครบ 6 แผนก · พนักงาน AI 8 ตัวซิงค์สถานะโปรเซสจริง 100%",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -90,7 +90,7 @@
       "verification_method": "Ledger File Check (revenue_ledger.json) + SQLite products table",
       "live_evidence": "ยอดบันทึกจริงวันนี้ ฿57,020.00 · สินค้าพร้อมปักตะกร้า 40 รายการ (คอมมิชชันเฉลี่ย 5% - 15.6% (จากสินค้าจริง 40 รายการใน unlock108.db))",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -99,9 +99,9 @@
       "title": "แสดง Performance การทำงานของเครื่อง PC (CPU/RAM/Disk) และมือถือทั้ง 4 เครื่องแบบเรียลไทม์",
       "summary": "ตรวจสอบโหลด CPU, RAM, พื้นที่ Disk, Uptime ของคอมพิวเตอร์ และระดับแบตเตอรี่/อุณหภูมิ (°C)/ค่า Ping ADB ของมือถือ Redmi 14C ทุกเครื่อง",
       "verification_method": "psutil Hardware Telemetry + ADB dumpsys battery",
-      "live_evidence": "PC CPU 0.0% · RAM 31.7% · Disk 44.2% · Uptime 00:00:08",
+      "live_evidence": "PC CPU 0.0% · RAM 33.9% · Disk 44.7% · Uptime 00:00:08",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -112,7 +112,7 @@
       "verification_method": "Schedule Guard Worker + 20s Shutdown Countdown State Check",
       "live_evidence": "สถานะเวลา: กำลังดำเนินการตามเวลาจริง (In Operating Hours) · โหมด Popup 20 วินาที: พร้อมทำงาน (Active=False)",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -121,9 +121,9 @@
       "title": "เปิดเครื่องและกู้คืนระบบเองอัตโนมัติเมื่อคอมหรือมือถือดับระหว่างเวลาทำงาน (One-Button Startup)",
       "summary": "ตั้งค่า Windows Startup (Launch_MasterFlow_AllInOne.bat), RTC Wake Timer, BIOS AC Power Recovery และ ADB Stay-On/Watchdog ปลุกหน้าจอมือถือทุก 30 วินาที",
       "verification_method": "Startup Script Check + ADB stay_on_while_plugged_in & Watchdog",
-      "live_evidence": "PC Auto-Start & Wake Timer: ARMED · Phone Watchdog (30s): ซิงค์ครบ 4 เครื่อง",
+      "live_evidence": "PC Auto-Start & Wake Timer: ARMED · Phone Watchdog (30s): ซิงค์ครบ 2 เครื่อง",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     },
     {
@@ -134,11 +134,131 @@
       "verification_method": "Process Check (cloudflared.exe) + Git Repo Sync Verification",
       "live_evidence": "Cloudflare Tunnel: 🟢 ออนไลน์ (https://reasoning-framed-mat-kernel.trycloudflare.com) · GitHub Synced",
       "status": "PASS",
-      "checked_at": "2026-11-15 10:56:24",
+      "checked_at": "2026-11-15 16:41:57",
       "confirmed": true
     }
   ],
   "audit_history": [
+    {
+      "audit_time": "2026-11-15 16:41:57",
+      "next_scheduled": "2026-11-15 19:41:57",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 2/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 16:20:01",
+      "next_scheduled": "2026-11-15 19:20:01",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 2/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 16:16:25",
+      "next_scheduled": "2026-11-15 19:16:25",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "11/12",
+      "status": "WARN",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 11 รายการ · มือถือออนไลน์ 0/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 16:16:22",
+      "next_scheduled": "2026-11-15 19:16:22",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 1/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 16:15:49",
+      "next_scheduled": "2026-11-15 19:15:49",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "11/12",
+      "status": "WARN",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 11 รายการ · มือถือออนไลน์ 0/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 16:15:48",
+      "next_scheduled": "2026-11-15 19:15:48",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 1/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 16:14:17",
+      "next_scheduled": "2026-11-15 19:14:17",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 2/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 15:39:32",
+      "next_scheduled": "2026-11-15 18:39:32",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 1/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 15:13:02",
+      "next_scheduled": "2026-11-15 18:13:02",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 1/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 15:12:40",
+      "next_scheduled": "2026-11-15 18:12:40",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 2/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 14:28:05",
+      "next_scheduled": "2026-11-15 17:28:05",
+      "trigger": "Auto-Audit (ครบรอบตรวจอัตโนมัติทุก 3 ชั่วโมง)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 17.4%"
+    },
+    {
+      "audit_time": "2026-11-15 11:28:02",
+      "next_scheduled": "2026-11-15 14:28:02",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 3/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 11:21:25",
+      "next_scheduled": "2026-11-15 14:21:25",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 2/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 11:19:38",
+      "next_scheduled": "2026-11-15 14:19:38",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 3/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 11:19:32",
+      "next_scheduled": "2026-11-15 14:19:32",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 2/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
     {
       "audit_time": "2026-11-15 10:56:24",
       "next_scheduled": "2026-11-15 13:56:24",
@@ -258,30 +378,6 @@
       "score": "12/12",
       "status": "PASS",
       "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 41.7%"
-    },
-    {
-      "audit_time": "2026-11-14 22:41:11",
-      "next_scheduled": "2026-11-15 01:41:11",
-      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
-      "score": "12/12",
-      "status": "PASS",
-      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
-    },
-    {
-      "audit_time": "2026-11-14 22:26:59",
-      "next_scheduled": "2026-11-15 01:26:59",
-      "trigger": "Auto-Audit Initial Verification (12 Core Functions)",
-      "score": "12/12",
-      "status": "PASS",
-      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 36.3%"
-    },
-    {
-      "audit_time": "2026-11-14 22:26:37",
-      "next_scheduled": "2026-11-15 01:26:37",
-      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
-      "score": "12/12",
-      "status": "PASS",
-      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
     }
   ]
 }

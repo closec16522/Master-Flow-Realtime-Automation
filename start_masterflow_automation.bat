@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 setlocal
-set ANDROID_ADB_SERVER_PORT=5038
+set ANDROID_ADB_SERVER_PORT=5037
 set __COMPAT_LAYER=RunAsInvoker
 set "PY_EXE=C:\Users\Administrator\AppData\Local\Programs\Python\Python311\python.exe"
 set "MF_EXE=C:\Users\Administrator\AppData\Local\Programs\flow-automation\Master Flow.exe"

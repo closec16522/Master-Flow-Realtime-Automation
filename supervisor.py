@@ -8,7 +8,7 @@ import json
 import urllib.request
 
 ADB_PATH = r"C:\Users\Administrator\AppData\Roaming\flow-automation\phone-tools\scrcpy-win64-v4.1\adb_real.exe"
-ADB_PORT = "5038"
+ADB_PORT = "5037"
 MASTER_FLOW_EXE = r"C:\Users\Administrator\AppData\Local\Programs\flow-automation\Master Flow.exe"
 BACKEND_SCRIPT = r"C:\SmartHome\MasterFlow-AutoSuite\backend_server.py"
 CLOUDFLARED_EXE = r"C:\SmartHome\MasterFlow-AutoSuite\cloudflared.exe"

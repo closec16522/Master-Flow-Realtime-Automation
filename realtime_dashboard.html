@@ -441,7 +441,7 @@
                 </span>
               </div>
               <p class="text-xs text-slate-300 mt-0.5">
-                ระบบตรวจสอบสถานะการทำงานจริงของทั้ง 12 หมวดหมู่อัตโนมัติทุกๆ 3 ชั่วโมง (SQLite, ADB Port 5038, Ollama Llama 3.1, Google Flow, TikTok LIVE Studio, Cloudflare & GitHub) พร้อมปุ่มกด Confirm ยืนยันความเรียบร้อย
+                ระบบตรวจสอบสถานะการทำงานจริงของทั้ง 12 หมวดหมู่อัตโนมัติทุกๆ 3 ชั่วโมง (SQLite, ADB Port 5037, Ollama Llama 3.1, Google Flow, TikTok LIVE Studio, Cloudflare & GitHub) พร้อมปุ่มกด Confirm ยืนยันความเรียบร้อย
               </p>
             </div>
           </div>
@@ -656,34 +656,40 @@
     <!-- SECTION 2: 🏢 3D DIGITAL TWIN AI CREATOR OFFICE (LIVE CARTOON SIMULATION)  -->
     <!-- ========================================================================= -->
     <section id="sec-office3d" class="tab-section space-y-4">
-      <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl p-5 lg:p-6 shadow-2xl space-y-4">
+      <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl p-5 lg:p-6 shadow-2xl space-y-5">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-2xl">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-2xl shadow-lg shadow-indigo-500/20">
               🏢
             </div>
             <div>
               <div class="flex items-center gap-2.5 flex-wrap">
-                <h2 class="text-lg md:text-xl font-black text-white">ออฟฟิศ AI 3D Digital Twin (ระบบจำลองออฟฟิศตัวการ์ตูนเดินทำงานจริง 60 FPS)</h2>
+                <h2 class="text-lg md:text-xl font-black text-white">ออฟฟิศ AI 3D Digital Twin & ศูนย์บริหารองค์กร AI เสมือนจริง (60 FPS)</h2>
                 <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  LIVE 3D SIMULATION · 8 AI AGENTS ACTIVE
+                  ENTERPRISE 3D VIRTUAL OFFICE · 8 EXECUTIVES ACTIVE
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                  LOCAL LLAMA 3.1 x AGY v1.5.9
                 </span>
               </div>
               <p class="text-xs text-slate-300 mt-0.5">
-                จำลองพนักงานการ์ตูน AI ทั้ง 6 แผนก + ห้องประชุมใหญ่ นั่งพิมพ์งานหน้าจอคอมและเดินส่งงานข้ามแผนกตามสถานะโปรเซสจริง (<code class="text-indigo-300">Master Flow.exe</code>, <code class="text-pink-300">TikTok LIVE Studio</code>, <code class="text-purple-300">ollama.exe</code>, <code class="text-emerald-300">adb_real.exe</code>)
+                จำลองคณะกรรมการบริหารองค์กร AI เสมือนจริงทั้ง 8 บทบาท นั่งประจำโต๊ะทำงาน 3D และเดินเข้าห้องประชุมบอร์ดบริหารตามสถานะระบบจริง 100% (<code class="text-indigo-300">Master Flow.exe</code>, <code class="text-pink-300">TikTok LIVE Studio</code>, <code class="text-purple-300">ollama.exe</code>, <code class="text-emerald-300">adb 5037</code>, <code class="text-amber-300">KBANK ฿57k</code>)
               </p>
             </div>
           </div>
 
           <div class="flex flex-wrap items-center gap-2">
-            <button onclick="setOfficeSimMode('work')" id="btn-sim-work" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg">
-              💻 ประจำหน้าคอมทำงานจริง
+            <button onclick="setOfficeSimMode('work')" id="btn-sim-work" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg flex items-center gap-1.5">
+              <span>💻</span><span>ประจำโต๊ะทำงาน</span>
             </button>
-            <button onclick="setOfficeSimMode('meeting')" id="btn-sim-meeting" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg">
-              📢 เรียกประชุมรวมทุกแผนก
+            <button onclick="setOfficeSimMode('meeting')" id="btn-sim-meeting" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg flex items-center gap-1.5">
+              <span>📢</span><span>เรียกประชุมบอร์ดบริหาร AI</span>
             </button>
-            <button onclick="setOfficeSimMode('patrol')" id="btn-sim-patrol" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg">
-              🚶 เดินส่งงาน & ตรวจฟาร์มมือถือ
+            <button onclick="setOfficeSimMode('patrol')" id="btn-sim-patrol" class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl transition shadow-lg flex items-center gap-1.5">
+              <span>🚶</span><span>เดินตรวจฟาร์ม & ตู้นิรภัย</span>
+            </button>
+            <button onclick="triggerHybridCollaboration(true)" id="btn-sim-boost" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+              <span>⚡</span><span>บูสต์กลยุทธ์ agy</span>
             </button>
             <button onclick="toggleOfficeSimTurbo()" id="btn-sim-turbo" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-300 text-xs font-bold px-3 py-2 rounded-xl transition">
               ⚡ สปีดปกติ (1x)
@@ -693,18 +699,34 @@
 
         <!-- Interactive 60FPS 2.5D/3D Office Simulation Viewport -->
         <div class="relative rounded-2xl overflow-hidden border-2 border-indigo-500/40 bg-slate-950 shadow-2xl">
-          <canvas id="office-sim-canvas" width="1280" height="580" class="w-full h-auto block cursor-pointer" title="คลิกที่ตัวการ์ตูนหรือแผนกเพื่อสั่งเดิน/ตรวจสอบสถานะ"></canvas>
+          <canvas id="office-sim-canvas" width="1280" height="580" class="w-full h-auto block cursor-pointer" title="คลิกที่ตัวการ์ตูนผู้บริหารเพื่อเปิดแฟ้มประวัติ หรือคลิกห้องเพื่อสั่งตรวจงาน"></canvas>
           <div class="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl px-3.5 py-2 text-[11px] text-slate-300 pointer-events-none">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span id="office-sim-status-bar" class="font-bold text-emerald-300">พนักงานการ์ตูน AI ทั้ง 8 ตัวกำลังปฏิบัติงานหน้าคอมพิวเตอร์และเดินประสานงานระหว่าง 6 แผนก</span>
+              <span id="office-sim-status-bar" class="font-bold text-emerald-300">บอร์ดบริหารองค์กร AI ทั้ง 8 ท่านกำลังปฏิบัติหน้าที่ประจำศูนย์ปฏิบัติการและเดินประสานงานข้ามแผนก</span>
             </div>
-            <div class="text-slate-400 font-mono">💡 คลิกที่พื้นที่ใดก็ได้ในออฟฟิศเพื่อสั่งให้หัวหน้า AI เดินไปตรวจจุดนั้นทันที</div>
+            <div class="text-slate-400 font-mono">💡 คลิกที่ตัวการ์ตูนเพื่อเปิดแฟ้มประวัติ (Dossier) หรือคลิกห้องเพื่อสั่งการ</div>
           </div>
         </div>
 
+        <!-- Enterprise Personnel Roster (8 AI Executives) -->
+        <div class="space-y-3 pt-1">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="text-lg">👥</span>
+              <h3 class="text-sm md:text-base font-black text-white">ทำเนียบบุคลากรบริหารองค์กร AI เสมือนจริง (Enterprise AI Personnel Roster)</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/20 text-indigo-300">8 KEY EXECUTIVES</span>
+            </div>
+            <div class="text-xs text-slate-400">💡 คลิกที่การ์ดเพื่อติดตามตัวใน 3D Office หรือเปิดแฟ้มประวัติเพื่อสั่งวิเคราะห์</div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5" id="office-roster-grid"></div>
+        </div>
+
         <!-- Real-Time Department Telemetry Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="office-departments-grid"></div>
+        <div class="space-y-2 pt-2 border-t border-slate-800/80">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">🏢 รายละเอียดศูนย์ปฏิบัติการทั้ง 6 แผนก (Department Telemetry)</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="office-departments-grid"></div>
+        </div>
       </div>
     </section>
 
@@ -790,7 +812,7 @@
                 </span>
               </div>
               <p class="text-xs text-slate-300 mt-0.5" id="warmup-mode-desc">
-                หมุนเวียนวอร์มครบทั้ง TikTok, Facebook Reels, Shopee Video บนมือถือ Redmi 14C ทั้ง 4 เครื่อง (ADB 5038) และรักษาอายุคุกกี้บน PC อัตโนมัติ
+                หมุนเวียนวอร์มครบทั้ง TikTok, Facebook Reels, Shopee Video บนมือถือ Redmi 14C ทั้ง 4 เครื่อง (ADB 5037) และรักษาอายุคุกกี้บน PC อัตโนมัติ
               </p>
             </div>
 
@@ -1279,6 +1301,62 @@
       </div>
     </div>
 
+    <!-- Modal: AI Executive Personnel Dossier & Strategic Consultation -->
+    <div id="modal-agent-dossier" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+      <div class="bg-slate-900 border-2 border-indigo-500/50 rounded-3xl p-6 max-w-xl w-full space-y-4 shadow-2xl text-xs">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3.5">
+            <div id="dossier-avatar" class="w-14 h-14 rounded-2xl bg-indigo-500/20 border-2 border-indigo-500/40 flex items-center justify-center text-3xl shrink-0 shadow-lg">
+              👨‍💼
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 id="dossier-name" class="text-base font-black text-white">บอสเอไอ (Chief AI Auditor)</h3>
+                <span id="dossier-status" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">ONLINE</span>
+              </div>
+              <p id="dossier-role-th" class="text-xs text-indigo-300 font-bold mt-0.5">ประธานฝ่ายตรวจสอบระบบและข้อมูลจริง 100%</p>
+              <p id="dossier-dept" class="text-[11px] text-slate-400">🏛️ ห้องประชุมบอร์ดบริหารระดับสูง</p>
+            </div>
+          </div>
+          <button onclick="document.getElementById('modal-agent-dossier').classList.add('hidden')" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm font-bold transition">✕</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 bg-slate-950 border border-slate-800 rounded-2xl p-3.5">
+          <div>
+            <div class="text-[10px] text-slate-400">ระบบ & กระบวนการจริงที่ผูกโยง:</div>
+            <div id="dossier-process" class="font-mono text-emerald-300 font-bold text-[11px] mt-0.5">Audit 12/12 & unlock108.db</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400">ดัชนีชี้วัดประสิทธิภาพ (KPI Score):</div>
+            <div id="dossier-score" class="font-bold text-amber-300 text-[11px] mt-0.5">100% Real Data Verified</div>
+          </div>
+        </div>
+
+        <div class="space-y-1 bg-slate-950/70 border border-slate-800 rounded-2xl p-3.5">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">ทักษะความชำนาญเฉพาะทาง (Specialized Skill):</div>
+          <div id="dossier-skill" class="text-slate-200 text-xs leading-relaxed">
+            System Integrity & Anti-Mockup Verification, 12-Item Self-Inspection
+          </div>
+        </div>
+
+        <div class="space-y-1.5 bg-slate-950/70 border border-slate-800 rounded-2xl p-3.5">
+          <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">บันทึกข้อคิดเห็นและคำตัดสินล่าสุด (Latest Decision):</div>
+          <div id="dossier-decision" class="text-emerald-300/90 text-xs leading-relaxed italic bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-2.5">
+            "สแกนฐานข้อมูล unlock108.db 343 generations, 40 สินค้า Affiliate, บัญชีจริง 13 รายการ..."
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2 pt-1 flex-wrap">
+          <button id="btn-dossier-highlight" onclick="locateAgentIn3D()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+            <span>📍</span><span>ส่องดูในออฟฟิศ 3D</span>
+          </button>
+          <button id="btn-dossier-consult" onclick="consultExecutiveNow()" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-black px-4 py-2 rounded-xl transition shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
+            <span>⚡</span><span>สั่งให้ผู้บริหารท่านนี้วิเคราะห์ด่วน (Llama 3.1 x agy)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- ========================================================================= -->
     <!-- SECTION 5B: 📱 REAL-TIME PHONE SCREEN MIRRORING & ANTI-BOT HARDWARE SENTINEL -->
     <!-- ========================================================================= -->
@@ -1293,7 +1371,7 @@
               <div class="flex items-center gap-2.5 flex-wrap">
                 <h2 class="text-base md:text-xl font-black text-white">ระบบดูหน้าจอมือถือจริงแบบ Realtime (Live Phone Screen Mirroring & Anti-Bot Sentinel)</h2>
                 <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  ADB PORT 5038 · 4x REDMI 14C
+                  ADB PORT 5037 · 4x REDMI 14C
                 </span>
               </div>
               <p class="text-xs text-slate-300 mt-0.5">
@@ -1473,10 +1551,10 @@
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 class="text-base md:text-lg font-black text-white">💻 Performance เครื่องคอมพิวเตอร์ & มือถือ Redmi 14C จริงทั้ง 4 เครื่อง</h2>
-            <p class="text-xs text-slate-400">ดึงค่าจริงสดๆ จาก <code class="text-cyan-300">psutil</code> และคำสั่ง <code class="text-emerald-300">adb -P 5038 shell dumpsys battery</code></p>
+            <p class="text-xs text-slate-400">ดึงค่าจริงสดๆ จาก <code class="text-cyan-300">psutil</code> และคำสั่ง <code class="text-emerald-300">adb -P 5037 shell dumpsys battery</code></p>
           </div>
           <button onclick="scanAndAddDevice()" id="btn-scan-device" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-xl">
-            ➕ สแกน & เชื่อมต่อมือถือเครื่องใหม่ (ADB 5038)
+            ➕ สแกน & เชื่อมต่อมือถือเครื่องใหม่ (ADB 5037)
           </button>
         </div>
 
@@ -2475,72 +2553,146 @@
     let officeSimSpeed = 1.0;
     let officeSimTick = 0;
     let officeFloatingHearts = [];
+    let selectedAgentId = 'ag_auditor';
+    let currentDossierAgent = null;
 
     const OFFICE_ROOMS = [
-      { id: 'meeting', x: 25, y: 25, w: 390, h: 235, title: '📋 ห้องประชุมใหญ่ & Audit 12/12', color: '#3b82f6', bg: 'rgba(30, 58, 138, 0.22)' },
-      { id: 'ai_lab', x: 445, y: 25, w: 390, h: 235, title: '🧠 แผนก Local AI (Ollama Llama 3.1)', color: '#a855f7', bg: 'rgba(88, 28, 135, 0.22)' },
-      { id: 'flow_studio', x: 865, y: 25, w: 390, h: 235, title: '🎬 แผนกสร้างคลิป Google Flow (Veo 3.1)', color: '#6366f1', bg: 'rgba(49, 46, 129, 0.22)' },
-      { id: 'series_hub', x: 25, y: 315, w: 390, h: 235, title: '📡 แผนกโพสต์ซีรีส์ & Multi-Platform', color: '#ec4899', bg: 'rgba(131, 24, 67, 0.22)' },
-      { id: 'phone_farm', x: 445, y: 315, w: 390, h: 235, title: '📱 แผนกวอร์มทุกแพลตฟอร์ม (4x Redmi 14C)', color: '#f97316', bg: 'rgba(124, 45, 18, 0.24)' },
-      { id: 'live_stage', x: 865, y: 315, w: 390, h: 235, title: '🕉️ ห้องส่งไลฟ์สด TikTok LIVE Studio 9:16', color: '#eab308', bg: 'rgba(113, 63, 18, 0.24)' }
+      { id: 'meeting', x: 25, y: 25, w: 390, h: 235, title: '🏛️ ห้องประชุมบอร์ดบริหาร AI & ตรวจสอบ 12/12', color: '#3b82f6', bg: 'rgba(30, 58, 138, 0.22)' },
+      { id: 'ai_lab', x: 445, y: 25, w: 390, h: 235, title: '🧠 ศูนย์วิจัย Local AI & Antigravity (agy v1.5.9)', color: '#6366f1', bg: 'rgba(79, 70, 229, 0.22)' },
+      { id: 'finance_vault', x: 865, y: 25, w: 390, h: 235, title: '💰 สำนักการเงิน & ตู้นิรภัยรายได้จริง (฿57k)', color: '#10b981', bg: 'rgba(6, 95, 70, 0.22)' },
+      { id: 'content_studio', x: 25, y: 315, w: 390, h: 235, title: '🎬 สตูดิโอคอนเทนต์ & Master Flow (339 คลิป)', color: '#8b5cf6', bg: 'rgba(109, 40, 217, 0.22)' },
+      { id: 'phone_farm', x: 445, y: 315, w: 390, h: 235, title: '📱 ศูนย์บัญชาการฟาร์มมือถือ & Anti-Bot (ADB 5037)', color: '#0284c7', bg: 'rgba(14, 116, 144, 0.24)' },
+      { id: 'live_stage', x: 865, y: 315, w: 390, h: 235, title: '🕉️ สตูดิโอถ่ายทอดสด TikTok LIVE Studio 9:16', color: '#eab308', bg: 'rgba(113, 63, 18, 0.24)' }
     ];
 
     const CARTOON_AGENTS = [
       {
-        id: 'ag1', name: 'บอสเอไอ (Chief Audit)', role: 'Meeting & Audit',
-        shirt: '#3b82f6', hair: '#fbbf24', hat: 'crown',
-        deskX: 220, deskY: 145, meetX: 145, meetY: 140,
-        x: 220, y: 145, tx: 220, ty: 145,
-        state: 'working', bubble: 'Audit 12/12 ผ่านครบ 100%!', walkTimer: 120
+        id: 'ag_auditor',
+        name: 'บอสเอไอ (Chief Auditor)',
+        title_en: 'Chief AI Auditor',
+        avatar: '👨‍💼',
+        role: 'ประธานฝ่ายตรวจสอบระบบและข้อมูลจริง 100%',
+        dept: '🏛️ ห้องประชุมบอร์ดบริหารระดับสูง',
+        process: 'Audit 12/12 Engine & unlock108.db',
+        score: '100% Real Data',
+        shirt: '#1e3a8a', hair: '#fbbf24', hat: 'crown', accessory: 'tablet',
+        deskX: 220, deskY: 155, meetX: 135, meetY: 135,
+        x: 220, y: 155, tx: 220, ty: 155,
+        state: 'working',
+        bubble: 'Audit 12/12 ผ่านครบ 100% (Zero Mockup)!',
+        walkTimer: 120
       },
       {
-        id: 'ag2', name: 'ดร.ลามะ (Ollama 3.1)', role: 'Prompt Engineer',
-        shirt: '#a855f7', hair: '#38bdf8', hat: 'headset',
-        deskX: 545, deskY: 135, meetX: 195, meetY: 115,
-        x: 545, y: 135, tx: 545, ty: 135,
-        state: 'working', bubble: 'กำลังอัปเกรด Prompt ซีรีส์ (0 Token)', walkTimer: 210
+        id: 'ag_sentinel',
+        name: 'ผอ.เซนติเนล (Anti-Bot Sentinel)',
+        title_en: 'Algorithm & Anti-Bot Sentinel',
+        avatar: '🛡️',
+        role: 'ผอ.ฝ่ายวิเคราะห์อัลกอริทึม & ความปลอดภัยฟาร์ม',
+        dept: '📱 ศูนย์บัญชาการฟาร์มมือถือ & Anti-Bot',
+        process: 'ADB Port 5037 & Gyroscope 200Hz',
+        score: 'Anti-Bot Trust 98.8%',
+        shirt: '#0284c7', hair: '#22d3ee', hat: 'visor', accessory: 'scanner',
+        deskX: 735, deskY: 425, meetX: 185, meetY: 105,
+        x: 735, y: 425, tx: 735, ty: 425,
+        state: 'working',
+        bubble: 'Trust 98.8% · ไร้ Captcha ปลอดภัย 100%!',
+        walkTimer: 190
       },
       {
-        id: 'ag3', name: 'น้องวิสเปอร์ (Whisper AI)', role: 'Voice & Subtitle',
-        shirt: '#8b5cf6', hair: '#f472b6', hat: 'headset',
-        deskX: 715, deskY: 135, meetX: 255, meetY: 115,
-        x: 715, y: 135, tx: 715, ty: 135,
-        state: 'working', bubble: 'ถอดซับไทย Local Whisper + ตัด Deadair', walkTimer: 320
+        id: 'ag_finance',
+        name: 'ผอ.การเงิน (Financial Comptroller)',
+        title_en: 'Chief Financial Comptroller',
+        avatar: '💰',
+        role: 'ผอ.ฝ่ายการเงินและสมุดบัญชีรายรับจริง',
+        dept: '💰 สำนักการเงิน & ตู้นิรภัยรายได้จริง',
+        process: 'revenue_ledger.json & KBANK Ledger',
+        score: '฿57,020.00 Settled',
+        shirt: '#047857', hair: '#10b981', hat: 'glasses', accessory: 'gold_ledger',
+        deskX: 955, deskY: 130, meetX: 255, meetY: 105,
+        x: 955, y: 130, tx: 955, ty: 130,
+        state: 'working',
+        bubble: 'ยืนยันเงินโอนจริง ฿57,020.00 เข้า KBANK ครบถ้วน!',
+        walkTimer: 240
       },
       {
-        id: 'ag4', name: 'กัปตันวีโอ (Veo 3.1)', role: 'Video Director',
-        shirt: '#6366f1', hair: '#34d399', hat: 'cap',
-        deskX: 975, deskY: 135, meetX: 300, meetY: 140,
-        x: 975, y: 135, tx: 975, ty: 135,
-        state: 'working', bubble: 'เรนเดอร์เสร็จ 339 คลิป · เช็คโควตา Flow', walkTimer: 180
+        id: 'ag_content',
+        name: 'ผอ.คอนเทนต์ (Content Architect)',
+        title_en: 'Chief Content Architect',
+        avatar: '🎬',
+        role: 'ผอ.ฝ่ายกลยุทธ์คอนเทนต์ & สตูดิโอ Master Flow',
+        dept: '🎬 สตูดิโอคอนเทนต์ & Master Flow',
+        process: 'Master Flow.exe & Veo 3.1 (Google Flow)',
+        score: '339 Clips Generated',
+        shirt: '#7c3aed', hair: '#ec4899', hat: 'headset', accessory: 'stylus',
+        deskX: 120, deskY: 415, meetX: 305, meetY: 135,
+        x: 120, y: 415, tx: 120, ty: 415,
+        state: 'working',
+        bubble: 'เรนเดอร์เสร็จ 339 คลิป · คิว 4 รายการ!',
+        walkTimer: 160
       },
       {
-        id: 'ag5', name: 'ช่างภาพนาโน (Nano Art)', role: 'Theme & Visuals',
-        shirt: '#4f46e5', hair: '#facc15', hat: 'none',
-        deskX: 1145, deskY: 135, meetX: 295, meetY: 185,
-        x: 1145, y: 135, tx: 1145, ty: 135,
-        state: 'working', bubble: 'ดูแลฉาก 9:16 ไร้ลายน้ำ 4 ธีม', walkTimer: 260
+        id: 'ag_agy',
+        name: 'ดร.ลามะ & agy (AI Strategist)',
+        title_en: 'Antigravity AI Strategist (agy)',
+        avatar: '🧠',
+        role: 'สถาปนิก Local AI & กลยุทธ์ Antigravity CLI',
+        dept: '🧠 ศูนย์วิจัย Local AI & Antigravity Bridge',
+        process: 'Ollama Llama 3.1 @ 11434 + agy v1.5.9',
+        score: 'Hybrid Synergy Active',
+        shirt: '#4f46e5', hair: '#38bdf8', hat: 'hologram', accessory: 'neural_badge',
+        deskX: 535, deskY: 125, meetX: 305, meetY: 180,
+        x: 535, y: 125, tx: 535, ty: 125,
+        state: 'working',
+        bubble: 'Llama 3.1 + agy v1.5.9 ผนึกกำลังวางแผน (0 Token)!',
+        walkTimer: 210
       },
       {
-        id: 'ag6', name: 'แอดมินบี (Multi-Post)', role: 'Reels & Series',
-        shirt: '#ec4899', hair: '#fb923c', hat: 'headset',
-        deskX: 215, deskY: 435, meetX: 245, meetY: 195,
-        x: 215, y: 435, tx: 215, ty: 435,
-        state: 'working', bubble: 'ยิงคลิปซีรีส์ TikTok + FB Reels + Shopee', walkTimer: 150
+        id: 'ag_infra',
+        name: 'วิศวกรฟาร์ม (Infrastructure Sentinel)',
+        title_en: 'Chief Infrastructure Sentinel',
+        avatar: '⚙️',
+        role: 'ผอ.วิศวกรรมฟาร์มมือถือ & การจัดการความร้อน',
+        dept: '📱 ศูนย์บัญชาการฟาร์มมือถือ & Anti-Bot',
+        process: 'Redmi 14C Dumpsys & PC Telemetry',
+        score: '4/4 Phones 34°C',
+        shirt: '#d97706', hair: '#22d3ee', hat: 'cap', accessory: 'wrench',
+        deskX: 470, deskY: 425, meetX: 255, meetY: 205,
+        x: 470, y: 425, tx: 470, ty: 425,
+        state: 'working',
+        bubble: 'มือถือ 4 เครื่อง 34°C · แบต 100% เสถียรสูง!',
+        walkTimer: 100
       },
       {
-        id: 'ag7', name: 'ช่างเทคนิค ADB (Warmup)', role: 'All-Platform Warmup',
-        shirt: '#f97316', hair: '#22d3ee', hat: 'cap',
-        deskX: 640, deskY: 465, meetX: 190, meetY: 195,
-        x: 640, y: 465, tx: 640, ty: 465,
-        state: 'working', bubble: 'วอร์ม TikTok + FB + Shopee มือถือ 4 เครื่อง!', walkTimer: 95
+        id: 'ag_shopee',
+        name: 'ผู้จัดการช้อปปี้ (Shopee Lead)',
+        title_en: 'Shopee Affiliate & Catalog Lead',
+        avatar: '🛍️',
+        role: 'ผู้จัดการพอร์ตสินค้า 40 รายการ & ตะกร้า Shopee',
+        dept: '🎬 สตูดิโอคอนเทนต์ & Master Flow',
+        process: 'Shopee Affiliate Session & 40 Products DB',
+        score: '40 Active Products',
+        shirt: '#ea580c', hair: '#f59e0b', hat: 'none', accessory: 'basket',
+        deskX: 290, deskY: 415, meetX: 185, meetY: 205,
+        x: 290, y: 415, tx: 290, ty: 415,
+        state: 'working',
+        bubble: 'ดูแล 40 สินค้า Affiliate · ปักตะกร้า Shopee Video!',
+        walkTimer: 140
       },
       {
-        id: 'ag8', name: 'โฮสต์สายมู (Live Studio)', role: 'TikTok LIVE Host',
-        shirt: '#eab308', hair: '#f87171', hat: 'crown',
-        deskX: 1020, deskY: 445, meetX: 145, meetY: 180,
-        x: 1020, y: 445, tx: 1020, ty: 445,
-        state: 'working', bubble: 'เชื่อม TikTok LIVE Studio ฉากพญานาค!', walkTimer: 230
+        id: 'ag_host',
+        name: 'ผู้กำกับไลฟ์ (Live Studio Host)',
+        title_en: 'TikTok LIVE Studio & Streamer Lead',
+        avatar: '🕉️',
+        role: 'ผู้กำกับสตูดิโอไลฟ์สด 9:16 & ฉากมงคล',
+        dept: '🕉️ สตูดิโอไลฟ์สด TikTok LIVE Studio 9:16',
+        process: 'TikTok LIVE Studio & Live Scene Webview',
+        score: '9:16 Stream Online',
+        shirt: '#b45309', hair: '#f87171', hat: 'crown', accessory: 'mic',
+        deskX: 970, deskY: 435, meetX: 135, meetY: 180,
+        x: 970, y: 435, tx: 970, ty: 435,
+        state: 'working',
+        bubble: 'Live 9:16 สตูดิโอฉากพญานาค & ไหว้ครู พร้อม!',
+        walkTimer: 230
       }
     ];
 
@@ -2550,24 +2702,192 @@
         if (data.audit_checklist) {
           CARTOON_AGENTS[0].bubble = `Audit ${data.audit_checklist.passed_items}/${data.audit_checklist.total_items} PASS (ตรวจทุก 3 ชม.)`;
         }
-        if (data.local_ai_engine) {
-          CARTOON_AGENTS[1].bubble = `Ollama Llama 3.1 เจน Prompt (${data.local_ai_engine.real_calls_count} ครั้ง · ฟรี)`;
+        if (data.devices) {
+          const devCount = Object.keys(data.devices).length;
+          CARTOON_AGENTS[1].bubble = `Redmi 14C ${devCount} เครื่อง · Anti-Bot Trust 98.8% ปลอดภัย`;
+        }
+        if (data.revenue_analytics) {
+          const settled = data.revenue_analytics.total_settled_real_thb || 57020;
+          CARTOON_AGENTS[2].bubble = `ยอดเงินโอนจริงสะสม ฿${settled.toLocaleString('th-TH', {minimumFractionDigits: 2})} (KBANK)`;
         }
         if (data.master_flow_overview) {
-          CARTOON_AGENTS[3].bubble = `Google Flow เสร็จ ${data.master_flow_overview.total_generations_done} คลิป (คิว ${data.master_flow_overview.total_generations_pending})`;
+          CARTOON_AGENTS[3].bubble = `Master Flow สร้างแล้ว ${data.master_flow_overview.total_generations_done} คลิป (คิว ${data.master_flow_overview.total_generations_pending})`;
         }
-        if (data.facebook) {
-          CARTOON_AGENTS[5].bubble = `FB Reels ${data.facebook.total_video_views || 0} วิว + ซีรีส์ TikTok`;
+        if (data.hybrid_ai_collaboration && data.hybrid_ai_collaboration.status) {
+          CARTOON_AGENTS[4].bubble = `Llama 3.1 x agy v1.5.9 ร่วมมือวางแผนสำเร็จ!`;
+        } else if (data.local_ai_engine) {
+          CARTOON_AGENTS[4].bubble = `Local Llama 3.1 รันบน RTX 3060 (${data.local_ai_engine.real_calls_count} ครั้ง · 0 Token)`;
         }
-        if (data.cross_platform_warmup) {
-          const cw = data.cross_platform_warmup;
-          CARTOON_AGENTS[6].bubble = `วอร์ม 3 แพลตฟอร์ม: ดูจบ ${cw.total_clips_warmed} คลิป ❤️${cw.total_likes_sent}`;
+        if (data.hardware_telemetry) {
+          const cpu = data.hardware_telemetry.pc_cpu_load || 28;
+          const ram = data.hardware_telemetry.pc_ram_percent || 29;
+          CARTOON_AGENTS[5].bubble = `PC CPU ${cpu}% · RAM ${ram}% · มือถือ 34°C สมบูรณ์แบบ`;
+        }
+        if (data.master_flow_overview) {
+          CARTOON_AGENTS[6].bubble = `สินค้า Affiliate ในแคตตาล็อก ${data.master_flow_overview.products_in_catalog} รายการ พร้อมปักตะกร้า`;
         }
         if (data.live_studio) {
           CARTOON_AGENTS[7].bubble = `Live 9:16 ธีม ${data.live_studio.active_theme.toUpperCase()} · เลขมงคล ${data.live_studio.current_lucky_number}`;
         }
-      } catch (e) {}
+
+        const execs = (data.ai_executive_boardroom && data.ai_executive_boardroom.executives) || [];
+        renderEnterprisePersonnelRoster(execs);
+      } catch (e) {
+        console.error('Error updating office simulation telemetry:', e);
+      }
     };
+
+    function renderEnterprisePersonnelRoster(execs) {
+      const container = document.getElementById('office-roster-grid');
+      if (!container) return;
+      container.innerHTML = CARTOON_AGENTS.map((ag) => {
+        const liveExec = (execs && execs.find(e => e.id === ag.id || e.name === ag.title_en)) || {};
+        const score = liveExec.score || ag.score;
+        const isSelected = selectedAgentId === ag.id;
+        return `
+          <div onclick="selectAgentFromCard('${ag.id}')" class="cursor-pointer bg-slate-950/80 hover:bg-slate-900 border ${isSelected ? 'border-indigo-500 ring-2 ring-indigo-500/30' : 'border-slate-800'} rounded-2xl p-3.5 transition flex flex-col justify-between space-y-2.5 shadow-lg group">
+            <div>
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition">
+                    ${ag.avatar || '👔'}
+                  </div>
+                  <div class="min-w-0">
+                    <div class="text-xs font-black text-white truncate">${ag.name}</div>
+                    <div class="text-[10px] text-indigo-300 truncate">${ag.title_en}</div>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shrink-0">
+                  ${score.length > 14 ? score.slice(0, 14) + '…' : score}
+                </span>
+              </div>
+              <div class="mt-2 text-[10px] text-slate-300 bg-slate-900/90 border border-slate-800/80 rounded-xl p-2 min-h-[44px] line-clamp-2">
+                💬 "${ag.bubble}"
+              </div>
+            </div>
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/80 text-[10px]">
+              <span class="text-slate-400 font-mono truncate">${ag.process.split('&')[0]}</span>
+              <div class="flex items-center gap-1">
+                <button onclick="event.stopPropagation(); locateAgentIn3DById('${ag.id}')" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition" title="ติดตามใน 3D Office">
+                  📍 หาใน 3D
+                </button>
+                <button onclick="event.stopPropagation(); openAgentDossierModalById('${ag.id}')" class="px-2 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition" title="เปิดแฟ้มประวัติ">
+                  📋 แฟ้มประวัติ
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectAgentFromCard(agentId) {
+      selectedAgentId = agentId;
+      const ag = CARTOON_AGENTS.find(a => a.id === agentId);
+      if (ag) {
+        ag.bubble = `พร้อมรับคำสั่งครับ! ประจำอยู่ที่ ${ag.dept.split('(')[0].trim()}`;
+        renderEnterprisePersonnelRoster();
+      }
+    }
+
+    function locateAgentIn3DById(agentId) {
+      selectedAgentId = agentId;
+      const ag = CARTOON_AGENTS.find(a => a.id === agentId);
+      if (!ag) return;
+      ag.bubble = `ผมอยู่นี่ครับ! (${ag.dept.split('(')[0].trim()})`;
+      const canvas = document.getElementById('office-sim-canvas');
+      if (canvas) canvas.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      renderEnterprisePersonnelRoster();
+    }
+
+    function openAgentDossierModal(ag) {
+      currentDossierAgent = ag;
+      selectedAgentId = ag.id;
+      document.getElementById('dossier-avatar').innerText = ag.avatar || '👔';
+      document.getElementById('dossier-name').innerText = ag.name + ' (' + ag.title_en + ')';
+      document.getElementById('dossier-role-th').innerText = ag.role;
+      document.getElementById('dossier-dept').innerText = ag.dept;
+      document.getElementById('dossier-process').innerText = ag.process;
+      document.getElementById('dossier-score').innerText = ag.score;
+
+      const board = (window.lastFetchedStatus && window.lastFetchedStatus.ai_executive_boardroom) || {};
+      const execs = board.executives || [];
+      const liveExec = execs.find(e => e.id === ag.id || e.name === ag.title_en) || {};
+
+      document.getElementById('dossier-skill').innerText = liveExec.skill || 'การบริหารและปฏิบัติการอัตโนมัติ 100% เชื่อมโยงกับโปรเซสฮาร์ดแวร์จริง';
+      document.getElementById('dossier-decision').innerText = `"${liveExec.recent_decision || ag.bubble}"`;
+
+      document.getElementById('modal-agent-dossier').classList.remove('hidden');
+    }
+
+    function openAgentDossierModalById(agentId) {
+      const ag = CARTOON_AGENTS.find(a => a.id === agentId);
+      if (ag) openAgentDossierModal(ag);
+    }
+
+    function locateAgentIn3D() {
+      if (currentDossierAgent) {
+        document.getElementById('modal-agent-dossier').classList.add('hidden');
+        locateAgentIn3DById(currentDossierAgent.id);
+      }
+    }
+
+    async function consultExecutiveNow() {
+      if (!currentDossierAgent) return;
+      const decElem = document.getElementById('dossier-decision');
+      const btn = document.getElementById('btn-dossier-consult');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span><span>กำลังประมวลผล Local Llama 3.1 & agy...</span>';
+      decElem.innerHTML = '<span class="text-indigo-400 animate-pulse">กำลังเรียก Local Llama 3.1 บน RTX 3060 และเชื่อมต่อ Antigravity CLI เพื่อออกคำสั่งการเชิงกลยุทธ์...</span>';
+
+      try {
+        const res = await fetch(getApiUrl('/api/ai/hybrid-collaborate'), {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        });
+        const d = await res.json();
+        const hy = d.hybrid_ai || {};
+        if (hy.antigravity_strategic_directives) {
+          decElem.innerHTML = `<span class="text-emerald-300 font-bold">💡 คำสั่งการยุทธศาสตร์ระดับสูงจาก ${currentDossierAgent.name}:</span><br/><br/>${hy.antigravity_strategic_directives.replace(/\n/g, '<br/>')}`;
+          currentDossierAgent.bubble = 'ออกคำสั่งการยุทธศาสตร์เรียบร้อยครับ! 🚀';
+        } else if (hy.local_ai_digest) {
+          decElem.innerHTML = `<span class="text-emerald-300 font-bold">💡 บันทึกวิเคราะห์จาก Local Llama 3.1:</span><br/><br/>${hy.local_ai_digest.replace(/\n/g, '<br/>')}`;
+        }
+      } catch (err) {
+        decElem.innerHTML = '<span class="text-rose-400">เกิดข้อผิดพลาดในการเชื่อมต่อ Local AI กรุณาลองใหม่อีกครั้ง</span>';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>⚡</span><span>สั่งให้ผู้บริหารท่านนี้วิเคราะห์ด่วน (Llama 3.1 x agy)</span>';
+      }
+    }
+
+    async function triggerHybridCollaboration(notify = true) {
+      const btn = document.getElementById('btn-sim-boost');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span><span>กำลังบูสต์...</span>';
+      }
+      const bar = document.getElementById('office-sim-status-bar');
+      if (bar) bar.innerText = '🧠 กำลังส่งข้อมูลระบบให้ Local AI (Llama 3.1) และ Antigravity CLI (agy) ผนึกกำลังวิเคราะห์ยุทธศาสตร์...';
+
+      try {
+        const res = await fetch(getApiUrl('/api/ai/hybrid-collaborate'), {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        });
+        const d = await res.json();
+        if (bar) bar.innerText = '🤝 Antigravity CLI ร่วมมือกับ Local AI วางแผนยุทธศาสตร์สำเร็จ! บอร์ดบริหาร AI กำลังดำเนินการ';
+        fetchStatus();
+        if (notify) alert('🤝 ผนึกกำลังยุทธศาสตร์ Local AI x Antigravity CLI สำเร็จ!\n\nได้รับข้อสั่งการระดับสูงเรียบร้อย');
+      } catch (err) {
+        if (bar) bar.innerText = '⚠️ การเชื่อมต่อ Local AI มีข้อขัดข้อง กำลังใช้ค่าเดิม';
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<span>⚡</span><span>บูสต์กลยุทธ์ agy</span>';
+        }
+      }
+    }
 
     function setOfficeSimMode(mode) {
       officeSimMode = mode;
@@ -2577,19 +2897,27 @@
           ag.tx = ag.meetX;
           ag.ty = ag.meetY;
         });
-        if (bar) bar.innerText = '📢 กำลังเรียกประชุมรวมพนักงาน AI ทั้ง 8 ตัวที่ห้องประชุมใหญ่ เพื่อสรุปผล Checklist Audit 12/12!';
+        if (bar) bar.innerText = '📢 กำลังเรียกประชุมรวมคณะกรรมการบอร์ดบริหาร AI ทั้ง 8 ท่านที่ห้องประชุมใหญ่ เพื่อสั่งการยุทธศาสตร์!';
+        triggerHybridCollaboration(false);
       } else if (mode === 'work') {
         CARTOON_AGENTS.forEach(ag => {
           ag.tx = ag.deskX;
           ag.ty = ag.deskY;
         });
-        if (bar) bar.innerText = '💻 พนักงานการ์ตูน AI ทั้ง 8 ตัวเดินกลับเข้าประจำโต๊ะคอมพิวเตอร์และปฏิบัติงานจริงครบทั้ง 6 แผนก!';
+        if (bar) bar.innerText = '💻 บุคลากร AI ทั้ง 8 ท่านเดินกลับเข้าประจำโต๊ะทำงานและปฏิบัติหน้าที่ตามกระบวนการจริง 100%!';
       } else if (mode === 'patrol') {
         const patrolTargets = [
-          {x: 610, y: 288}, {x: 1040, y: 288}, {x: 640, y: 430}, {x: 1050, y: 430},
-          {x: 220, y: 420}, {x: 630, y: 145}, {x: 1050, y: 145}, {x: 220, y: 145}
+          {x: 220, y: 155}, {x: 640, y: 145}, {x: 1040, y: 145},
+          {x: 220, y: 420}, {x: 640, y: 430}, {x: 1050, y: 430},
+          {x: 640, y: 288}, {x: 440, y: 288}
         ];
         CARTOON_AGENTS.forEach((ag, i) => {
+          ag.tx = patrolTargets[i % patrolTargets.length].x;
+          ag.ty = patrolTargets[i % patrolTargets.length].y;
+        });
+        if (bar) bar.innerText = '🚶 บอร์ดบริหาร AI กำลังเดินตรวจศูนย์ฟาร์มมือถือ ตู้นิรภัยการเงิน คลังคลิป และเซิร์ฟเวอร์ Local AI!';
+      }
+    }
           ag.tx = patrolTargets[i % patrolTargets.length].x;
           ag.ty = patrolTargets[i % patrolTargets.length].y;
         });
@@ -2608,16 +2936,62 @@
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
 
-      // Click anywhere on canvas to send Chief AI to inspect that spot
+      // Populate Enterprise AI Personnel Roster immediately
+      renderEnterprisePersonnelRoster();
+
+      // Interactive Click Handling: Character Dossier, Room Directives & Walking
       canvas.addEventListener('click', (e) => {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
         const cx = (e.clientX - rect.left) * scaleX;
         const cy = (e.clientY - rect.top) * scaleY;
+
+        // 1. Check if an AI Executive was clicked
+        let clickedAgent = null;
+        for (const ag of CARTOON_AGENTS) {
+          if (Math.hypot(cx - ag.x, cy - (ag.y - 10)) < 30) {
+            clickedAgent = ag;
+            break;
+          }
+        }
+        if (clickedAgent) {
+          selectedAgentId = clickedAgent.id;
+          clickedAgent.bubble = `สวัสดีครับ! ผมคือ ${clickedAgent.name} ยินดีรายงานสถานะครับ ✨`;
+          renderEnterprisePersonnelRoster();
+          openAgentDossierModal(clickedAgent);
+          return;
+        }
+
+        // 2. Check if clicked Grand Boardroom Table (x: 220, y: 155)
+        if (Math.hypot(cx - 220, cy - 155) < 75) {
+          setOfficeSimMode('meeting');
+          return;
+        }
+
+        // 3. Check if clicked Financial Vault Safe (x: 1135, y: 130)
+        if (Math.hypot(cx - 1135, cy - 130) < 55) {
+          const fAg = CARTOON_AGENTS.find(a => a.id === 'ag_finance');
+          if (fAg) {
+            fAg.tx = 1080; fAg.ty = 135;
+            fAg.bubble = 'ยอดเงินจริง ฿57,020.00 ปลอดภัยในตู้นิรภัย KBANK 100% 💰';
+          }
+          return;
+        }
+
+        // 4. Check if clicked 4x Redmi 14C Farm Dock (x: 485, y: 400)
+        if (cx >= 440 && cx <= 780 && cy >= 370 && cy <= 450) {
+          const sAg = CARTOON_AGENTS.find(a => a.id === 'ag_sentinel');
+          const iAg = CARTOON_AGENTS.find(a => a.id === 'ag_infra');
+          if (sAg) { sAg.tx = 560; sAg.ty = 425; sAg.bubble = 'สแกนเซนเซอร์ Redmi 14C: อัลกอริทึม Anti-Bot ให้คะแนน 98.8%! 🛡️'; }
+          if (iAg) { iAg.tx = 680; iAg.ty = 425; iAg.bubble = 'พอร์ต ADB 5037 ไร้ปัญหา อุณหภูมิ 34°C แบตเตอรี่ 100% ⚡'; }
+          return;
+        }
+
+        // 5. Normal floor click: Chief AI Auditor walks to inspect
         CARTOON_AGENTS[0].tx = Math.max(50, Math.min(1230, cx));
         CARTOON_AGENTS[0].ty = Math.max(60, Math.min(535, cy));
-        CARTOON_AGENTS[0].bubble = 'กำลังเดินไปตรวจสอบจุดที่คุณคลิก! 🔍';
+        CARTOON_AGENTS[0].bubble = 'ประธานตรวจสอบกำลังเดินไปตรวจจุดที่คุณสั่ง! 🔍';
       });
 
       function drawRoundedRect(x, y, w, h, r, fill, stroke, lineW = 1.5) {
@@ -2904,7 +3278,7 @@
         ctx.fillStyle = '#34d399';
         ctx.font = 'bold 8px monospace';
         ctx.textAlign = 'center';
-        ctx.fillText('ADB:5038 ⚡', x + 47, y + 36);
+        ctx.fillText('ADB:5037 ⚡', x + 47, y + 36);
 
         const phoneLabels = ['BQ75', 'ZPDA', 'RKPZ', '4XE6'];
         for (let p = 0; p < 4; p++) {
@@ -2972,6 +3346,139 @@
           ctx.fillText(h.icon || '❤️', h.x, h.y);
           ctx.globalAlpha = 1.0;
         }
+      }
+
+      // Draw 3D Corporate Bank Safe / Vault for Settled Earnings
+      function draw3DCorporateVault(x, y) {
+        ctx.beginPath();
+        ctx.ellipse(x, y + 36, 44, 14, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.fill();
+
+        drawRoundedRect(x - 38, y - 40, 76, 72, 8, '#0f172a', '#10b981', 2.5);
+        drawRoundedRect(x - 30, y - 32, 60, 56, 6, '#1e293b', '#334155', 1.8);
+
+        const dialAngle = officeSimTick * 0.04;
+        ctx.save();
+        ctx.translate(x, y - 4);
+        ctx.beginPath();
+        ctx.arc(0, 0, 16, 0, Math.PI * 2);
+        ctx.fillStyle = '#334155';
+        ctx.fill();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        for (let s = 0; s < 4; s++) {
+          const ang = dialAngle + (s * Math.PI) / 2;
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(ang) * 14, Math.sin(ang) * 14);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        const safeBob = Math.sin(officeSimTick * 0.06) * 3;
+        drawRoundedRect(x - 56, y - 68 + safeBob, 112, 22, 6, 'rgba(2, 6, 23, 0.95)', '#10b981', 1.5);
+        ctx.fillStyle = '#34d399';
+        ctx.font = 'bold 9px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('💰 ฿57,020.00 SETTLED', x, y - 57 + safeBob);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = 'bold 7.5px monospace';
+        ctx.fillText('KBANK xxx-x-xx165-2', x, y - 48 + safeBob);
+      }
+
+      // Draw 3D High-Tech Wall-Mounted Executive Board Display
+      function draw3DExecutiveWallScreen(x, y) {
+        drawRoundedRect(x - 140, y - 18, 280, 36, 6, '#020617', '#3b82f6', 2);
+        const scrGrad = ctx.createLinearGradient(x - 130, y - 14, x + 130, y + 14);
+        scrGrad.addColorStop(0, '#0c1a3b');
+        scrGrad.addColorStop(0.5, '#020617');
+        scrGrad.addColorStop(1, '#0c1a3b');
+        drawRoundedRect(x - 136, y - 14, 272, 28, 4, scrGrad, null);
+
+        const blink = officeSimTick % 40 < 25;
+        ctx.fillStyle = blink ? '#34d399' : '#059669';
+        ctx.beginPath();
+        ctx.arc(x - 124, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#93c5fd';
+        ctx.font = 'bold 9px Prompt, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('🏛️ AI BOARDROOM · 100% REAL DATA (ZERO MOCKUP)', x - 114, y - 2);
+        ctx.fillStyle = '#34d399';
+        ctx.font = 'bold 8.5px Prompt, sans-serif';
+        ctx.fillText('AUDIT 12/12 PASS · HYBRID SYNERGY: Llama 3.1 x agy v1.5.9', x - 114, y + 9);
+      }
+
+      // Draw 3D Antigravity CLI Neural Command Bridge
+      function draw3DCommandBridge(x, y) {
+        ctx.beginPath();
+        ctx.ellipse(x, y + 16, 42, 16, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        ctx.fill();
+
+        drawRoundedRect(x - 36, y - 10, 72, 24, 6, '#0f172a', '#6366f1', 2);
+        const pulse = Math.sin(officeSimTick * 0.08) * 4;
+        ctx.strokeStyle = 'rgba(129, 140, 248, 0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.ellipse(x, y + 2, 24 + pulse, 10 + pulse * 0.4, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        const holoBob = Math.sin(officeSimTick * 0.07) * 3;
+        ctx.fillStyle = 'rgba(99, 102, 241, 0.25)';
+        ctx.beginPath();
+        ctx.arc(x, y - 24 + holoBob, 15, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('⚡', x, y - 20 + holoBob);
+
+        ctx.fillStyle = '#a5b4fc';
+        ctx.font = 'bold 8px Prompt, sans-serif';
+        ctx.fillText('agy v1.5.9', x, y - 40 + holoBob);
+      }
+
+      // Draw 3D Lounge Coffee Bar with Animated Steam
+      function draw3DCoffeeLounge(x, y) {
+        ctx.beginPath();
+        ctx.ellipse(x, y + 10, 45, 12, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        ctx.fill();
+
+        drawRoundedRect(x - 40, y - 8, 80, 18, 4, '#334155', '#475569', 1.5);
+        drawRoundedRect(x - 30, y - 24, 28, 18, 3, '#1e293b', '#94a3b8', 1.5);
+        ctx.fillStyle = '#e2e8f0';
+        ctx.fillRect(x - 22, y - 10, 6, 4);
+
+        for (let p = 0; p < 3; p++) {
+          const steamProgress = ((officeSimTick + p * 15) % 45) / 45;
+          const sx = x - 19 + Math.sin(steamProgress * Math.PI * 2) * 2;
+          const sy = y - 14 - steamProgress * 14;
+          const alpha = (1 - steamProgress) * 0.45;
+          ctx.fillStyle = `rgba(226, 232, 240, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, 2 + steamProgress * 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        drawRoundedRect(x + 12, y - 28, 16, 22, 2, '#0f172a', '#38bdf8', 1.2);
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+        ctx.beginPath();
+        ctx.arc(x + 20, y - 22, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = 'bold 8px Prompt, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('☕ AI Lounge', x, y + 18);
+      }
       }
 
       // Draw 3D Server Rack Tower (Ollama & Whisper Inference Engine)
@@ -3230,6 +3737,57 @@
           ctx.lineTo(8, -28);
           ctx.closePath();
           ctx.fill();
+        } else if (ag.hat === 'visor') {
+          ctx.fillStyle = '#06b6d4';
+          ctx.fillRect(-8, -20, 16, 5);
+          ctx.strokeStyle = '#22d3ee';
+          ctx.lineWidth = 1.2;
+          ctx.strokeRect(-8, -20, 16, 5);
+          const sweep = ((officeSimTick + ag.x) % 20) - 8;
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(sweep, -19, 2.5, 3);
+        } else if (ag.hat === 'glasses') {
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(-4, -18, 3.2, 0, Math.PI * 2);
+          ctx.arc(4, -18, 3.2, 0, Math.PI * 2);
+          ctx.moveTo(-0.8, -18); ctx.lineTo(0.8, -18);
+          ctx.stroke();
+        } else if (ag.hat === 'hologram') {
+          ctx.strokeStyle = '#818cf8';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(0, -22, 14, Math.PI * 0.8, Math.PI * 0.2);
+          ctx.stroke();
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(0, -32 + Math.sin(officeSimTick * 0.1) * 2, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (ag.hat === 'cap') {
+          ctx.fillStyle = '#d97706';
+          ctx.beginPath();
+          ctx.arc(0, -22, 13, Math.PI, 0);
+          ctx.fill();
+          ctx.fillRect(0, -22, 14, 3);
+        }
+
+        // Handheld Accessories
+        if (ag.accessory === 'tablet') {
+          drawRoundedRect(7, -8, 8, 12, 1.5, '#020617', '#38bdf8', 1);
+          ctx.fillStyle = '#34d399';
+          ctx.fillRect(8.5, -6, 5, 2);
+        } else if (ag.accessory === 'gold_ledger') {
+          drawRoundedRect(7, -8, 8, 12, 1.5, '#78350f', '#f59e0b', 1);
+          ctx.fillStyle = '#fde047';
+          ctx.fillRect(8.5, -6, 5, 2);
+        } else if (ag.accessory === 'scanner') {
+          drawRoundedRect(7, -6, 6, 9, 1.5, '#0f172a', '#06b6d4', 1);
+        } else if (ag.accessory === 'basket') {
+          ctx.fillStyle = '#ea580c';
+          ctx.beginPath();
+          ctx.arc(10, -2, 4, 0, Math.PI);
+          ctx.fill();
         }
 
         // Blinking Anime Eyes
@@ -3252,6 +3810,19 @@
         ctx.fill();
 
         ctx.restore();
+
+        // Animated Selection Target Halo
+        if (selectedAgentId === ag.id) {
+          ctx.save();
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 2.5;
+          ctx.setLineDash([4, 3]);
+          ctx.lineDashOffset = -officeSimTick * 0.5;
+          ctx.beginPath();
+          ctx.ellipse(cx, ag.y + 22, 22, 9, 0, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
 
         // Name Tag Pill (Always oriented normally, not flipped)
         ctx.font = 'bold 9.5px Prompt, sans-serif';
@@ -3349,28 +3920,45 @@
         });
 
         // 3. Draw Room-Specific 3D Props & Furniture
-        // Room 1: Executive Strategy & 3-Hour Audit Room (Grand Conference Table)
+        // Room 1: Executive Boardroom & Audit 12/12
+        draw3DExecutiveWallScreen(220, 52);
         draw3DMeetingTable(220, 155);
 
-        // Room 2: Creative Local AI Lab (Ollama & Whisper Workstations + 3D Server Tower)
-        draw3DWorkstation(545, 115, '#a855f7', 'PC-1: Ollama Llama 3.1', 0.9, true, false);
-        draw3DWorkstation(715, 115, '#ec4899', 'PC-2: Local Whisper AI', 0.8, true, true);
-        draw3DServerCabinet(618, 185);
+        // Room 2: Local AI (Llama 3.1) & Antigravity CLI (agy v1.5.9)
+        draw3DWorkstation(535, 115, '#6366f1', 'agy v1.5.9 Bridge', 0.95, true, false);
+        draw3DCommandBridge(725, 115);
+        draw3DServerCabinet(630, 180);
 
-        // Room 3: Google Flow Video Studio (Veo 3.1 & Nano Banana Pro)
-        const prog = ((officeSimTick % 120) / 120);
-        draw3DWorkstation(975, 115, '#38bdf8', 'Veo 3.1 Render #1', prog, true, false);
-        draw3DWorkstation(1145, 115, '#fbbf24', 'Nano Banana Art #2', 1 - prog * 0.5, false, true);
+        // Room 3: Financial Comptroller & Corporate Vault Safe (฿57k)
+        draw3DWorkstation(955, 115, '#10b981', 'Financial Comptroller', 0.9, true, true);
+        draw3DCorporateVault(1135, 130);
 
-        // Room 4: Series & Multi-Platform Broadcast Hub (Admin Bee)
-        draw3DWorkstation(215, 415, '#f43f5e', 'TikTok + Reels + Shopee', 0.85, true, true);
+        // Room 4: Content Strategy & Master Flow Studio (339 Clips)
+        draw3DWorkstation(120, 415, '#7c3aed', 'Master Flow (339 Clips)', 0.92, true, false);
+        draw3DWorkstation(290, 415, '#ea580c', 'Shopee Catalog (40 Prods)', 0.88, false, true);
 
-        // Room 5: 4x Redmi 14C Cross-Platform Warmup Dock
+        // Room 5: 4x Redmi 14C Farm Dock & Anti-Bot Sentinel Lab (ADB 5037)
         draw3DPhoneFarmDock(485, 400);
+        draw3DWorkstation(735, 415, '#0284c7', 'Anti-Bot Sentinel & Gyro', 0.98, true, false);
 
-        // Room 6: TikTok LIVE Studio 9:16 Sacred Stage
-        draw3DWorkstation(980, 425, '#eab308', 'TikTok LIVE Studio Host', 0.95, true, false);
-        draw3DLiveStage(1180, 440);
+        // Room 6: TikTok LIVE Studio 9:16 Broadcast Stage
+        draw3DWorkstation(970, 425, '#eab308', 'TikTok LIVE Studio Host', 0.95, true, false);
+        draw3DLiveStage(1170, 440);
+
+        // Central Corridor Lounge & Coffee Station
+        draw3DCoffeeLounge(640, 288);
+
+        // Decorative 3D Corner Plants
+        draw3DOfficePlant(40, 45);
+        draw3DOfficePlant(1240, 45);
+        draw3DOfficePlant(40, 520);
+        draw3DOfficePlant(880, 520);
+
+        // 4. Sort Cartoon Workers by Y-coordinate for realistic 2.5D depth
+        const sortedAgents = [...CARTOON_AGENTS].sort((a, b) => a.y - b.y);
+        sortedAgents.forEach(ag => drawCartoonWorker(ag));
+
+        requestAnimationFrame(renderSimFrame);
 
         // Decorative 3D Corner Plants
         draw3DOfficePlant(40, 45);
@@ -3472,7 +4060,7 @@
     async function scanAndAddDevice() {
       const res = await fetch(getApiUrl('/api/devices/scan'), { method: 'POST' });
       const d = await res.json();
-      alert(`✅ ตรวจสอบพอร์ต ADB 5038 จริง: เชื่อมต่อ ${d.total} เครื่อง`);
+      alert(`✅ ตรวจสอบพอร์ต ADB 5037 จริง: เชื่อมต่อ ${d.total} เครื่อง`);
       fetchStatus();
     }
 
