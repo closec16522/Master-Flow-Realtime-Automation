@@ -2429,13 +2429,30 @@ def ai_boardroom_worker():
             print("AI boardroom worker exception:", e)
         time.sleep(900)
 
+def kill_other_backend_instances():
+    """Ensure strictly ONE single instance of backend_server.py is running and bound to port 3333."""
+    current_pid = os.getpid()
+    try:
+        import psutil
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                if proc.info['pid'] != current_pid and proc.info['name'] and 'python' in proc.info['name'].lower():
+                    cmd = " ".join(proc.info['cmdline'] or [])
+                    if 'backend_server.py' in cmd:
+                        proc.kill()
+            except Exception:
+                pass
+    except Exception:
+        pass
+
 def run_server():
-    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    socketserver.ThreadingTCPServer.allow_reuse_address = False
     with socketserver.ThreadingTCPServer(("0.0.0.0", PORT), RequestHandler) as httpd:
         print(f"Realtime Monitoring Server (Multi-Threaded) started at http://0.0.0.0:{PORT}", flush=True)
         httpd.serve_forever()
 
 if __name__ == "__main__":
+    kill_other_backend_instances()
     sync_real_database()
     update_system_performance_and_office()
     # Initialize prompt history with 1 real call
