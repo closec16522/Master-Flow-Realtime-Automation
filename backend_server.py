@@ -1843,6 +1843,9 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
+    def do_HEAD(self):
+        self.do_GET()
+
     def send_json(self, payload, status=200):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
