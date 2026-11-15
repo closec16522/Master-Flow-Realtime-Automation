@@ -2862,7 +2862,7 @@
     }
 
     async function triggerHybridCollaboration(notify = true) {
-      const btn = document.getElementById('btn-sim-boost');
+      const btn = document.getElementById('btn-sim-boost') || document.getElementById('btn-trigger-hybrid-ai');
       if (btn) {
         btn.disabled = true;
         btn.innerHTML = '<span>⏳</span><span>กำลังบูสต์...</span>';
@@ -2888,6 +2888,8 @@
         }
       }
     }
+    const triggerHybridAiCollaboration = triggerHybridCollaboration;
+    window.triggerHybridAiCollaboration = triggerHybridCollaboration;
 
     function setOfficeSimMode(mode) {
       officeSimMode = mode;
@@ -2916,12 +2918,6 @@
           ag.ty = patrolTargets[i % patrolTargets.length].y;
         });
         if (bar) bar.innerText = '🚶 บอร์ดบริหาร AI กำลังเดินตรวจศูนย์ฟาร์มมือถือ ตู้นิรภัยการเงิน คลังคลิป และเซิร์ฟเวอร์ Local AI!';
-      }
-    }
-          ag.tx = patrolTargets[i % patrolTargets.length].x;
-          ag.ty = patrolTargets[i % patrolTargets.length].y;
-        });
-        if (bar) bar.innerText = '🚶 พนักงาน AI กำลังเดินส่งมอบไฟล์งานข้ามแผนกและตรวจสอบแท่นมือถือ Redmi 14C ทั้ง 4 เครื่อง!';
       }
     }
 
@@ -3479,7 +3475,6 @@
         ctx.textAlign = 'center';
         ctx.fillText('☕ AI Lounge', x, y + 18);
       }
-      }
 
       // Draw 3D Server Rack Tower (Ollama & Whisper Inference Engine)
       function draw3DServerCabinet(x, y) {
@@ -3947,18 +3942,6 @@
 
         // Central Corridor Lounge & Coffee Station
         draw3DCoffeeLounge(640, 288);
-
-        // Decorative 3D Corner Plants
-        draw3DOfficePlant(40, 45);
-        draw3DOfficePlant(1240, 45);
-        draw3DOfficePlant(40, 520);
-        draw3DOfficePlant(880, 520);
-
-        // 4. Sort Cartoon Workers by Y-coordinate for realistic 2.5D depth
-        const sortedAgents = [...CARTOON_AGENTS].sort((a, b) => a.y - b.y);
-        sortedAgents.forEach(ag => drawCartoonWorker(ag));
-
-        requestAnimationFrame(renderSimFrame);
 
         // Decorative 3D Corner Plants
         draw3DOfficePlant(40, 45);
