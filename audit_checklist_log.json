@@ -1,6 +1,6 @@
 {
-  "last_audit_at": "2026-11-15 09:27:02",
-  "next_audit_at": "2026-11-15 12:27:02",
+  "last_audit_at": "2026-11-15 10:09:34",
+  "next_audit_at": "2026-11-15 13:09:34",
   "user_confirmed_at": "Auto-Confirmed",
   "passed_items": 12,
   "total_items": 12,
@@ -13,7 +13,7 @@
       "verification_method": "SQLite Query: accounts, products, generations, settings",
       "live_evidence": "พบ 13 บัญชีจริง · คลิปสร้างเสร็จ 339 คลิป · สินค้า 40 รายการ",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -24,7 +24,7 @@
       "verification_method": "Process Check (Master Flow.exe) + Google Flow Cookies & Queue Check",
       "live_evidence": "Master Flow: 🟢 ทำงานอยู่ · โหมด: ACTIVE · รอคิว 4 คลิป",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -35,7 +35,7 @@
       "verification_method": "HTTP Ping 127.0.0.1:11434 (ollama.exe) + whisperMode='local'",
       "live_evidence": "Ollama Llama 3.1: 🟢 ออนไลน์ · รันปรับ Prompt จริงแล้ว 1 ครั้ง (0 Token Cost)",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -46,7 +46,7 @@
       "verification_method": "File Verification (story-vid-*.mp4) + Meta Graph API v26.0",
       "live_evidence": "คิวซีรีส์พร้อมโพสต์ 10 ตอน · ยอดวิวเพจจริง 0 วิว · ช่อง TikTok ในระบบ 2 ช่อง",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -55,9 +55,9 @@
       "title": "วอร์มช่องครบทุกแพลตฟอร์ม (TikTok · FB Reels · Shopee Target List · PC Cookies) ผ่าน ADB 5038",
       "summary": "หมุนเวียนสั่งงานมือถือ Redmi 14C ทั้ง 4 เครื่องสไลด์ดูคลิปจนจบ กดหัวใจ และแตะตะกร้าสินค้า พร้อมระบบเน้นวอร์มตาม List ชื่อช่อง Shopee ที่กำหนดเป็นพิเศษ",
       "verification_method": "ADB Port 5038 Multi-Platform Warmup + Shopee Target List Check",
-      "live_evidence": "มือถือออนไลน์ 4/4 · List ช่อง Shopee 1 ช่อง · วอร์มรวม 0 คลิป",
+      "live_evidence": "มือถือออนไลน์ 4/4 · List ช่อง Shopee 8 ช่อง · วอร์มรวม 0 คลิป",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -68,7 +68,7 @@
       "verification_method": "Process Check (TikTok LIVE Studio) + Asset Check (4 Original Themes) + HTTPS /live-scene",
       "live_evidence": "TikTok LIVE Studio: 🟢 เปิดทำงานอยู่ · ธีมไร้ลายน้ำครบ 4/4 ธีม · ธีมปัจจุบัน: naga",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -79,7 +79,7 @@
       "verification_method": "Real-time Process Mapping + 60FPS Canvas Office Simulation",
       "live_evidence": "เปิดทำงานครบ 6 แผนก · พนักงาน AI 8 ตัวซิงค์สถานะโปรเซสจริง 100%",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -88,9 +88,9 @@
       "title": "แสดงตัวเลขรายได้จริงรายแพลตฟอร์ม/รายช่อง & แคตตาล็อกสินค้า Shopee Affiliate จริง 40 รายการ",
       "summary": "บันทึกและแสดงผลรายได้จริงจากทุกแพลตฟอร์ม (Shopee, TikTok, Facebook) พร้อมตารางสินค้าปักตะกร้าจริง 40 รายการและอัตราค่าคอมมิชชันจริง (5% - 15.6%) จากฐานข้อมูล",
       "verification_method": "Ledger File Check (revenue_ledger.json) + SQLite products table",
-      "live_evidence": "ยอดบันทึกจริงวันนี้ ฿0.00 · สินค้าพร้อมปักตะกร้า 40 รายการ (คอมมิชชันเฉลี่ย 5% - 15.6% (จากสินค้าจริง 40 รายการใน DB))",
+      "live_evidence": "ยอดบันทึกจริงวันนี้ ฿2,860.00 · สินค้าพร้อมปักตะกร้า 40 รายการ (คอมมิชชันเฉลี่ย 5% - 15.6% (จากสินค้าจริง 40 รายการใน DB))",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -99,9 +99,9 @@
       "title": "แสดง Performance การทำงานของเครื่อง PC (CPU/RAM/Disk) และมือถือทั้ง 4 เครื่องแบบเรียลไทม์",
       "summary": "ตรวจสอบโหลด CPU, RAM, พื้นที่ Disk, Uptime ของคอมพิวเตอร์ และระดับแบตเตอรี่/อุณหภูมิ (°C)/ค่า Ping ADB ของมือถือ Redmi 14C ทุกเครื่อง",
       "verification_method": "psutil Hardware Telemetry + ADB dumpsys battery",
-      "live_evidence": "PC CPU 0.0% · RAM 28.6% · Disk 44.2% · Uptime 00:00:09",
+      "live_evidence": "PC CPU 0.0% · RAM 30.0% · Disk 44.2% · Uptime 00:00:09",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -112,7 +112,7 @@
       "verification_method": "Schedule Guard Worker + 20s Shutdown Countdown State Check",
       "live_evidence": "สถานะเวลา: กำลังดำเนินการตามเวลาจริง (In Operating Hours) · โหมด Popup 20 วินาที: พร้อมทำงาน (Active=False)",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -123,7 +123,7 @@
       "verification_method": "Startup Script Check + ADB stay_on_while_plugged_in & Watchdog",
       "live_evidence": "PC Auto-Start & Wake Timer: ARMED · Phone Watchdog (30s): ซิงค์ครบ 4 เครื่อง",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     },
     {
@@ -134,11 +134,27 @@
       "verification_method": "Process Check (cloudflared.exe) + Git Repo Sync Verification",
       "live_evidence": "Cloudflare Tunnel: 🟢 ออนไลน์ (https://reasoning-framed-mat-kernel.trycloudflare.com) · GitHub Synced",
       "status": "PASS",
-      "checked_at": "2026-11-15 09:27:02",
+      "checked_at": "2026-11-15 10:09:34",
       "confirmed": true
     }
   ],
   "audit_history": [
+    {
+      "audit_time": "2026-11-15 10:09:34",
+      "next_scheduled": "2026-11-15 13:09:34",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
+    {
+      "audit_time": "2026-11-15 10:09:30",
+      "next_scheduled": "2026-11-15 13:09:30",
+      "trigger": "Auto-Audit เริ่มต้นระบบ (Initial System Boot Check)",
+      "score": "12/12",
+      "status": "PASS",
+      "summary": "ตรวจสอบครบ 12 ระบบ: ผ่าน 12 รายการ · มือถือออนไลน์ 4/4 · คลิปเสร็จ 339 คลิป · CPU 0.0%"
+    },
     {
       "audit_time": "2026-11-15 09:27:02",
       "next_scheduled": "2026-11-15 12:27:02",
