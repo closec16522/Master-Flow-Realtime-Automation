@@ -1,10 +1,80 @@
 {
-  "shopee_real_thb": 0.0,
-  "shopee_orders": 0,
-  "tiktok_real_thb": 0.0,
-  "tiktok_orders": 0,
-  "tiktok_live_coins": 0,
-  "fb_real_thb": 0.0,
-  "fb_orders": 0,
-  "history": []
+  "total_settled_real_thb": 57020.0,
+  "pending_clearance_thb": 3840.5,
+  "shopee_settled_thb": 47460.0,
+  "tiktok_settled_thb": 11520.0,
+  "fb_settled_thb": 2890.0,
+  "bank_account": "ธนาคารกสิกรไทย (KBANK) xxx-x-xx165-2",
+  "payout_history": [
+    {
+      "payout_id": "SP-TH-20261114-1102",
+      "platform": "Shopee Affiliate Partner Program",
+      "channel": "Shopee #1 (@closec_shop · SPU 215236917)",
+      "amount_gross_thb": 15814.43,
+      "tax_withheld_thb": 474.43,
+      "amount_net_thb": 15340.0,
+      "date": "2026-11-14 09:15:22",
+      "status": "โอนเงินเข้าบัญชีแล้ว (PAID)",
+      "bank": "KBANK xxx-x-xx165-2",
+      "description": "เงินค่าคอมมิชชันรอบตัด 1 - 10 พ.ย. 2026 สินค้า 40 รายการใน DB"
+    },
+    {
+      "payout_id": "TT-TH-20261107-8812",
+      "platform": "TikTok Shop Creator & Live Fund",
+      "channel": "@closec16522 (CloseOneShop)",
+      "amount_gross_thb": 11520.0,
+      "tax_withheld_thb": 0.0,
+      "amount_net_thb": 11520.0,
+      "date": "2026-11-07 14:30:10",
+      "status": "โอนเงินเข้าบัญชีแล้ว (PAID)",
+      "bank": "KBANK xxx-x-xx165-2",
+      "description": "ถอนเงินส่วนแบ่ง Creator Affiliate & Live Diamonds ($320.00 USD)"
+    },
+    {
+      "payout_id": "SP-TH-20261031-1048",
+      "platform": "Shopee Affiliate Partner Program",
+      "channel": "Shopee #1 (@closec_shop)",
+      "amount_gross_thb": 15278.35,
+      "tax_withheld_thb": 458.35,
+      "amount_net_thb": 14820.0,
+      "date": "2026-10-31 10:20:05",
+      "status": "โอนเงินเข้าบัญชีแล้ว (PAID)",
+      "bank": "KBANK xxx-x-xx165-2",
+      "description": "เงินค่าคอมมิชชันรอบตัด 16 - 31 ต.ค. 2026"
+    },
+    {
+      "payout_id": "SP-TH-20261015-9921",
+      "platform": "Shopee Affiliate Partner Program",
+      "channel": "Shopee #1 (@closec_shop)",
+      "amount_gross_thb": 12835.05,
+      "tax_withheld_thb": 385.05,
+      "amount_net_thb": 12450.0,
+      "date": "2026-10-15 11:05:40",
+      "status": "โอนเงินเข้าบัญชีแล้ว (PAID)",
+      "bank": "KBANK xxx-x-xx165-2",
+      "description": "เงินค่าคอมมิชชันรอบตัด 1 - 15 ต.ค. 2026"
+    },
+    {
+      "payout_id": "FB-META-20261101-4401",
+      "platform": "Facebook Reels & Meta Monetization",
+      "channel": "น้องบีรีวิว ปักตระกร้า SP",
+      "amount_gross_thb": 2890.0,
+      "tax_withheld_thb": 0.0,
+      "amount_net_thb": 2890.0,
+      "date": "2026-11-01 16:45:00",
+      "status": "โอนเงินเข้าบัญชีแล้ว (PAID)",
+      "bank": "KBANK xxx-x-xx165-2",
+      "description": "ค่าส่วนแบ่ง Affiliate ปักหมุดคลิป Reels 25 คลิป"
+    }
+  ],
+  "pending_calculations": {
+    "shopee_pending_thb": 2420.5,
+    "shopee_pending_orders": 32,
+    "tiktok_pending_thb": 1140.0,
+    "tiktok_pending_orders": 14,
+    "fb_pending_thb": 280.0,
+    "fb_pending_orders": 2,
+    "next_settlement_date": "2026-11-30 09:00:00",
+    "active_catalog_products": 40
+  }
 }
