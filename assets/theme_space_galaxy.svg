@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 960" width="540" height="960">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#020514" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#03050c" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="540" height="960" fill="url(#bgGrad)"/>
+  <ellipse cx="270" cy="430" rx="210" ry="65" transform="rotate(-22 270 430)" fill="none" stroke="#38bdf8" stroke-width="5" opacity="0.65"/><circle cx="270" cy="430" r="85" fill="url(#accentGrad)" opacity="0.75"/><circle cx="110" cy="210" r="4" fill="#fff"/><circle cx="420" cy="190" r="5" fill="#fff"/><circle cx="150" cy="650" r="4" fill="#38bdf8"/>
+  <text x="270" y="455" font-size="115" text-anchor="middle" dominant-baseline="middle">🚀</text>
+  <text x="270" y="615" font-family="Segoe UI, Tahoma, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle" opacity="0.9">กาแล็กซีอวกาศ</text>
+  <text x="270" y="650" font-family="Segoe UI, Tahoma, sans-serif" font-size="14" font-weight="700" fill="#818cf8" letter-spacing="4" text-anchor="middle" opacity="0.85">GALAXY STARFIGHTER</text>
+</svg>

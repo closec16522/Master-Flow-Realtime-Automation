@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 960" width="540" height="960">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#1f091a" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#03050c" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#fbcfe8"/>
+    </linearGradient>
+  </defs>
+  <rect width="540" height="960" fill="url(#bgGrad)"/>
+  <rect x="110" y="250" width="320" height="24" rx="8" fill="#f472b6" opacity="0.75"/><rect x="150" y="274" width="24" height="350" fill="#f472b6" opacity="0.55"/><rect x="366" y="274" width="24" height="350" fill="#f472b6" opacity="0.55"/><circle cx="270" cy="430" r="120" fill="url(#accentGrad)" opacity="0.22"/>
+  <text x="270" y="455" font-size="115" text-anchor="middle" dominant-baseline="middle">🌸</text>
+  <text x="270" y="615" font-family="Segoe UI, Tahoma, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle" opacity="0.9">ศาลเจ้าซากุระ</text>
+  <text x="270" y="650" font-family="Segoe UI, Tahoma, sans-serif" font-size="14" font-weight="700" fill="#fbcfe8" letter-spacing="4" text-anchor="middle" opacity="0.85">SAKURA & KITSUNE</text>
+</svg>

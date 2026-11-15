@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 960" width="540" height="960">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#facc15" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#191103" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#03050c" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+  <rect width="540" height="960" fill="url(#bgGrad)"/>
+  <circle cx="270" cy="410" r="165" fill="url(#accentGrad)" opacity="0.2" stroke="#facc15" stroke-width="6"/><circle cx="270" cy="410" r="120" fill="none" stroke="#ec4899" stroke-width="4" stroke-dasharray="18 12"/><polygon points="270,210 250,255 290,255" fill="#facc15"/>
+  <text x="270" y="455" font-size="115" text-anchor="middle" dominant-baseline="middle">🎡</text>
+  <text x="270" y="615" font-family="Segoe UI, Tahoma, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle" opacity="0.9">วงล้อมหาโชค</text>
+  <text x="270" y="650" font-family="Segoe UI, Tahoma, sans-serif" font-size="14" font-weight="700" fill="#ec4899" letter-spacing="4" text-anchor="middle" opacity="0.85">FORTUNE WHEEL LIVE</text>
+</svg>

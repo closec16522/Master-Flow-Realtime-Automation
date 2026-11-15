@@ -360,21 +360,21 @@ state = {
                 "img": "/assets/theme_neko_tarot.jpg",
                 "url": "http://127.0.0.1:3333/live-scene?theme=tarot"
             },
-            {"id": "parade_truck", "name": "🚚 รถแห่มหาสนุก & ขบวนแดนซ์สายย่อ", "desc": "มินิเกมรถแห่ คนดูส่งของขวัญ/พิมพ์แชทขึ้นเต้นบนรถแห่และขยายตัวตามยอดเปย์", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=parade_truck"},
-            {"id": "dance_arena", "name": "🪩 เวทีคอนเสิร์ต & แดนซ์ปาร์ตี้ 3D Neon", "desc": "ฟลอร์เต้นไฟนีออน 3D ตัวละครคนดูเต้นตามจังหวะพร้อม Chat Bubble สด", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=dance_arena"},
-            {"id": "floating_lantern", "name": "🏮 โคมลอยยี่เป็ง & ลอยกระทงอธิษฐาน", "desc": "ลอยโคมยี่เป็งและกระทงทองขึ้นฟ้าพร้อมชื่อและคำอธิษฐานจากแชทคนดู", "img": "/assets/theme_naga.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=floating_lantern"},
-            {"id": "cyber_samurai", "name": "⚔️ ซามูไรไซเบอร์ & มังกรนีออน", "desc": "ธีม Cyberpunk แสงสีฟ้า-ม่วง พร้อมมังกรนีออนทะยานเข้าจอเมื่อถึง Milestone", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=cyber_samurai"},
-            {"id": "kumanthong_rich", "name": "🧸 กุมารทองมหาเศรษฐี & เรียกทรัพย์ 999", "desc": "สายมูเรียกทรัพย์ โปรยเหรียญทองและพวงมาลัยเมื่อคนดูร่วมส่งกำลังใจ", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=kumanthong_rich"},
-            {"id": "thao_wessuwan", "name": "👹 ท้าวเวสสุวรรณโณ มหาเทพคุ้มครองทรัพย์", "desc": "ปัดเป่าสิ่งชั่วร้าย เปิดขุมทรัพย์ทองคำ พร้อมเสียงอ่านคำอธิษฐาน AI", "img": "/assets/theme_ganesha.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=thao_wessuwan"},
-            {"id": "dragon_palace", "name": "🐲 ตำหนักมังกรทองจักรพรรดิ 9 มิติ", "desc": "มังกรทองคำทะยานเข้าจออัตโนมัติเมื่อสะสมกำลังใจครบ Milestone", "img": "/assets/theme_naga.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=dragon_palace"},
-            {"id": "space_galaxy", "name": "🚀 กาแล็กซีอวกาศ & ยานรบพิทักษ์จักรวาล", "desc": "คนดูขับยานอวกาศยิงดาวตกในฉากอวกาศ 3D ตามยอดแชทและของขวัญ", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=space_galaxy"},
-            {"id": "underwater_mermaid", "name": "🧜‍♀️ โลกใต้บาดาล & ฝูงปลาคราฟนำโชค", "desc": "โลกใต้ทะเลพร้อมฝูงปลาคราฟ 9 สีแหวกว่ายนำโชคตามคำอวยพร", "img": "/assets/theme_naga.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=underwater_mermaid"},
-            {"id": "muay_thai_arena", "name": "🥊 สังเวียนมวยไทยไฟต์เดือด (Team Battle)", "desc": "สังเวียนมวยไทยแบ่งทีมแดง-น้ำเงิน กดหัวใจและส่งของขวัญเพิ่มพลัง", "img": "/assets/theme_ganesha.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=muay_thai_arena"},
-            {"id": "cafe_cozy", "name": "☕ คาเฟ่อบอุ่น Lo-Fi & น้องแมวบาริสต้า", "desc": "โหมดชิลล์ คุยแชท อ่านคอมเมนต์เสียงนุ่ม พร้อมน้องแมวบาริสต้า", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=cafe_cozy"},
-            {"id": "halloween_ghost", "name": "👻 คฤหาสน์ภูตผี & ฟักทองเรืองแสง", "desc": "ปาร์ตี้หลอนน่ารัก ปล่อยภูตผีจิ๋วจากโปรไฟล์คนดูลอยเต็มหน้าจอ", "img": "/assets/theme_neko_tarot.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=halloween_ghost"},
-            {"id": "sakura_shrine", "name": "🌸 ศาลเจ้าซากุระ & จิ้งจอกเก้าหาง", "desc": "กลีบซากุระโปรยปราย สุ่มใบเซียมซีทำนายดวงชะตาจาก AI", "img": "/assets/theme_ganesha.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=sakura_shrine"},
-            {"id": "football_stadium", "name": "⚽ สนามฟุตบอลโลก & ยิงจุดโทษลุ้นโชค", "desc": "ส่งของขวัญยิงจุดโทษเข้าโกล์รับถ้วยรางวัลและพลุฉลอง", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=football_stadium"},
-            {"id": "lucky_wheel_casino", "name": "🎡 วงล้อมหาโชค & ฝนดาวตกเพชร", "desc": "หมุนวงล้อสุ่มเลขมงคลและปล่อยฝนดาวตกเพชรทุกครั้งที่มีของขวัญ", "img": "/assets/theme_caishen.jpg", "url": "http://127.0.0.1:3333/live-scene?theme=lucky_wheel_casino"}
+            {"id": "parade_truck", "name": "🚚 รถแห่มหาสนุก & ขบวนแดนซ์สายย่อ", "desc": "มินิเกมรถแห่ คนดูส่งของขวัญ/พิมพ์แชทขึ้นเต้นบนรถแห่และขยายตัวตามยอดเปย์", "img": "/assets/theme_parade_truck.svg", "url": "http://127.0.0.1:3333/live-scene?theme=parade_truck"},
+            {"id": "dance_arena", "name": "🪩 เวทีคอนเสิร์ต & แดนซ์ปาร์ตี้ 3D Neon", "desc": "ฟลอร์เต้นไฟนีออน 3D ตัวละครคนดูเต้นตามจังหวะพร้อม Chat Bubble สด", "img": "/assets/theme_dance_arena.svg", "url": "http://127.0.0.1:3333/live-scene?theme=dance_arena"},
+            {"id": "floating_lantern", "name": "🏮 โคมลอยยี่เป็ง & ลอยกระทงอธิษฐาน", "desc": "ลอยโคมยี่เป็งและกระทงทองขึ้นฟ้าพร้อมชื่อและคำอธิษฐานจากแชทคนดู", "img": "/assets/theme_floating_lantern.svg", "url": "http://127.0.0.1:3333/live-scene?theme=floating_lantern"},
+            {"id": "cyber_samurai", "name": "⚔️ ซามูไรไซเบอร์ & มังกรนีออน", "desc": "ธีม Cyberpunk แสงสีฟ้า-ม่วง พร้อมมังกรนีออนทะยานเข้าจอเมื่อถึง Milestone", "img": "/assets/theme_cyber_samurai.svg", "url": "http://127.0.0.1:3333/live-scene?theme=cyber_samurai"},
+            {"id": "kumanthong_rich", "name": "🧸 กุมารทองมหาเศรษฐี & เรียกทรัพย์ 999", "desc": "สายมูเรียกทรัพย์ โปรยเหรียญทองและพวงมาลัยเมื่อคนดูร่วมส่งกำลังใจ", "img": "/assets/theme_kumanthong_rich.svg", "url": "http://127.0.0.1:3333/live-scene?theme=kumanthong_rich"},
+            {"id": "thao_wessuwan", "name": "👹 ท้าวเวสสุวรรณโณ มหาเทพคุ้มครองทรัพย์", "desc": "ปัดเป่าสิ่งชั่วร้าย เปิดขุมทรัพย์ทองคำ พร้อมเสียงอ่านคำอธิษฐาน AI", "img": "/assets/theme_thao_wessuwan.svg", "url": "http://127.0.0.1:3333/live-scene?theme=thao_wessuwan"},
+            {"id": "dragon_palace", "name": "🐲 ตำหนักมังกรทองจักรพรรดิ 9 มิติ", "desc": "มังกรทองคำทะยานเข้าจออัตโนมัติเมื่อสะสมกำลังใจครบ Milestone", "img": "/assets/theme_dragon_palace.svg", "url": "http://127.0.0.1:3333/live-scene?theme=dragon_palace"},
+            {"id": "space_galaxy", "name": "🚀 กาแล็กซีอวกาศ & ยานรบพิทักษ์จักรวาล", "desc": "คนดูขับยานอวกาศยิงดาวตกในฉากอวกาศ 3D ตามยอดแชทและของขวัญ", "img": "/assets/theme_space_galaxy.svg", "url": "http://127.0.0.1:3333/live-scene?theme=space_galaxy"},
+            {"id": "underwater_mermaid", "name": "🧜‍♀️ โลกใต้บาดาล & ฝูงปลาคราฟนำโชค", "desc": "โลกใต้ทะเลพร้อมฝูงปลาคราฟ 9 สีแหวกว่ายนำโชคตามคำอวยพร", "img": "/assets/theme_underwater_mermaid.svg", "url": "http://127.0.0.1:3333/live-scene?theme=underwater_mermaid"},
+            {"id": "muay_thai_arena", "name": "🥊 สังเวียนมวยไทยไฟต์เดือด (Team Battle)", "desc": "สังเวียนมวยไทยแบ่งทีมแดง-น้ำเงิน กดหัวใจและส่งของขวัญเพิ่มพลัง", "img": "/assets/theme_muay_thai_arena.svg", "url": "http://127.0.0.1:3333/live-scene?theme=muay_thai_arena"},
+            {"id": "cafe_cozy", "name": "☕ คาเฟ่อบอุ่น Lo-Fi & น้องแมวบาริสต้า", "desc": "โหมดชิลล์ คุยแชท อ่านคอมเมนต์เสียงนุ่ม พร้อมน้องแมวบาริสต้า", "img": "/assets/theme_cafe_cozy.svg", "url": "http://127.0.0.1:3333/live-scene?theme=cafe_cozy"},
+            {"id": "halloween_ghost", "name": "👻 คฤหาสน์ภูตผี & ฟักทองเรืองแสง", "desc": "ปาร์ตี้หลอนน่ารัก ปล่อยภูตผีจิ๋วจากโปรไฟล์คนดูลอยเต็มหน้าจอ", "img": "/assets/theme_halloween_ghost.svg", "url": "http://127.0.0.1:3333/live-scene?theme=halloween_ghost"},
+            {"id": "sakura_shrine", "name": "🌸 ศาลเจ้าซากุระ & จิ้งจอกเก้าหาง", "desc": "กลีบซากุระโปรยปราย สุ่มใบเซียมซีทำนายดวงชะตาจาก AI", "img": "/assets/theme_sakura_shrine.svg", "url": "http://127.0.0.1:3333/live-scene?theme=sakura_shrine"},
+            {"id": "football_stadium", "name": "⚽ สนามฟุตบอลโลก & ยิงจุดโทษลุ้นโชค", "desc": "ส่งของขวัญยิงจุดโทษเข้าโกล์รับถ้วยรางวัลและพลุฉลอง", "img": "/assets/theme_football_stadium.svg", "url": "http://127.0.0.1:3333/live-scene?theme=football_stadium"},
+            {"id": "lucky_wheel_casino", "name": "🎡 วงล้อมหาโชค & ฝนดาวตกเพชร", "desc": "หมุนวงล้อสุ่มเลขมงคลและปล่อยฝนดาวตกเพชรทุกครั้งที่มีของขวัญ", "img": "/assets/theme_lucky_wheel_casino.svg", "url": "http://127.0.0.1:3333/live-scene?theme=lucky_wheel_casino"}
         ],
         "leaderboard": [],
         "gifts_menu": [
@@ -1386,13 +1386,26 @@ def adb_dump_ui_nodes(serial):
         return []
 
 def ui_guard_check(serial, nodes):
-    """Detect and dismiss off-track modals (Report, Comment box, Checkout, Camera filters, Captcha)."""
+    """Detect and dismiss off-track modals (Verification Timeout, Report, Comment box, Checkout, Camera filters, Captcha)."""
     if not nodes:
         return False
+    verify_timeout_kw = ["ยืนยันตัวตน", "ข้อผิดพลาดหมดเวลา", "การยืนยันหมดเวลา", "โปรดลองอีกครั้งในภายหลัง"]
     unwanted = ["ข้อเสนอแนะ", "ทำการสั่งซื้อ", "เพิ่มความคิดเห็น", "เพิ่มคอมเมนต์", "Point of View", "ช่องทางการชำระเงิน", "ยืนยันคำสั่งซื้อ", "ส่งสินค้า", "รายงานปัญหา", "เปิดใช้งาน"]
     captcha_kw = ["เลื่อนเพื่อยืนยัน", "Verify", "จิ๊กซอว์"]
     for n in nodes:
         combined = f"{n['text']} {n['desc']}"
+        for vkw in verify_timeout_kw:
+            if vkw in combined:
+                if serial in state["devices"]:
+                    state["devices"][serial]["captcha_status"] = "🟡 ตรวจพบหน้า 'ยืนยันตัวตน / หมดเวลา' -> กำลังกด 'กลับ' อัตโนมัติ"
+                tapped = ui_find_and_tap(serial, nodes, keywords=["กลับ"])
+                if not tapped:
+                    adb_cmd(serial, "input keyevent 4")
+                log_event(f"UI-Guard-{serial[-4:]}", f"🛡️ AI Vision ตรวจพบหน้าจอ '{vkw}' -> กดปุ่ม 'กลับ' ออกจากหน้ายืนยันตัวตนแล้ว", "warn")
+                time.sleep(1.5)
+                if serial in state["devices"]:
+                    state["devices"][serial]["captcha_status"] = "🟢 ปลอดภัย (แก้ไขหน้ายืนยันตัวตนแล้ว)"
+                return True
         for ckw in captcha_kw:
             if ckw.lower() in combined.lower():
                 human_slider_drag(serial)

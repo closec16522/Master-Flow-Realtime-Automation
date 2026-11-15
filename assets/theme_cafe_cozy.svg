@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 960" width="540" height="960">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#d97706" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#1a110a" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#03050c" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+  <rect width="540" height="960" fill="url(#bgGrad)"/>
+  <rect x="110" y="210" width="320" height="360" rx="28" fill="#d97706" opacity="0.16" stroke="#fde68a" stroke-width="3"/><circle cx="270" cy="410" r="95" fill="url(#accentGrad)" opacity="0.45"/><path d="M220,300 Q240,260 220,220 M270,290 Q290,250 270,210 M320,300 Q340,260 320,220" fill="none" stroke="#fde68a" stroke-width="4" opacity="0.7"/>
+  <text x="270" y="455" font-size="115" text-anchor="middle" dominant-baseline="middle">☕</text>
+  <text x="270" y="615" font-family="Segoe UI, Tahoma, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle" opacity="0.9">คาเฟ่อบอุ่น Lo-Fi</text>
+  <text x="270" y="650" font-family="Segoe UI, Tahoma, sans-serif" font-size="14" font-weight="700" fill="#fde68a" letter-spacing="4" text-anchor="middle" opacity="0.85">COZY LO-FI CAFE</text>
+</svg>
