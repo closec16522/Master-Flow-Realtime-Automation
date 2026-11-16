@@ -14,7 +14,15 @@ import asyncio
 import re
 import io
 import urllib.request
+import sys
 from PIL import Image
+
+# Force UTF-8 encoding on Windows to prevent UnicodeDecodeError in subprocess reader threads
+if sys.platform == "win32":
+    if hasattr(sys.stdout, 'buffer'):
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
+    if hasattr(sys.stderr, 'buffer'):
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace', line_buffering=True)
 
 AGY_CLI_PATH = r"C:\Users\Administrator\AppData\Local\agy\bin\agy.exe"
 
@@ -26,7 +34,7 @@ ADB_PATH = r"C:\Users\Administrator\AppData\Roaming\flow-automation\phone-tools\
 def get_active_adb_port():
     for p in ["5037", "5038"]:
         try:
-            res = subprocess.run([ADB_PATH, "-P", p, "devices"], capture_output=True, text=True, timeout=2)
+            res = subprocess.run([ADB_PATH, "-P", p, "devices"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=2)
             lines = [l for l in res.stdout.strip().splitlines() if "\tdevice" in l]
             if len(lines) > 0:
                 return p
@@ -509,14 +517,14 @@ def log_event(channel, msg, tone="info"):
 def adb_cmd(serial, cmd):
     full_cmd = [ADB_PATH, "-P", ADB_PORT, "-s", serial, "shell"] + cmd.split(" ")
     try:
-        res = subprocess.run(full_cmd, capture_output=True, text=True, timeout=8)
+        res = subprocess.run(full_cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=8)
         return res.stdout.strip()
     except Exception as e:
         return str(e)
 
 def scan_adb_devices():
     try:
-        res = subprocess.run([ADB_PATH, "-P", ADB_PORT, "devices"], capture_output=True, text=True, timeout=6)
+        res = subprocess.run([ADB_PATH, "-P", ADB_PORT, "devices"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=6)
         lines = res.stdout.strip().splitlines()
         found = []
         for l in lines[1:]:
@@ -1357,7 +1365,7 @@ def adb_dump_ui_nodes(serial):
     try:
         res_dump = subprocess.run(
             [ADB_PATH, "-P", ADB_PORT, "-s", serial, "shell", "uiautomator dump --compressed /sdcard/mf_ui.xml && cat /sdcard/mf_ui.xml"],
-            capture_output=True, text=True, timeout=7
+            capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=7
         )
         raw = res_dump.stdout or ""
         idx = raw.find("<hierarchy")

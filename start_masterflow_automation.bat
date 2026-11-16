@@ -1,6 +1,8 @@
 @echo off
 chcp 65001 >nul
 setlocal
+set PYTHONUTF8=1
+set PYTHONIOENCODING=utf-8
 set ANDROID_ADB_SERVER_PORT=5037
 set __COMPAT_LAYER=RunAsInvoker
 set "PY_EXE=C:\Users\Administrator\AppData\Local\Programs\Python\Python311\python.exe"

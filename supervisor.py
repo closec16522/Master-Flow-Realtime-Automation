@@ -1,11 +1,19 @@
 import os
 import sys
+import io
 import time
 import datetime
 import subprocess
 import socket
 import json
 import urllib.request
+
+# Force UTF-8 encoding on Windows to prevent UnicodeDecodeError in subprocess reader threads
+if sys.platform == "win32":
+    if hasattr(sys.stdout, 'buffer'):
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
+    if hasattr(sys.stderr, 'buffer'):
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace', line_buffering=True)
 
 ADB_PATH = r"C:\Users\Administrator\AppData\Roaming\flow-automation\phone-tools\scrcpy-win64-v4.1\adb_real.exe"
 ADB_PORT = "5037"
@@ -37,7 +45,7 @@ def is_within_working_hours():
 def adb_shell(serial, cmd):
     try:
         res = subprocess.run([ADB_PATH, "-P", ADB_PORT, "-s", serial, "shell"] + cmd.split(" "),
-                             capture_output=True, text=True, timeout=10)
+                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=10)
         return res.stdout.strip()
     except Exception:
         return ""
@@ -49,7 +57,7 @@ def is_port_open(port):
 
 def is_process_running(process_name):
     try:
-        out = subprocess.check_output(f'tasklist /FI "IMAGENAME eq {process_name}" /NH', shell=True, text=True)
+        out = subprocess.check_output(f'tasklist /FI "IMAGENAME eq {process_name}" /NH', shell=True, text=True, encoding="utf-8", errors="replace")
         return process_name.lower() in out.lower()
     except Exception:
         return False
@@ -94,7 +102,7 @@ def ensure_cloudflared():
 
 def recover_phone(serial):
     try:
-        out = subprocess.check_output([ADB_PATH, "-P", ADB_PORT, "devices"], text=True)
+        out = subprocess.check_output([ADB_PATH, "-P", ADB_PORT, "devices"], text=True, encoding="utf-8", errors="replace")
         if serial not in out or "device" not in out:
             return
     except Exception:
@@ -155,7 +163,7 @@ def prompt_20s_shutdown_cancel():
     )
     try:
         res = subprocess.run(["powershell", "-NoProfile", "-Command", ps_cmd],
-                             capture_output=True, text=True, timeout=25)
+                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=25)
         code = res.stdout.strip()
         if code == "2":
             log("ผู้ใช้กดปุ่ม [ยกเลิก / Cancel] -> ยกเลิกการปิดระบบ ทำงานต่อตามปกติ!")
